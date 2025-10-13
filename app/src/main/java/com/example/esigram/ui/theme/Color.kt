@@ -1,4 +1,4 @@
-package com.example.esigram.ui.theme
+package com.example.dribbbleinitiation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
