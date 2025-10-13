@@ -1,4 +1,4 @@
-package com.example.dribbbleinitiation.ui.theme
+package com.example.esigram.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

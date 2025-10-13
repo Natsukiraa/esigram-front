@@ -131,6 +131,7 @@ fun ContactBannerPreview() {
         onClickCallCamera = {},
         onBackClick = {},
         user = User(
+            id = "kjqopkdqoskdpqosds",
             forename = "Léna",
             name = "Mabille",
             isOnline = true

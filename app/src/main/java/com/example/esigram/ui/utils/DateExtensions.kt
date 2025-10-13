@@ -9,8 +9,10 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun formatConversationDate(timestamp: Instant): String {
+fun formatConversationDate(timestampSeconds: Long): String {
     val context = LocalContext.current
+
+    val timestamp = Instant.ofEpochSecond(timestampSeconds)
     val now = LocalDate.now(ZoneId.systemDefault())
     val messageDate = timestamp.atZone(ZoneId.systemDefault()).toLocalDate()
 
@@ -18,8 +20,14 @@ fun formatConversationDate(timestamp: Instant): String {
     val dateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
 
     return when {
-        messageDate.isEqual(now) -> timeFormatter.format(timestamp.atZone(ZoneId.systemDefault()))
-        messageDate.isEqual(now.minusDays(1)) -> context.getString(R.string.yesterday)
-        else -> dateFormatter.format(timestamp.atZone(ZoneId.systemDefault()))
+        messageDate.isEqual(now) -> {
+            timeFormatter.format(timestamp.atZone(ZoneId.systemDefault()))
+        }
+        messageDate.isEqual(now.minusDays(1)) -> {
+            context.getString(R.string.yesterday)
+        }
+        else -> {
+            dateFormatter.format(timestamp.atZone(ZoneId.systemDefault()))
+        }
     }
 }

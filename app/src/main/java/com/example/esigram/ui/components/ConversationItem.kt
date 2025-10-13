@@ -36,21 +36,20 @@ fun ConversationItem(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            //Image
-            ProfileImage(url = conversation.participants[0].avatarUrl ?: "", modifier = Modifier.size(48.dp))
+            ProfileImage(url = conversation.participants[0].image ?: "", modifier = Modifier.size(48.dp))
 
             Column(
                 modifier = Modifier.padding(start = 8.dp)
             ) {
                 Text(
-                    conversation.participants[0].pseudo,
+                    text = conversation.participants[0].forename + " " + conversation.participants[0].name,
                     color = colorResource(id = R.color.textPrimary
                     )
                 )
 
                 conversation.lastMessage?.let{ message ->
                     Text(
-                        message.text,
+                        message.description,
                         color = colorResource(id = R.color.textSecondary)
                     )
                 }
@@ -81,18 +80,19 @@ fun ConversationItem(
 @Composable
 fun ConversationItemPreview() {
     val user = User(
-        id = 1,
-        pseudo = "Fantom",
-        avatarUrl = "https://randomuser.me/api/portraits/men/1.jpg"
+        id = "sdoijisd",
+        forename = "Fantom",
+        name = "Fant",
+        image = "https://randomuser.me/api/portraits/men/1.jpg"
     )
 
     val message = Message(
-        id = 1,
-        text = "coucou",
-        Instant.now().minus(Duration.ofDays(4))
+        id = "rkokdoqdko",
+        description = "coucou",
+        colorIndex = 0
     )
     val conversation = Conversation(
-        1,
+        "dkqsjdioqsjd",
         participants = mutableListOf(user),
         lastMessage = message,
         createdAt = Instant.now(),

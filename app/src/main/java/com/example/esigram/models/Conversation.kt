@@ -3,7 +3,7 @@ package com.example.esigram.models
 import java.time.Instant
 
 data class Conversation(
-    val id: Int,
+    val id: String,
     val participants: List<User>,
     val lastMessage: Message? = null,
     val unreadCount: Int = 0,

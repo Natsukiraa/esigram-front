@@ -29,7 +29,7 @@ import java.util.UUID
 @Composable
 fun MessageBox(
     message: Message,
-    onHold: (UUID) -> Unit,
+    onHold: (String) -> Unit,
 ) {
 
     val bg = when (message.colorIndex % 2) {
@@ -108,7 +108,7 @@ fun MessageBox(
 fun MessageBoxPreview() {
     MessageBox(
         message = Message(
-            id = UUID.randomUUID(),
+            id = "doksqpdqsod",
             description = "Ceci est un test",
             colorIndex = 1,
             createdAt = Instant.now().epochSecond,

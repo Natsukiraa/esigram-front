@@ -93,56 +93,56 @@ fun ConversationScreen(
 fun ConversationScreenPreview() {
     val messages: List<Message> = listOf(
         Message(
-            id = UUID.randomUUID(),
+            id = "djqosdoqsd",
             description = "Coucou 👋 ça va ?",
             colorIndex = 1,
             createdAt = Instant.now().epochSecond,
             seen = true
         ),
         Message(
-            id = UUID.randomUUID(),
+            id = "disqopdkqsopddqsd",
             description = "Oui et toi ?",
             colorIndex = 2,
             createdAt = Instant.now().epochSecond,
             seen = false
         ),
         Message(
-            id = UUID.randomUUID(),
+            id = "opqdkqposdk",
             description = "Dispo pour demain aprem ?",
             colorIndex = 2,
             createdAt = Instant.now().epochSecond,
             seen = false
         ),
         Message(
-            id = UUID.randomUUID(),
+            id = "dpkqspodkpqosd",
             description = "Coucou 👋 ça va ?",
             colorIndex = 1,
             createdAt = Instant.now().epochSecond,
             seen = true
         ),
         Message(
-            id = UUID.randomUUID(),
+            id = "sdpokqpodksd",
             description = "Oui et toi ?",
             colorIndex = 2,
             createdAt = Instant.now().epochSecond,
             seen = false
         ),
         Message(
-            id = UUID.randomUUID(),
+            id = "dpqkpodqskpd",
             description = "Dispo pour demain aprem ?",
             colorIndex = 2,
             createdAt = Instant.now().epochSecond,
             seen = false
         ),
         Message(
-            id = UUID.randomUUID(),
+            id = "zodkpoqskdos",
             description = "Coucou 👋 ça va ?",
             colorIndex = 1,
             createdAt = Instant.now().epochSecond,
             seen = true
         ),
         Message(
-            id = UUID.randomUUID(),
+            id = "qlsqmdlsdsqpdqsd",
             description = "Oui et toi ?",
             colorIndex = 2,
             createdAt = Instant.now().epochSecond,
@@ -153,6 +153,7 @@ fun ConversationScreenPreview() {
     ConversationScreen(
         id = UUID.randomUUID(),
         user = User(
+            id = "dkoqjsodiqsjd",
             forename = "Léna",
             name = "Mabille",
             isOnline = true

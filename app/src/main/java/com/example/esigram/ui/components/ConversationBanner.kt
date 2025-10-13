@@ -30,7 +30,7 @@ fun ConversationBanner(
     user : User
 ){
     val message = Message(
-        id = UUID.randomUUID(),
+        id = "kdjqsoidoidjqsoidjis",
         description = "Ceci est un test Ceci est un test Ceci est un test Ceci est un test Ceci est un test Ceci est un test",
         colorIndex = 1,
         createdAt = Instant.now().epochSecond,
@@ -83,6 +83,7 @@ fun ConversationBannerPreview(){
         onClickOpen = {},
         conversationUuid = UUID.randomUUID(),
         user = User(
+            id = "kjqopkdqoskdpqosds",
             forename = "Léna",
             name = "Mabille",
             isOnline = true

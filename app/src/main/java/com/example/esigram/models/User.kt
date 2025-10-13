@@ -1,9 +1,7 @@
 package com.example.esigram.models
 
-import java.util.UUID
-
 data class User(
-    var id: UUID = UUID.randomUUID(),
+    var id: String,
     var forename: String,
     var name: String,
     var image: String ?= null,

@@ -27,18 +27,19 @@ class MainActivity : ComponentActivity() {
             EsigramTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     val user = User(
-                        id = 1,
-                        pseudo = "Fantom",
-                        avatarUrl = "https://randomuser.me/api/portraits/men/1.jpg"
+                        id = "2",
+                        forename = "Lena",
+                        name = "Mabille",
+                        image = "https://randomuser.me/api/portraits/men/1.jpg"
                     )
 
                     val message = Message(
-                        id = 1,
-                        text = "coucou",
-                        Instant.now().minus(Duration.ofDays(4))
+                        id = "dqskopd",
+                        description = "coucou",
+                        colorIndex = 0
                     )
                     val conversation = Conversation(
-                        1,
+                        id = "sdksqokdosd",
                         participants = mutableListOf(user),
                         lastMessage = message,
                         createdAt = Instant.now(),
