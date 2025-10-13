@@ -11,7 +11,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.esigram.models.Conversation
+import com.example.esigram.models.Message
+import com.example.esigram.models.User
+import com.example.esigram.ui.components.ConversationItem
 import com.example.esigram.ui.theme.EsigramTheme
+import java.time.Duration
+import java.time.Instant
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,10 +26,24 @@ class MainActivity : ComponentActivity() {
         setContent {
             EsigramTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                    val user = User(
+                        id = 1,
+                        pseudo = "Fantom",
+                        avatarUrl = "https://randomuser.me/api/portraits/men/1.jpg"
                     )
+
+                    val message = Message(
+                        id = 1,
+                        text = "coucou",
+                        Instant.now().minus(Duration.ofDays(4))
+                    )
+                    val conversation = Conversation(
+                        1,
+                        participants = mutableListOf(user),
+                        lastMessage = message,
+                        createdAt = Instant.now(),
+                        unreadCount = 2)
+                    ConversationItem(conversation, modifier = Modifier.padding(innerPadding))
                 }
             }
         }

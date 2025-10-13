@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -25,19 +26,21 @@ import java.time.Instant
 
 @Composable
 fun ConversationItem(
-    conversation: Conversation
+    conversation: Conversation,
+    modifier: Modifier = Modifier
 ) {
 
     Surface(){
         Row(
             modifier = Modifier.fillMaxWidth().padding(8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             //Image
-
+            ProfileImage(url = conversation.participants[0].avatarUrl ?: "", modifier = Modifier.size(48.dp))
 
             Column(
-
+                modifier = Modifier.padding(start = 8.dp)
             ) {
                 Text(
                     conversation.participants[0].pseudo,
@@ -79,7 +82,8 @@ fun ConversationItem(
 fun ConversationItemPreview() {
     val user = User(
         id = 1,
-        pseudo = "Fantom"
+        pseudo = "Fantom",
+        avatarUrl = "https://randomuser.me/api/portraits/men/1.jpg"
     )
 
     val message = Message(
