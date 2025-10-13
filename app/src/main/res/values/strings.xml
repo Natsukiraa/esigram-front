@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Esigram</string>
+    <string name="yesterday">Yesterday</string>
 </resources>
