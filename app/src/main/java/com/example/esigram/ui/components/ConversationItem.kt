@@ -1,11 +1,14 @@
 package com.example.esigram.ui.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -25,6 +28,7 @@ import com.example.esigram.models.Conversation
 import com.example.esigram.models.Message
 import com.example.esigram.models.User
 import com.example.esigram.ui.utils.formatConversationDate
+import kotlinx.coroutines.sync.Mutex
 import java.time.Duration
 import java.time.Instant
 
@@ -40,7 +44,7 @@ fun ConversationItem(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ProfileImage(url = conversation.participants[0].avatarUrl ?: "",
+            ProfileImage(url = conversation.participants[0].image ?: "",
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
@@ -51,17 +55,19 @@ fun ConversationItem(
                 modifier = Modifier.padding(start = 8.dp)
             ) {
                 Text(
-                    conversation.participants[0].pseudo,
+                    "${conversation.participants[0].name} ${conversation.participants[0].forename}",
                     fontSize = 24.sp, fontWeight = FontWeight.SemiBold,
                     color = colorResource(id = R.color.textPrimary
                     )
                 )
 
                 conversation.lastMessage?.let{ message ->
+
+                    val color = if(conversation.unreadCount > 0) { R.color.primaryColor } else { R.color.textSecondary }
                     Text(
-                        message.text,
+                        message.description,
                         fontSize = 18.sp,
-                        color = colorResource(id = R.color.textSecondary)
+                        color = colorResource(id = color)
                     )
                 }
             }
@@ -77,8 +83,14 @@ fun ConversationItem(
                         color = colorResource(id = R.color.textSecondary)
                     )
 
+                    Spacer(modifier = Modifier.height(8.dp))
+
                     if(conversation.unreadCount > 0) {
-                        Text(conversation.unreadCount.toString())
+                        Badge(
+                            modifier = Modifier
+                                .size(24.dp),
+                            text = conversation.unreadCount.toString()
+                        )
                     }
                 }
             }
