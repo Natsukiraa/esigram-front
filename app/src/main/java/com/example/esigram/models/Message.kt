@@ -5,7 +5,8 @@ import java.time.Instant
 data class Message(
     var id: String,
     var description: String,
-    var createdAt: Long = Instant.now().epochSecond,
+    var createdAt: Instant = Instant.now(),
     var colorIndex: Int,
-    var seen: Boolean = false
+    var seen: Boolean = false,
+    var sender: User
 )

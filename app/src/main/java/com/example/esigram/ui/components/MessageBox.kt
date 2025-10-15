@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esigram.models.Message
+import com.example.esigram.models.User
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -39,7 +40,7 @@ fun MessageBox(
     }
 
     val formatter = DateTimeFormatter.ofPattern("h:mm a")
-    val formattedTime = Instant.ofEpochMilli(message.createdAt)
+    val formattedTime = message.createdAt
         .atZone(ZoneId.systemDefault())
         .format(formatter)
 
@@ -106,13 +107,15 @@ fun MessageBox(
 @Composable
 @Preview
 fun MessageBoxPreview() {
+    val user = User("1", "Léna", "Mabille", null, true)
     MessageBox(
         message = Message(
             id = "doksqpdqsod",
             description = "Ceci est un test",
             colorIndex = 1,
-            createdAt = Instant.now().epochSecond,
-            seen = false
+            createdAt = Instant.now(),
+            seen = false,
+            sender = user
         ),
         onHold = {}
     )

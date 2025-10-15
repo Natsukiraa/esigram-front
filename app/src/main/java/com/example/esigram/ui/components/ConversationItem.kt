@@ -28,8 +28,6 @@ import com.example.esigram.models.Conversation
 import com.example.esigram.models.Message
 import com.example.esigram.models.User
 import com.example.esigram.ui.utils.formatConversationDate
-import kotlinx.coroutines.sync.Mutex
-import java.time.Duration
 import java.time.Instant
 
 @Composable
@@ -56,7 +54,7 @@ fun ConversationItem(
             ) {
                 Text(
                     "${conversation.participants[0].name} ${conversation.participants[0].forename}",
-                    fontSize = 24.sp, fontWeight = FontWeight.SemiBold,
+                    fontSize = 18.sp, fontWeight = FontWeight.SemiBold,
                     color = colorResource(id = R.color.textPrimary
                     )
                 )
@@ -66,7 +64,7 @@ fun ConversationItem(
                     val color = if(conversation.unreadCount > 0) { R.color.primaryColor } else { R.color.textSecondary }
                     Text(
                         message.description,
-                        fontSize = 18.sp,
+                        fontSize = 12.sp,
                         color = colorResource(id = color)
                     )
                 }
@@ -79,7 +77,7 @@ fun ConversationItem(
                 conversation.lastMessage?.let{ message ->
                     Text(
                         text = formatConversationDate(message.createdAt),
-                        fontSize = 18.sp,
+                        fontSize = 12.sp,
                         color = colorResource(id = R.color.textSecondary)
                     )
 
@@ -88,8 +86,9 @@ fun ConversationItem(
                     if(conversation.unreadCount > 0) {
                         Badge(
                             modifier = Modifier
-                                .size(24.dp),
-                            text = conversation.unreadCount.toString()
+                                .size(22.dp),
+                            text = conversation.unreadCount.toString(),
+                            fontSize = 12
                         )
                     }
                 }
@@ -112,6 +111,7 @@ fun ConversationItemPreview() {
     val message = Message(
         id = "rkokdoqdko",
         description = "coucou",
+        sender = user,
         colorIndex = 0
     )
     val conversation = Conversation(

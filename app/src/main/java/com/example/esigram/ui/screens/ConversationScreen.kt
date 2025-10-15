@@ -91,73 +91,84 @@ fun ConversationScreen(
 @Composable
 @Preview
 fun ConversationScreenPreview() {
+
+    val user = User(
+        id = "dkoqjsodiqsjd",
+        forename = "Léna",
+        name = "Mabille",
+        isOnline = true
+    )
+
     val messages: List<Message> = listOf(
         Message(
             id = "djqosdoqsd",
             description = "Coucou 👋 ça va ?",
             colorIndex = 1,
-            createdAt = Instant.now().epochSecond,
-            seen = true
+            createdAt = Instant.now(),
+            seen = true,
+            sender = user
         ),
         Message(
             id = "disqopdkqsopddqsd",
             description = "Oui et toi ?",
             colorIndex = 2,
-            createdAt = Instant.now().epochSecond,
-            seen = false
+            createdAt = Instant.now(),
+            seen = false,
+            sender = user
         ),
         Message(
             id = "opqdkqposdk",
             description = "Dispo pour demain aprem ?",
             colorIndex = 2,
-            createdAt = Instant.now().epochSecond,
-            seen = false
+            createdAt = Instant.now(),
+            seen = false,
+            sender = user
         ),
         Message(
             id = "dpkqspodkpqosd",
             description = "Coucou 👋 ça va ?",
             colorIndex = 1,
-            createdAt = Instant.now().epochSecond,
-            seen = true
+            createdAt = Instant.now(),
+            seen = true,
+            sender = user
         ),
         Message(
             id = "sdpokqpodksd",
             description = "Oui et toi ?",
             colorIndex = 2,
-            createdAt = Instant.now().epochSecond,
-            seen = false
+            createdAt = Instant.now(),
+            seen = false,
+            sender = user
         ),
         Message(
             id = "dpqkpodqskpd",
             description = "Dispo pour demain aprem ?",
             colorIndex = 2,
-            createdAt = Instant.now().epochSecond,
-            seen = false
+            createdAt = Instant.now(),
+            seen = false,
+            sender = user
         ),
         Message(
             id = "zodkpoqskdos",
             description = "Coucou 👋 ça va ?",
             colorIndex = 1,
-            createdAt = Instant.now().epochSecond,
-            seen = true
+            createdAt = Instant.now(),
+            seen = true,
+            sender = user
         ),
         Message(
             id = "qlsqmdlsdsqpdqsd",
             description = "Oui et toi ?",
             colorIndex = 2,
-            createdAt = Instant.now().epochSecond,
-            seen = false
+            createdAt = Instant.now(),
+            seen = false,
+            sender = user
         ),
     )
 
     ConversationScreen(
         id = UUID.randomUUID(),
-        user = User(
-            id = "dkoqjsodiqsjd",
-            forename = "Léna",
-            name = "Mabille",
-            isOnline = true
-        ),
+        user = user,
         messages = messages
     )
 }

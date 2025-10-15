@@ -33,8 +33,9 @@ fun ConversationBanner(
         id = "kdjqsoidoidjqsoidjis",
         description = "Ceci est un test Ceci est un test Ceci est un test Ceci est un test Ceci est un test Ceci est un test",
         colorIndex = 1,
-        createdAt = Instant.now().epochSecond,
-        seen = false
+        createdAt = Instant.now(),
+        seen = false,
+        sender = user
     )
 
     Button(

@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.esigram.R
 
 @Composable
@@ -22,6 +23,7 @@ fun Badge(
     modifier: Modifier = Modifier,
     color: Int = R.color.primaryColor,
     text: String = "",
+    fontSize: Int = 12
 ) {
 
     Box(modifier = modifier
@@ -30,8 +32,9 @@ fun Badge(
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text,
-            color = colorResource(id = R.color.white))
+            text, fontSize = fontSize.sp,
+            color = colorResource(id = R.color.white)
+        )
     }
 
 }
