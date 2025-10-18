@@ -116,8 +116,8 @@ class ConversationRepository {
 
     fun getById(id: String): Conversation? = conversations.find{ it.id == id }
 
-    fun addNote(note:Conversation) = conversations.add(note)
+    fun addNote(conversation:Conversation) = conversations.add(conversation)
 
-    fun deleteNote(note:Conversation) = conversations.removeIf { it.id == note.id }
+    fun deleteNote(conversation:Conversation) = conversations.removeIf { it.id == conversation.id }
 
 }

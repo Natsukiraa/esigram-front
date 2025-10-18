@@ -36,7 +36,7 @@ fun ConversationItem(
     modifier: Modifier = Modifier
 ) {
 
-    Surface(){
+    Surface{
         Row(
             modifier = Modifier.fillMaxWidth().padding(8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -53,7 +53,7 @@ fun ConversationItem(
                 modifier = Modifier.padding(start = 8.dp)
             ) {
                 Text(
-                    "${conversation.participants[0].name} ${conversation.participants[0].forename}",
+                    "${conversation.participants[0].forename} ${conversation.participants[0].name}",
                     fontSize = 18.sp, fontWeight = FontWeight.SemiBold,
                     color = colorResource(id = R.color.textPrimary
                     )

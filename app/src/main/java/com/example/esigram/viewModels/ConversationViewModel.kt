@@ -7,7 +7,6 @@ import com.example.esigram.repositories.ConversationRepository
 
 class ConversationViewModel: ViewModel() {
     private val repo = ConversationRepository()
-
     private val _conversation = mutableStateListOf<Conversation>().apply { addAll(repo.getAll()) }
     val conversation: List<Conversation> = _conversation
 }
