@@ -1,6 +1,5 @@
 package com.example.esigram.repositories
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 
 class AuthRepository {
