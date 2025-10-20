@@ -1,6 +1,5 @@
 package com.example.esigram.ui.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,9 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Surface
@@ -35,7 +32,7 @@ import com.example.esigram.viewModels.StoryViewModel
 @Composable
 fun ConversationListScreen(
     conversationViewModel: ConversationViewModel,
-    storyViewModel: StoryViewModel
+    onOpenMessage: (String) -> Unit
 ) {
 
     val context = LocalContext.current
@@ -68,6 +65,7 @@ fun ConversationListScreen(
 
             Spacer(modifier = Modifier.height(18.dp))
 
+            /*
             LazyHorizontalGrid(
                 rows = GridCells.Fixed(1),
                 modifier = Modifier.height(80.dp),
@@ -76,7 +74,7 @@ fun ConversationListScreen(
                 items(storyViewModel.stories) { story ->
                     StoryItem(story, Modifier.size(54.dp))
                 }
-            }
+            } */
 
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -85,7 +83,9 @@ fun ConversationListScreen(
                 modifier = Modifier.padding(horizontal = 4.dp)
             ) {
                 items(conversationViewModel.conversation) { conv ->
-                    ConversationItem(conv)
+                    ConversationItem(conv) {
+                        onOpenMessage(conv.id)
+                    }
                 }
             }
         }
@@ -97,7 +97,6 @@ fun ConversationListScreen(
 fun ConversationListScreenPreview() {
 
     val view = ConversationViewModel()
-    val storyView = StoryViewModel()
 
-    ConversationListScreen(view, storyView)
+    ConversationListScreen(view, {})
 }
