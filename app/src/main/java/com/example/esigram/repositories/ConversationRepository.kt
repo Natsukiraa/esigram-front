@@ -3,121 +3,76 @@ package com.example.esigram.repositories
 import com.example.esigram.models.Conversation
 import com.example.esigram.models.Message
 import com.example.esigram.models.User
+import com.example.esigram.provider.FirebaseProvider
+import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.tasks.await
 import java.time.Instant
-import java.time.temporal.ChronoUnit
+import java.time.format.DateTimeParseException
 
 class ConversationRepository {
-        private val userArthur = User(
-            id = "1",
-            forename = "Arthur",
-            name = "Morelon",
-            image = "https://randomuser.me/api/portraits/men/1.jpg",
-            isOnline = true
-        )
 
-        private val userLina = User(
-            id = "2",
-            forename = "Lina",
-            name = "Dupont",
-            image = "https://randomuser.me/api/portraits/women/2.jpg",
-            isOnline = false
-        )
+    private val database: FirebaseDatabase = FirebaseProvider.database
 
-        private val userAlex = User(
-            id = "3",
-            forename = "Alex",
-            name = "Martin",
-            image = "https://randomuser.me/api/portraits/men/3.jpg",
-            isOnline = true
-        )
+    suspend fun getAll(): List<Conversation> {
+        val snapshot = database.getReference("chats").get().await()
+        val conversations = mutableListOf<Conversation>()
 
-        private val userNora = User(
-            id = "4",
-            forename = "Nora",
-            name = "Durand",
-            image = "https://randomuser.me/api/portraits/women/4.jpg",
-            isOnline = false
-        )
+        snapshot.children.forEach { child ->
+            val id = child.key ?: return@forEach
+            val data = child.value as? Map<String, Any> ?: emptyMap()
+            conversations.add(parseConversation(id, data))
+        }
 
-        val conversations = mutableListOf<Conversation>(
-            Conversation(
-                id = "conv1",
-                participants = listOf(userArthur, userLina),
-                lastMessage = Message(
-                    id = "msg1",
-                    description = "Salut, tu fais quoi ce soir ?",
-                    sender = userLina,
-                    createdAt = Instant.now().minus(2, ChronoUnit.HOURS),
-                    colorIndex = 1
-                ),
-                unreadCount = 1,
-                isGroup = false,
-                createdAt = Instant.now().minus(1, ChronoUnit.DAYS)
-            ),
+        return conversations
+    }
 
-            Conversation(
-                id = "conv2",
-                participants = listOf(userArthur, userAlex),
-                lastMessage = Message(
-                    id = "msg2",
-                    description = "On se voit demain pour le projet ?",
-                    sender = userAlex,
-                    createdAt = Instant.now().minus(1, ChronoUnit.DAYS),
-                    colorIndex = 1,
-                ),
-                unreadCount = 0,
-                isGroup = false,
-                createdAt = Instant.now().minus(2, ChronoUnit.DAYS)
-            ),
+    suspend fun getById(id: String): Conversation? {
+        val snapshot = database.getReference("chats").child(id).get().await()
+        if (!snapshot.exists()) return null
 
-            Conversation(
-                id = "conv3",
-                participants = listOf(userArthur, userNora),
-                lastMessage = Message(
-                    id = "msg3",
-                    description = "Merci encore pour ton aide 🙏",
-                    sender = userArthur,
-                    createdAt = Instant.now().minus(3, ChronoUnit.DAYS),
-                    colorIndex = 1,
-                ),
-                unreadCount = 0,
-                isGroup = false,
-                createdAt = Instant.now().minus(3, ChronoUnit.DAYS)
-            ),
+        val data = snapshot.value as? Map<String, Any> ?: emptyMap()
+        return parseConversation(id, data)
+    }
 
-            Conversation(
-                id = "conv4",
-                participants = listOf(userArthur, userLina, userAlex, userNora),
-                lastMessage = Message(
-                    id = "msg4",
-                    description = "Bon, on valide la date pour samedi ?",
-                    sender = userAlex,
-                    createdAt = Instant.now().minus(6, ChronoUnit.HOURS),
-                    colorIndex = 1
-                ),
-                unreadCount = 3,
-                isGroup = true,
-                title = "Soirée du week-end 🎉",
-                createdAt = Instant.now().minus(5, ChronoUnit.DAYS)
-            ),
+    private fun parseConversation(id: String, data: Map<String, Any>): Conversation {
+        val createdAtStr = data["createdAt"] as? String
+        val createdAt = try {
+            Instant.parse(createdAtStr)
+        } catch (e: DateTimeParseException) {
+            Instant.now()
+        }
 
-            Conversation(
-                id = "conv5",
-                participants = listOf(userArthur, userNora),
-                lastMessage = null,
-                unreadCount = 0,
-                isGroup = false,
-                createdAt = Instant.now()
+        val members = listOf(
+            User(
+                id = "1",
+                forename = "Arthur",
+                name = "Morelon",
+                image = "https://randomuser.me/api/portraits/men/1.jpg",
+                isOnline = true
             )
         )
 
+        val lastMessageMap = data["lastMessage"] as? Map<*, *>
+        val lastMessage = lastMessageMap?.let {
+            Message(
+                id = it["id"] as? String ?: "",
+                sender = members[0],
+                description = it["content"] as? String ?: "",
+                createdAt = Instant.parse(it["createdAt"] as? String ?: Instant.now().toString()),
+                attachments = emptyList()
+            )
+        }
 
-    fun getAll(): List<Conversation> = conversations
+        val name = data["name"] as? String ?: "Sans nom"
+        val coverImageId = data["coverImageId"] as? String
 
-    fun getById(id: String): Conversation? = conversations.find{ it.id == id }
-
-    fun addNote(conversation:Conversation) = conversations.add(conversation)
-
-    fun deleteNote(conversation:Conversation) = conversations.removeIf { it.id == conversation.id }
-
+        return Conversation(
+            id = id,
+            members = members,
+            lastMessage = lastMessage,
+            createdAt = createdAt,
+            title = name,
+            coverImageId = coverImageId
+        )
+    }
 }

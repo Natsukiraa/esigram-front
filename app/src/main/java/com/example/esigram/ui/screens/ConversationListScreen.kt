@@ -1,6 +1,6 @@
 package com.example.esigram.ui.screens
 
-import android.util.Log
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,11 +14,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -28,7 +23,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esigram.R
-import com.example.esigram.models.ConversationFilterType
 import com.example.esigram.ui.components.ConversationFilter
 import com.example.esigram.ui.components.ConversationItem
 import com.example.esigram.ui.components.ConversationSearch
@@ -104,11 +98,14 @@ fun ConversationListScreen(
     }
 }
 
+@SuppressLint("ViewModelConstructorInComposable")
 @Preview
 @Composable
 fun ConversationListScreenPreview() {
-
     val view = ConversationViewModel()
 
-    ConversationListScreen(view, {})
+    ConversationListScreen(
+        conversationViewModel = view,
+        onOpenMessage = {}
+    )
 }

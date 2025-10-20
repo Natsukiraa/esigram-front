@@ -26,7 +26,7 @@ import java.util.UUID
 
 @Composable
 fun ConversationScreen(
-    id: UUID,
+    id: String,
     user: User,
     messages: List<Message>
 ) {
@@ -168,7 +168,7 @@ fun ConversationScreenPreview() {
     )
 
     ConversationScreen(
-        id = UUID.randomUUID(),
+        id = "UUID.randomUUID()",
         user = user,
         messages = messages
     )

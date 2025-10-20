@@ -46,7 +46,7 @@ fun ConversationItem(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ProfileImage(url = conversation.participants[0].image ?: "",
+            ProfileImage(url = conversation.members[0].image ?: "",
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
@@ -57,7 +57,7 @@ fun ConversationItem(
                 modifier = Modifier.padding(start = 8.dp)
             ) {
                 Text(
-                    "${conversation.participants[0].forename} ${conversation.participants[0].name}",
+                    "${conversation.members[0].forename} ${conversation.members[0].name}",
                     fontSize = 18.sp, fontWeight = FontWeight.SemiBold,
                     color = colorResource(id = R.color.textPrimary
                     )
@@ -120,7 +120,7 @@ fun ConversationItemPreview() {
     )
     val conversation = Conversation(
         "dkqsjdioqsjd",
-        participants = mutableListOf(user),
+        members = mutableListOf(user),
         lastMessage = message,
         createdAt = Instant.now(),
         unreadCount = 2)
