@@ -13,6 +13,11 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -25,17 +30,33 @@ import com.example.esigram.R
 import com.example.esigram.ui.components.ConversationFilter
 import com.example.esigram.ui.components.ConversationItem
 import com.example.esigram.ui.components.ConversationSearch
-import com.example.esigram.ui.components.StoryItem
 import com.example.esigram.viewModels.ConversationViewModel
-import com.example.esigram.viewModels.StoryViewModel
 
 @Composable
 fun ConversationListScreen(
     conversationViewModel: ConversationViewModel,
     onOpenMessage: (String) -> Unit
 ) {
-
     val context = LocalContext.current
+
+    var searchQuery by remember { mutableStateOf("") }
+    val normalizedQuery = searchQuery.trim().lowercase()
+
+    val filteredConversations by remember(searchQuery, conversationViewModel.conversation) {
+        derivedStateOf {
+            if (normalizedQuery.isEmpty()) {
+                conversationViewModel.conversation
+            } else {
+                conversationViewModel.conversation.filter { conv ->
+                    conv.participants.any { user ->
+                        val fullName1 = "${user.name} ${user.forename}".lowercase()
+                        val fullName2 = "${user.forename} ${user.name}".lowercase()
+                        fullName1.contains(normalizedQuery) || fullName2.contains(normalizedQuery)
+                    }
+                }
+            }
+        }
+    }
 
     Surface {
         Column(
@@ -58,7 +79,9 @@ fun ConversationListScreen(
                 Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                ConversationSearch(modifier = Modifier.weight(0.8f),"azd") { }
+                ConversationSearch(modifier = Modifier.weight(0.8f),searchQuery) { newValue ->
+                    searchQuery = newValue
+                }
 
                 ConversationFilter(modifier = Modifier.weight(0.2f)) {  }
             }
@@ -82,7 +105,7 @@ fun ConversationListScreen(
                 columns = GridCells.Fixed(1),
                 modifier = Modifier.padding(horizontal = 4.dp)
             ) {
-                items(conversationViewModel.conversation) { conv ->
+                items(filteredConversations) { conv ->
                     ConversationItem(conv) {
                         onOpenMessage(conv.id)
                     }

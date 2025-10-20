@@ -32,7 +32,7 @@ fun ConversationSearch(
     Row(
         modifier = modifier
             .height(58.dp)
-            .padding(horizontal = 8.dp, vertical = 4.dp)
+            .padding(horizontal = 8.dp, vertical = 2.dp)
     ){
         TextField(
             modifier = modifier.fillMaxWidth()
