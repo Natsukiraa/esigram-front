@@ -41,23 +41,9 @@ fun ConversationListScreen(
 ) {
     val context = LocalContext.current
 
-    var searchQuery by remember { mutableStateOf("") }
-    val normalizedQuery = searchQuery.trim().lowercase()
-    val filteredConversations by remember(searchQuery, conversationViewModel.conversation) {
-        derivedStateOf {
-            if (normalizedQuery.isEmpty()) {
-                conversationViewModel.conversation
-            } else {
-                conversationViewModel.conversation.filter { conv ->
-                    conv.participants.any { user ->
-                        val fullName1 = "${user.name} ${user.forename}".lowercase()
-                        val fullName2 = "${user.forename} ${user.name}".lowercase()
-                        fullName1.contains(normalizedQuery) || fullName2.contains(normalizedQuery)
-                    }
-                }
-            }
-        }
-    }
+    val conversations = conversationViewModel.filteredConversations
+    val searchQuery = conversationViewModel.searchQuery
+
 
     Surface {
         Column(
@@ -80,15 +66,12 @@ fun ConversationListScreen(
                 Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                ConversationSearch(modifier = Modifier.weight(0.8f),searchQuery) { newValue ->
-                    searchQuery = newValue
+                ConversationSearch(modifier = Modifier.weight(0.8f), searchQuery) { newValue ->
+                    conversationViewModel.searchQuery = newValue
                 }
 
                 ConversationFilter(modifier = Modifier.weight(0.2f)) { selectedFilter ->
-                    when(selectedFilter) {
-                        ConversationFilterType.ALL -> { }
-                        ConversationFilterType.UNREAD -> { }
-                    }
+                    conversationViewModel.selectedFilter = selectedFilter
                 }
             }
 
@@ -111,7 +94,7 @@ fun ConversationListScreen(
                 columns = GridCells.Fixed(1),
                 modifier = Modifier.padding(horizontal = 4.dp)
             ) {
-                items(filteredConversations) { conv ->
+                items(conversations) { conv ->
                     ConversationItem(conv) {
                         onOpenMessage(conv.id)
                     }

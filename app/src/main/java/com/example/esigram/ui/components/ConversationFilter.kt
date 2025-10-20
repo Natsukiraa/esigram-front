@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import com.example.esigram.R
 import com.example.esigram.models.ConversationFilterType
 import com.example.esigram.ui.theme.EsigramExtraColors
-import com.example.esigram.ui.theme.EsigramTheme
 
 @Composable
 fun ConversationFilter(
