@@ -1,5 +1,6 @@
 package com.example.esigram.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esigram.R
+import com.example.esigram.models.ConversationFilterType
 import com.example.esigram.ui.components.ConversationFilter
 import com.example.esigram.ui.components.ConversationItem
 import com.example.esigram.ui.components.ConversationSearch
@@ -41,7 +43,6 @@ fun ConversationListScreen(
 
     var searchQuery by remember { mutableStateOf("") }
     val normalizedQuery = searchQuery.trim().lowercase()
-
     val filteredConversations by remember(searchQuery, conversationViewModel.conversation) {
         derivedStateOf {
             if (normalizedQuery.isEmpty()) {
@@ -83,7 +84,12 @@ fun ConversationListScreen(
                     searchQuery = newValue
                 }
 
-                ConversationFilter(modifier = Modifier.weight(0.2f)) {  }
+                ConversationFilter(modifier = Modifier.weight(0.2f)) { selectedFilter ->
+                    when(selectedFilter) {
+                        ConversationFilterType.ALL -> { }
+                        ConversationFilterType.UNREAD -> { }
+                    }
+                }
             }
 
             Spacer(modifier = Modifier.height(18.dp))
