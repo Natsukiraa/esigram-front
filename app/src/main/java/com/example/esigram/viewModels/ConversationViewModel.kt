@@ -1,5 +1,6 @@
 package com.example.esigram.viewModels
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -24,9 +25,20 @@ class ConversationViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            val conversations = repo.getAll()
-            _conversations.clear()
-            _conversations.addAll(conversations)
+            try {
+                val ids = repo.getAll()
+                Log.d("Firebase", "Conversations: $ids")
+
+                ids.forEach { it ->
+                    var conv = repo.getById(it)
+                    if(conv != null) {
+                        _conversations.add(conv)
+                    }
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
