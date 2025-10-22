@@ -8,7 +8,9 @@ data class Conversation(
     val coverImageId: String? = null,
     val lastMessage: Message? = null,
     val unreadCount: Int = 0,
-    val isGroup: Boolean = false,
     val title: String? = null,
     val createdAt: Instant,
-)
+) {
+    val isGroup: Boolean
+        get() = members.size > 2
+}

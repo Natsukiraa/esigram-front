@@ -89,7 +89,7 @@ fun ConversationListScreen(
                 modifier = Modifier.padding(horizontal = 4.dp)
             ) {
                 items(conversations) { conv ->
-                    ConversationItem(conv) {
+                    ConversationItem(conversation = conv, currentUserId = "1") {
                         onOpenMessage(conv.id)
                     }
                 }
