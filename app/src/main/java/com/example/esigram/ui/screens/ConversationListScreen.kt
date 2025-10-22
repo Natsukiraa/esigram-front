@@ -1,6 +1,8 @@
 package com.example.esigram.ui.screens
 
+import SwipeableConversationItem
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esigram.R
 import com.example.esigram.ui.components.ConversationFilter
-import com.example.esigram.ui.components.ConversationItem
 import com.example.esigram.ui.components.ConversationSearch
 import com.example.esigram.viewModels.ConversationViewModel
 
@@ -88,10 +89,18 @@ fun ConversationListScreen(
                 columns = GridCells.Fixed(1),
                 modifier = Modifier.padding(horizontal = 4.dp)
             ) {
-                items(conversations) { conv ->
-                    ConversationItem(conversation = conv, currentUserId = "1") {
-                        onOpenMessage(conv.id)
-                    }
+                items(conversations, key = { it.id }) { conv ->
+                    SwipeableConversationItem(
+                        conversation = conv,
+                        currentUserId = "1",
+                        onOpenMessage = { onOpenMessage(conv.id) },
+                        onDelete = {
+                            Log.d("action", "onDelte")
+                        },
+                        onPin = { pinnedConv ->
+                            Log.d("action", "pinnedConv")
+                        }
+                    )
                 }
             }
         }
