@@ -4,10 +4,10 @@ import java.time.Instant
 
 data class Message(
     var id: String,
-    var description: String,
-    var createdAt: Instant = Instant.now(),
+    var authorId: String,
+    var content: String,
+    var createdAt: String = Instant.now().toString(),
     var colorIndex: Int = 1,
     var seen: Boolean = false,
-    var attachments: List<String> ?= null,
-    var sender: User
+    var attachments: List<String>? = null
 )

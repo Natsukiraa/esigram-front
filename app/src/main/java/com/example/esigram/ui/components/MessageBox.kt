@@ -25,7 +25,6 @@ import com.example.esigram.models.User
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.UUID
 
 @Composable
 fun MessageBox(

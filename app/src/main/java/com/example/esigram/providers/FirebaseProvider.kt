@@ -1,4 +1,4 @@
-package com.example.esigram.provider
+package com.example.esigram.providers
 
 import android.content.Context
 import com.google.firebase.FirebaseApp

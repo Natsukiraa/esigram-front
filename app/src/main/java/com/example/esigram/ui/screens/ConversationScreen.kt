@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,7 +23,6 @@ import com.example.esigram.ui.components.ContactBanner
 import com.example.esigram.ui.components.MessageBox
 import com.example.esigram.ui.components.SendBar
 import java.time.Instant
-import java.util.UUID
 
 @Composable
 fun ConversationScreen(
@@ -32,15 +32,14 @@ fun ConversationScreen(
 ) {
 
     val scrollState = rememberScrollState()
+    val chatId: String = "2f19981f-3200-460d-9ad5-9fa365f74fcf"
 
 
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color(0xFFEEEEEE)
     ) {
-
         Box(
-            modifier = Modifier,
             contentAlignment = Alignment.BottomCenter
         ){
             Column(
@@ -71,6 +70,7 @@ fun ConversationScreen(
                             )
                         }
                     }
+                    Spacer(modifier = Modifier.padding(bottom = 85.dp))
                 }
             }
 
@@ -95,75 +95,115 @@ fun ConversationScreenPreview() {
 
     val user = User(
         id = "dkoqjsodiqsjd",
-        forename = "Léna",
-        name = "Mabille",
+        forename = "John",
+        name = "Doe",
         isOnline = true
     )
 
     val messages: List<Message> = listOf(
         Message(
             id = "djqosdoqsd",
-            description = "Coucou 👋 ça va ?",
+            content = "Coucou 👋 ça va ?",
             colorIndex = 1,
             createdAt = Instant.now(),
             seen = true,
-            sender = user
+            authorId = "1"
         ),
         Message(
             id = "disqopdkqsopddqsd",
-            description = "Oui et toi ?",
+            content = "Oui et toi ?",
             colorIndex = 2,
             createdAt = Instant.now(),
             seen = false,
-            sender = user
+            authorId = "1"
         ),
         Message(
             id = "opqdkqposdk",
-            description = "Dispo pour demain aprem ?",
+            content = "Dispo pour demain aprem ?",
             colorIndex = 2,
             createdAt = Instant.now(),
             seen = false,
-            sender = user
+            authorId = "1"
         ),
         Message(
             id = "dpkqspodkpqosd",
-            description = "Coucou 👋 ça va ?",
+            content = "Coucou 👋 ça va ?",
             colorIndex = 1,
             createdAt = Instant.now(),
             seen = true,
-            sender = user
+            authorId = "1"
         ),
         Message(
             id = "sdpokqpodksd",
-            description = "Oui et toi ?",
+            content = "Oui et toi ?",
             colorIndex = 2,
             createdAt = Instant.now(),
             seen = false,
-            sender = user
+            authorId = "1"
         ),
         Message(
             id = "dpqkpodqskpd",
-            description = "Dispo pour demain aprem ?",
+            content = "Dispo pour demain aprem ?",
             colorIndex = 2,
             createdAt = Instant.now(),
             seen = false,
-            sender = user
+            authorId = "1"
         ),
         Message(
             id = "zodkpoqskdos",
-            description = "Coucou 👋 ça va ?",
+            content = "Coucou 👋 ça va ?",
             colorIndex = 1,
             createdAt = Instant.now(),
             seen = true,
-            sender = user
+            authorId = "1"
         ),
         Message(
             id = "qlsqmdlsdsqpdqsd",
-            description = "Oui et toi ?",
+            content = "Oui et toi ?",
             colorIndex = 2,
             createdAt = Instant.now(),
             seen = false,
-            sender = user
+            authorId = "1"
+        ),
+        Message(
+            id = "dpqkpodqskpd",
+            content = "Dispo pour demain aprem ?",
+            colorIndex = 2,
+            createdAt = Instant.now(),
+            seen = false,
+            authorId = "1"
+        ),
+        Message(
+            id = "zodkpoqskdos",
+            content = "Coucou 👋 ça va ?",
+            colorIndex = 1,
+            createdAt = Instant.now(),
+            seen = true,
+            authorId = "1"
+        ),
+        Message(
+            id = "qlsqmdlsdsqpdqsd",
+            content = "Oui et toi ?",
+            colorIndex = 2,
+            createdAt = Instant.now(),
+            seen = false,
+            authorId = "1"
+        ),
+        Message(
+            id = "dpqkpodqskpd",
+            content = "Dispo pour demain aprem ?",
+            colorIndex = 2,
+            createdAt = Instant.now(),
+            seen = false,
+            authorId = "1"
+        ),
+        Message(
+            id = "zodkpoqskdos",
+            content = "Coucou 👋 ça va ?",
+            colorIndex = 1,
+            createdAt = Instant.now(),
+            seen = true,
+            authorId = "1"
         ),
     )
 

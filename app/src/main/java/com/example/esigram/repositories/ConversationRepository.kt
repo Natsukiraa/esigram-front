@@ -2,7 +2,7 @@ package com.example.esigram.repositories
 
 import com.example.esigram.mappers.ConversationMapper
 import com.example.esigram.models.Conversation
-import com.example.esigram.provider.FirebaseProvider
+import com.example.esigram.providers.FirebaseProvider
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.tasks.await
 import kotlin.coroutines.resume
