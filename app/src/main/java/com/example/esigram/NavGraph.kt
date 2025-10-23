@@ -29,14 +29,15 @@ fun NavGraph(authViewModel: AuthViewModel, convViewModel: ConversationViewModel)
     ) {
         composable(Destinations.HOME) {
             HomeScreen(
-                viewModel = authViewModel,
+                authViewModel = authViewModel,
+                convViewModel = convViewModel,
                 onSignOut = {
                     navController.navigate(Destinations.AUTH)
                 }
             )
         }
-        composable(Destinations.AUTH) {
 
+        composable(Destinations.AUTH) {
             AuthScreen (
                 viewModel = authViewModel,
                 onSuccessSignIn = {
@@ -44,6 +45,7 @@ fun NavGraph(authViewModel: AuthViewModel, convViewModel: ConversationViewModel)
                 }
             )
         }
+
         composable(route = Destinations.CONVERSATION) {
             ConversationListScreen(
                 conversationViewModel = convViewModel,

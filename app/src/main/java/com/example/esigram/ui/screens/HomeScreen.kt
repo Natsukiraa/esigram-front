@@ -5,12 +5,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.esigram.ui.components.MainMenuTopBar
 import com.example.esigram.viewModels.AuthViewModel
+import com.example.esigram.viewModels.ConversationViewModel
+import com.example.esigram.viewModels.StoryViewModel
 
 @Composable
-fun HomeScreen(viewModel: AuthViewModel, onSignOut: () -> Unit) {
+fun HomeScreen(
+    authViewModel: AuthViewModel,
+    convViewModel: ConversationViewModel,
+    onSignOut: () -> Unit) {
     Column {
-        MainMenuTopBar(viewModel = viewModel, onSignOut = onSignOut)
+        MainMenuTopBar(viewModel = authViewModel, onSignOut = onSignOut)
     }
+
+    ConversationListScreen(conversationViewModel = convViewModel) { }
 }
 
 @Composable
