@@ -1,7 +1,8 @@
 package com.example.esigram
 
 object Destinations {
-    val CONVERSATION = "conversation"
-
+    const val HOME: String = "home"
+    const val AUTH: String = "auth"
     val MESSAGE = "message"
+    val CONVERSATION = "conversation"
 }

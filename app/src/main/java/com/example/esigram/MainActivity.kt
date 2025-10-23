@@ -3,56 +3,34 @@ package com.example.esigram
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.esigram.provider.FirebaseProvider
-import com.example.esigram.ui.screens.ConversationListScreen
 import com.example.esigram.ui.theme.EsigramTheme
-import com.example.esigram.viewModels.ConversationViewModel
+import com.example.esigram.viewModels.AuthViewModel
 
 class MainActivity : ComponentActivity() {
-    private val conversationViewModel: ConversationViewModel by viewModels()
+    private val viewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        FirebaseProvider.init(this)
         setContent {
             EsigramTheme {
-                ConversationListScreen(
-                    conversationViewModel = conversationViewModel,
-                    onOpenMessage = {}
-                )
-                /*
-                Surface(
-                    modifier = Modifier.padding(12.dp)
-                ) {
-                    NavGraph(
-                        convViewModel = conversationViewModel
-                    )
+                Scaffold { innerPadding ->
+                    Surface(
+                        modifier = Modifier.padding(innerPadding)
+                    ) {
+
+                        NavGraph(
+                            viewModel = viewModel
+                        )
+
+                    }
                 }
                  */
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    EsigramTheme {
-        Greeting("Android")
     }
 }
