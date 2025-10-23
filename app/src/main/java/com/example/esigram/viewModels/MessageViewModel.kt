@@ -10,31 +10,26 @@ class MessageViewModel {
     private val repo = MessageRepository()
     private val _messages = mutableStateListOf<Message>()
 
-
-    suspend fun getMessages(chatId: String): List<Message>{
-
+    @Suppress("UNCHECKED_CAST") suspend
+    fun getMessages(chatId: String): List<Message> {
         val res = repo.getAll(chatId)
         val messages = mutableListOf<Message>()
-        
-        res.forEach { (id, value) ->
-            val data = value as? Map<String, Any> ?: return@forEach
-            messages.add(MessageMapper.fromMap(id, data))
+        res.forEach { (key, message) ->
+            messages.add(
+                MessageMapper.fromMap(
+                    id = key,
+                    data = message as Map<String, Any>
+                )
+            )
         }
-
         return messages
     }
 
-    suspend fun createMessage(chatId: String, content: String, files: List<File>? = null){
-        repo.createMessage(
-            chatId = chatId,
-            content = content,
-            files = files
-        )
+    suspend fun createMessage(chatId: String, content: String, files: List<File>? = null) {
+        repo.createMessage(chatId = chatId, content = content, files = files)
     }
 
-    suspend fun deleteMessage(messageId: String){
-        repo.deleteMessage(
-            messageId = messageId
-        )
+    suspend fun deleteMessage(messageId: String) {
+        repo.deleteMessage(messageId = messageId)
     }
 }
