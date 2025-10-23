@@ -53,7 +53,6 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.coil.compose)
     implementation(libs.firebase.database)
-    implementation(libs.litertlm)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.navigation.compose)
     testImplementation(libs.junit)

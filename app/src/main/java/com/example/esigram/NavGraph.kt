@@ -1,18 +1,23 @@
 package com.example.esigram
 
+import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.esigram.ui.screens.HomeScreen
 import com.example.esigram.ui.screens.AuthScreen
+import com.example.esigram.ui.screens.ConversationListScreen
 import com.example.esigram.viewModels.AuthViewModel
+import com.example.esigram.viewModels.ConversationViewModel
 
 @Composable
-fun NavGraph(viewModel: AuthViewModel){
+fun NavGraph(authViewModel: AuthViewModel, convViewModel: ConversationViewModel){
     val navController = rememberNavController()
 
-    val startDestination = if (viewModel.isUserLoggedIn()) {
+    val startDestination = if (authViewModel.isUserLoggedIn()) {
         Destinations.HOME
     } else {
         Destinations.AUTH
@@ -20,11 +25,11 @@ fun NavGraph(viewModel: AuthViewModel){
 
     NavHost(
         navController = navController,
-    ) {
         startDestination = startDestination
+    ) {
         composable(Destinations.HOME) {
             HomeScreen(
-                viewModel = viewModel,
+                viewModel = authViewModel,
                 onSignOut = {
                     navController.navigate(Destinations.AUTH)
                 }
@@ -33,7 +38,7 @@ fun NavGraph(viewModel: AuthViewModel){
         composable(Destinations.AUTH) {
 
             AuthScreen (
-                viewModel = viewModel,
+                viewModel = authViewModel,
                 onSuccessSignIn = {
                     navController.navigate(Destinations.HOME)
                 }
@@ -50,8 +55,8 @@ fun NavGraph(viewModel: AuthViewModel){
         }
 
         composable(
-            arguments = listOf(navArgument("ConvId") { type = NavType.StringType})
             route = "${Destinations.MESSAGE}/{ConvId}",
+            arguments = listOf(navArgument("ConvId") { type = NavType.StringType})
         ) { backStackEntry ->
             val convId = backStackEntry.arguments?.getInt("ConvId") ?: "";
         }

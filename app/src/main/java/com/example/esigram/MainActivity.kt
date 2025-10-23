@@ -10,10 +10,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.esigram.ui.theme.EsigramTheme
 import com.example.esigram.viewModels.AuthViewModel
+import com.example.esigram.viewModels.ConversationViewModel
 
 class MainActivity : ComponentActivity() {
-    private val viewModel: AuthViewModel by viewModels()
-
+    private val authViewModel: AuthViewModel by viewModels()
+    private val conversationViewModel: ConversationViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -24,12 +25,12 @@ class MainActivity : ComponentActivity() {
                     ) {
 
                         NavGraph(
-                            viewModel = viewModel
+                            authViewModel = authViewModel,
+                            convViewModel = conversationViewModel
                         )
 
                     }
                 }
-                 */
             }
         }
     }
