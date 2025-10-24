@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.example.esigram.ui.screens.ConversationScreen
 import com.example.esigram.ui.theme.EsigramTheme
 import com.example.esigram.viewModels.AuthViewModel
 import com.example.esigram.viewModels.ConversationViewModel
@@ -24,9 +25,14 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
 
-                        NavGraph(
+                        /*NavGraph(
                             authViewModel = authViewModel,
                             convViewModel = conversationViewModel
+                        )
+*/
+
+                        ConversationScreen(
+                            chatId = "2f19981f-3200-460d-9ad5-9fa365f74fcf"
                         )
                     }
                 }

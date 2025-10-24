@@ -12,6 +12,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,18 +23,24 @@ import com.example.esigram.models.User
 import com.example.esigram.ui.components.ContactBanner
 import com.example.esigram.ui.components.MessageBox
 import com.example.esigram.ui.components.SendBar
-import java.time.Instant
+import com.example.esigram.viewModels.MessageViewModel
 
 @Composable
 fun ConversationScreen(
-    id: String,
-    user: User,
-    messages: List<Message>
+    chatId: String
 ) {
-
     val scrollState = rememberScrollState()
-    val chatId: String = "2f19981f-3200-460d-9ad5-9fa365f74fcf"
 
+    val messageViewModel = remember { MessageViewModel() }
+    messageViewModel.getMessages(chatId)
+
+    val user = User(
+        id = "",
+        forename = "John",
+        name = "Doe",
+        image = "1761156065698.png"
+    )
+    val messages: List<Message> = messageViewModel.messages
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -83,8 +90,6 @@ fun ConversationScreen(
 
         }
 
-
-
     }
 }
 
@@ -92,124 +97,7 @@ fun ConversationScreen(
 @Composable
 @Preview
 fun ConversationScreenPreview() {
-
-    val user = User(
-        id = "dkoqjsodiqsjd",
-        forename = "John",
-        name = "Doe",
-        isOnline = true
-    )
-
-    val messages: List<Message> = listOf(
-        Message(
-            id = "djqosdoqsd",
-            content = "Coucou 👋 ça va ?",
-            colorIndex = 1,
-            createdAt = Instant.now(),
-            seen = true,
-            authorId = "1"
-        ),
-        Message(
-            id = "disqopdkqsopddqsd",
-            content = "Oui et toi ?",
-            colorIndex = 2,
-            createdAt = Instant.now(),
-            seen = false,
-            authorId = "1"
-        ),
-        Message(
-            id = "opqdkqposdk",
-            content = "Dispo pour demain aprem ?",
-            colorIndex = 2,
-            createdAt = Instant.now(),
-            seen = false,
-            authorId = "1"
-        ),
-        Message(
-            id = "dpkqspodkpqosd",
-            content = "Coucou 👋 ça va ?",
-            colorIndex = 1,
-            createdAt = Instant.now(),
-            seen = true,
-            authorId = "1"
-        ),
-        Message(
-            id = "sdpokqpodksd",
-            content = "Oui et toi ?",
-            colorIndex = 2,
-            createdAt = Instant.now(),
-            seen = false,
-            authorId = "1"
-        ),
-        Message(
-            id = "dpqkpodqskpd",
-            content = "Dispo pour demain aprem ?",
-            colorIndex = 2,
-            createdAt = Instant.now(),
-            seen = false,
-            authorId = "1"
-        ),
-        Message(
-            id = "zodkpoqskdos",
-            content = "Coucou 👋 ça va ?",
-            colorIndex = 1,
-            createdAt = Instant.now(),
-            seen = true,
-            authorId = "1"
-        ),
-        Message(
-            id = "qlsqmdlsdsqpdqsd",
-            content = "Oui et toi ?",
-            colorIndex = 2,
-            createdAt = Instant.now(),
-            seen = false,
-            authorId = "1"
-        ),
-        Message(
-            id = "dpqkpodqskpd",
-            content = "Dispo pour demain aprem ?",
-            colorIndex = 2,
-            createdAt = Instant.now(),
-            seen = false,
-            authorId = "1"
-        ),
-        Message(
-            id = "zodkpoqskdos",
-            content = "Coucou 👋 ça va ?",
-            colorIndex = 1,
-            createdAt = Instant.now(),
-            seen = true,
-            authorId = "1"
-        ),
-        Message(
-            id = "qlsqmdlsdsqpdqsd",
-            content = "Oui et toi ?",
-            colorIndex = 2,
-            createdAt = Instant.now(),
-            seen = false,
-            authorId = "1"
-        ),
-        Message(
-            id = "dpqkpodqskpd",
-            content = "Dispo pour demain aprem ?",
-            colorIndex = 2,
-            createdAt = Instant.now(),
-            seen = false,
-            authorId = "1"
-        ),
-        Message(
-            id = "zodkpoqskdos",
-            content = "Coucou 👋 ça va ?",
-            colorIndex = 1,
-            createdAt = Instant.now(),
-            seen = true,
-            authorId = "1"
-        ),
-    )
-
     ConversationScreen(
-        id = "UUID.randomUUID()",
-        user = user,
-        messages = messages
+        chatId = "2f19981f-3200-460d-9ad5-9fa365f74fcf"
     )
 }
