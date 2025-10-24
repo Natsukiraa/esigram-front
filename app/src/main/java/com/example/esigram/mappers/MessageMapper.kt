@@ -1,6 +1,7 @@
 package com.example.esigram.mappers
 
 import com.example.esigram.models.Message
+import java.time.Instant
 
 object MessageMapper {
 
@@ -9,7 +10,7 @@ object MessageMapper {
         val attachments = (data["attachments"] as? List<*>)?.mapNotNull { it.toString() } ?: emptyList()
         val authorId = data["authorId"].toString()
         val content = data["content"].toString()
-        val createdAt = data["createdAt"].toString()
+        val createdAt = Instant.parse(data["createdAt"].toString())
 
         return Message(
             id = id,

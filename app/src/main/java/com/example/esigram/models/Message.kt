@@ -6,7 +6,7 @@ data class Message(
     var id: String,
     var authorId: String,
     var content: String,
-    var createdAt: String = Instant.now().toString(),
+    var createdAt: Instant = Instant.now(),
     var colorIndex: Int = 1,
     var seen: Boolean = false,
     var attachments: List<String>? = null

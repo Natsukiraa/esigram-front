@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esigram.models.Message
 import com.example.esigram.models.User
-import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
@@ -66,7 +65,7 @@ fun MessageBox(
         ) {
             Box {
                 Text(
-                    text = message.description,
+                    text = message.content,
                     fontSize = 16.sp
                 )
             }
@@ -110,11 +109,10 @@ fun MessageBoxPreview() {
     MessageBox(
         message = Message(
             id = "doksqpdqsod",
-            description = "Ceci est un test",
+            content = "Ceci est un test",
             colorIndex = 1,
-            createdAt = Instant.now(),
             seen = false,
-            sender = user
+            authorId = "user"
         ),
         onHold = {}
     )

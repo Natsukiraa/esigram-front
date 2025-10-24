@@ -81,7 +81,7 @@ fun ConversationItem(
 
                     val color = if(conversation.unreadCount > 0) { R.color.primaryColor } else { R.color.textSecondary }
                     Text(
-                        message.description,
+                        message.content,
                         fontSize = 12.sp,
                         color = colorResource(id = color)
                     )
@@ -142,8 +142,8 @@ fun ConversationItemPreview() {
 
     val message = Message(
         id = "rkokdoqdko",
-        description = "coucou",
-        sender = user,
+        content = "coucou",
+        authorId = "1",
         colorIndex = 0
     )
     val conversation = Conversation(

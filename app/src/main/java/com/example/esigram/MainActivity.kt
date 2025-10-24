@@ -8,9 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.esigram.providers.FirebaseProvider
-import com.example.esigram.ui.screens.ConversationListScreen
 import com.example.esigram.ui.theme.EsigramTheme
 import com.example.esigram.viewModels.AuthViewModel
 import com.example.esigram.viewModels.ConversationViewModel

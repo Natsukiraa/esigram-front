@@ -31,11 +31,11 @@ fun ConversationBanner(
 ){
     val message = Message(
         id = "kdjqsoidoidjqsoidjis",
-        description = "Ceci est un test Ceci est un test Ceci est un test Ceci est un test Ceci est un test Ceci est un test",
+        content = "Ceci est un test Ceci est un test Ceci est un test Ceci est un test Ceci est un test Ceci est un test",
         colorIndex = 1,
         createdAt = Instant.now(),
         seen = false,
-        sender = user
+        authorId = "1"
     )
 
     Button(
@@ -69,7 +69,7 @@ fun ConversationBanner(
                     color = Color.Black
                 )
                 Text(
-                    text = message.description
+                    text = message.content
                 )
             }
 

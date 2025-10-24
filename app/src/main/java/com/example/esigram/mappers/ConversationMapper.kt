@@ -33,8 +33,8 @@ object ConversationMapper {
         val lastMessage = lastMessageMap?.let {
             Message(
                 id = it["id"] as? String ?: "",
-                sender = members.firstOrNull() ?: User("", "", ""),
-                description = it["content"] as? String ?: "",
+                authorId = members.firstOrNull()?.id ?: "",
+                content = it["content"] as? String ?: "",
                 createdAt = (it["createdAt"] as? String)?.let { str ->
                     runCatching { Instant.parse(str) }.getOrElse { Instant.now() }
                 } ?: Instant.now(),

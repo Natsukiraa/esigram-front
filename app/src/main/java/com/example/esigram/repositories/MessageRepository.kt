@@ -31,12 +31,12 @@ class MessageRepository {
         content: String,
         files: List<File>? = null
     ): HttpResponse {
-        val jsonData = Json.encodeToString(buildJsonObject {
-            put(
-                "content",
-                content
-            )
-        })
+        val jsonData = Json.encodeToString(
+            serializer = kotlinx.serialization.json.JsonObject.serializer(),
+            value = buildJsonObject {
+                put("content", content)
+            }
+        )
 
         return api.client.submitFormWithBinaryData(
             url = "${api.baseUrl}/chats/$chatId/messages",
