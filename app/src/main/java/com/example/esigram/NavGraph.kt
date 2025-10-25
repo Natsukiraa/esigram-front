@@ -13,12 +13,14 @@ import com.example.esigram.ui.screens.AuthScreen
 import com.example.esigram.ui.screens.ConversationListScreen
 import com.example.esigram.ui.screens.ConversationScreen
 import com.example.esigram.viewModels.AuthViewModel
+import com.example.esigram.viewModels.CompleteProfileViewModel
 import com.example.esigram.viewModels.ConversationViewModel
 import com.example.esigram.viewModels.MessageViewModel
 
 @Composable
 fun NavGraph(
     authViewModel: AuthViewModel,
+    completeProfileViewModel: CompleteProfileViewModel,
     convViewModel: ConversationViewModel){
     val navController = rememberNavController()
 
@@ -36,6 +38,7 @@ fun NavGraph(
             HomeScreen(
                 authViewModel = authViewModel,
                 convViewModel = convViewModel,
+                completeProfileViewModel = completeProfileViewModel,
                 onSignOut = {
                     navController.navigate(Destinations.AUTH)
                 }

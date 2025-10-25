@@ -11,10 +11,12 @@ import androidx.compose.ui.Modifier
 import com.example.esigram.ui.screens.ConversationScreen
 import com.example.esigram.ui.theme.EsigramTheme
 import com.example.esigram.viewModels.AuthViewModel
+import com.example.esigram.viewModels.CompleteProfileViewModel
 import com.example.esigram.viewModels.ConversationViewModel
 
 class MainActivity : ComponentActivity() {
     private val authViewModel: AuthViewModel by viewModels()
+    private val completeProfileViewModel: CompleteProfileViewModel by viewModels()
     private val conversationViewModel: ConversationViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,15 +26,10 @@ class MainActivity : ComponentActivity() {
                     Surface(
                         modifier = Modifier.padding(innerPadding)
                     ) {
-
-                        /*NavGraph(
+                        NavGraph(
                             authViewModel = authViewModel,
-                            convViewModel = conversationViewModel
-                        )
-*/
-
-                        ConversationScreen(
-                            chatId = "2f19981f-3200-460d-9ad5-9fa365f74fcf"
+                            convViewModel = conversationViewModel,
+                            completeProfileViewModel = completeProfileViewModel
                         )
                     }
                 }

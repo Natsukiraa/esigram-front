@@ -1,5 +1,6 @@
 package com.example.esigram.repositories
 
+import android.net.Uri
 import com.example.esigram.services.ApiService
 import com.google.firebase.auth.FirebaseAuth
 import io.ktor.client.request.forms.MultiPartFormDataContent
@@ -46,7 +47,7 @@ class AuthRepository {
     suspend fun registerUserToDB(
         username: String,
         description: String?,
-        file: File?= null
+        file: Uri?= null
     ): HttpResponse {
         val response = api.client.patch("${api.baseUrl}/users/me") {
             setBody(
@@ -62,18 +63,19 @@ class AuthRepository {
                                     """.trimIndent()
                         )
 
-                        file ?. let {
-                            append(
-                                "profilePicture",
-                                file.readBytes(),
-                                Headers.build {
-                                    append(
-                                        HttpHeaders.ContentDisposition,
-                                        "filename=\"${file.name}\""
-                                    )
-                                    append(HttpHeaders.ContentType, ContentType.Image.Any.toString())
-                                }
-                            )
+                        file?.let {
+                            val filePath = it.path?.let { path -> File(path) }
+                            if (filePath != null && filePath.exists()) {
+                                val bytes = filePath.inputStream().readBytes()
+                                append(
+                                    key = "profilePicture",
+                                    value = bytes,
+                                    headers = Headers.build {
+                                        append(HttpHeaders.ContentDisposition, "form-data; name=\"profilePicture\"; filename=\"${filePath.name}\"")
+                                        append(HttpHeaders.ContentType, ContentType.Image.Any.toString())
+                                    }
+                                )
+                            }
                         }
                     }
                 )
