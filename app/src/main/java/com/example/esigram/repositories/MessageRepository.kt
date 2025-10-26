@@ -39,7 +39,7 @@ class MessageRepository {
         )
 
         return api.client.submitFormWithBinaryData(
-            url = "${api.baseUrl}/chats/$chatId/messages",
+            url = "/chats/$chatId/messages",
             formData = formData {
                 append(
                     "data",
@@ -67,6 +67,6 @@ class MessageRepository {
     }
 
     suspend fun deleteMessage(messageId: String): HttpResponse {
-        return api.client.delete("${api.baseUrl}/messages/$messageId")
+        return api.client.delete("/messages/$messageId")
     }
 }

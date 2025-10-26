@@ -77,4 +77,6 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.11")
     implementation("io.ktor:ktor-client-logging:2.3.11")
 
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
+
 }

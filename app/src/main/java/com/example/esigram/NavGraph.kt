@@ -1,7 +1,12 @@
 package com.example.esigram
 
 import android.util.Log
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -10,25 +15,37 @@ import androidx.navigation.navArgument
 import com.example.esigram.models.Message
 import com.example.esigram.ui.screens.HomeScreen
 import com.example.esigram.ui.screens.AuthScreen
+import com.example.esigram.ui.screens.CompleteProfileScreen
 import com.example.esigram.ui.screens.ConversationListScreen
 import com.example.esigram.ui.screens.ConversationScreen
 import com.example.esigram.viewModels.AuthViewModel
 import com.example.esigram.viewModels.CompleteProfileViewModel
 import com.example.esigram.viewModels.ConversationViewModel
-import com.example.esigram.viewModels.MessageViewModel
 
 @Composable
 fun NavGraph(
     authViewModel: AuthViewModel,
     completeProfileViewModel: CompleteProfileViewModel,
-    convViewModel: ConversationViewModel){
+    convViewModel: ConversationViewModel
+){
     val navController = rememberNavController()
+    val userExistsPsql = completeProfileViewModel.userExistsInPsql.collectAsState()
 
-    val startDestination = if (authViewModel.isUserLoggedIn()) {
-        Destinations.HOME
-    } else {
-        Destinations.AUTH
+    // Check if user is logged + if user is in PSQL
+    LaunchedEffect(authViewModel.isUserLoggedIn()) {
+        if (authViewModel.isUserLoggedIn() && userExistsPsql.value == null) {
+            completeProfileViewModel.doesUserExistsInPsql()
+        }
     }
+
+    val startDestination = when {
+        !authViewModel.isUserLoggedIn() -> Destinations.AUTH
+        userExistsPsql.value == null -> Destinations.HOME
+        userExistsPsql.value == false -> Destinations.COMPLETE_PROFILE
+        userExistsPsql.value == true -> Destinations.HOME
+        else -> Destinations.AUTH
+    }
+
 
     NavHost(
         navController = navController,
@@ -42,6 +59,12 @@ fun NavGraph(
                 onSignOut = {
                     navController.navigate(Destinations.AUTH)
                 }
+            )
+        }
+
+        composable(Destinations.COMPLETE_PROFILE) {
+            CompleteProfileScreen (
+                completeProfileViewModel = completeProfileViewModel
             )
         }
 

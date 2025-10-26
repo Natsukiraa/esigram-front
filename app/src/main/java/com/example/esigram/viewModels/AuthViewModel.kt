@@ -6,6 +6,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.esigram.repositories.AuthRepository
+import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseUser
 
@@ -28,7 +29,7 @@ class AuthViewModel(): ViewModel() {
         refreshUser()
     }
 
-    fun signIn(): Intent{
+    fun signIn(): Intent {
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().build(),
             AuthUI.IdpConfig.GoogleBuilder().build()

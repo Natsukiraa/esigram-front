@@ -47,13 +47,6 @@ fun ConversationListScreen(
                 .padding(9.dp)
         )
         {
-            Text(
-                context.getString(R.string.message),
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold,
-                color = colorResource(id = R.color.textPrimary)
-            )
-
             Spacer(modifier = Modifier.height(24.dp))
 
             Row(

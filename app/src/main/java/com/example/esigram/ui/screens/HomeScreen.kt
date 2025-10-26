@@ -7,7 +7,6 @@ import com.example.esigram.ui.components.MainMenuTopBar
 import com.example.esigram.viewModels.AuthViewModel
 import com.example.esigram.viewModels.CompleteProfileViewModel
 import com.example.esigram.viewModels.ConversationViewModel
-import com.example.esigram.viewModels.StoryViewModel
 
 @Composable
 fun HomeScreen(
@@ -17,10 +16,8 @@ fun HomeScreen(
     onSignOut: () -> Unit) {
     Column {
         MainMenuTopBar(viewModel = authViewModel, onSignOut = onSignOut)
-        CompleteProfileScreen(completeProfileViewModel = completeProfileViewModel)
+        //ConversationListScreen(conversationViewModel = convViewModel) { }
     }
-
-    //ConversationListScreen(conversationViewModel = convViewModel) { }
 }
 
 @Composable
