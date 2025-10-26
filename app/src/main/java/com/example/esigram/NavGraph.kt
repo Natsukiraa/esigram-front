@@ -7,7 +7,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.esigram.models.Message
 import com.example.esigram.ui.screens.HomeScreen
 import com.example.esigram.ui.screens.AuthScreen
 import com.example.esigram.ui.screens.ConversationListScreen
@@ -19,7 +18,8 @@ import com.example.esigram.viewModels.MessageViewModel
 @Composable
 fun NavGraph(
     authViewModel: AuthViewModel,
-    convViewModel: ConversationViewModel){
+    convViewModel: ConversationViewModel,
+    messageViewModel: MessageViewModel){
     val navController = rememberNavController()
 
     val startDestination = if (authViewModel.isUserLoggedIn()) {
@@ -67,6 +67,7 @@ fun NavGraph(
         ) { backStackEntry ->
             val convId = backStackEntry.arguments?.getString("ConvId") ?: ""
             ConversationScreen(
+                messageViewModel = messageViewModel,
                 chatId = convId
             )
         }

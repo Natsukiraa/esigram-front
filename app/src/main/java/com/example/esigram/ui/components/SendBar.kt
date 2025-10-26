@@ -31,7 +31,8 @@ fun SendBar(
     onAddMedia: () -> Unit,
     value: String,
     onValueChanged: (String) -> Unit,
-    onMicroPhoneActivate: () -> Unit
+    onMicroPhoneActivate: () -> Unit,
+    onSendClick: () -> Unit
 ) {
     Surface(
         modifier = Modifier
@@ -90,6 +91,14 @@ fun SendBar(
                         contentDescription = "Microphone"
                     )
                 }
+                IconButton(onClick = onSendClick) {
+                    Icon(
+                        painter = painterResource(R.drawable.outline_send_24),
+                        contentDescription = "Send",
+                        tint = Color(0xff5167f1)
+                    )
+                }
+
 
             }
 
@@ -106,6 +115,7 @@ fun SendBarPreview() {
         onAddMedia = {},
         value = "",
         onValueChanged = {},
-        onMicroPhoneActivate = {}
+        onMicroPhoneActivate = {},
+        onSendClick = {}
     )
 }
