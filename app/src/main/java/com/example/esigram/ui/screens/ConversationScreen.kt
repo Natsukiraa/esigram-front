@@ -32,8 +32,7 @@ fun ConversationScreen(
     val scrollState = rememberScrollState()
 
     val messageViewModel = remember { MessageViewModel() }
-    messageViewModel.getMessages(chatId)
-
+    messageViewModel.startListening(chatId)
     val user = User(
         id = "",
         forename = "John",
@@ -98,6 +97,6 @@ fun ConversationScreen(
 @Preview
 fun ConversationScreenPreview() {
     ConversationScreen(
-        chatId = "2f19981f-3200-460d-9ad5-9fa365f74fcf"
+        chatId = "7bc4b585-4c37-4410-bebb-14533c3b862e"
     )
 }
