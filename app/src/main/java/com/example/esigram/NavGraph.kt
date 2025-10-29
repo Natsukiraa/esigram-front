@@ -29,23 +29,10 @@ fun NavGraph(
     convViewModel: ConversationViewModel
 ){
     val navController = rememberNavController()
-    val userExistsPsql = completeProfileViewModel.userExistsInPsql.collectAsState()
-
-    // Check if user is logged + if user is in PSQL
-    LaunchedEffect(authViewModel.isUserLoggedIn()) {
-        if (authViewModel.isUserLoggedIn() && userExistsPsql.value == null) {
-            completeProfileViewModel.doesUserExistsInPsql()
-        }
-    }
-
     val startDestination = when {
         !authViewModel.isUserLoggedIn() -> Destinations.AUTH
-        userExistsPsql.value == null -> Destinations.HOME
-        userExistsPsql.value == false -> Destinations.COMPLETE_PROFILE
-        userExistsPsql.value == true -> Destinations.HOME
-        else -> Destinations.AUTH
+        else -> Destinations.HOME
     }
-
 
     NavHost(
         navController = navController,
@@ -70,7 +57,7 @@ fun NavGraph(
 
         composable(Destinations.AUTH) {
             AuthScreen (
-                viewModel = authViewModel,
+                authViewModel = authViewModel,
                 onSuccessSignIn = {
                     navController.navigate(Destinations.HOME)
                 }

@@ -32,13 +32,13 @@ fun CompleteProfileScreen(
 ) {
     // mutable state data from VM
     val description = completeProfileViewModel.description.collectAsState()
-    val file = completeProfileViewModel.file.collectAsState()
+    val fileUri = completeProfileViewModel.fileUri.collectAsState()
     val username = completeProfileViewModel.username.collectAsState()
 
     val context = LocalContext.current
 
     val getContent = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let { completeProfileViewModel.onFileChange(it) }
+        uri?.let { completeProfileViewModel.onFileChange(it, context) }
     }
 
     Column(modifier = Modifier.fillMaxWidth()
@@ -62,9 +62,9 @@ fun CompleteProfileScreen(
             label = "Description"
         )
 
-        file.value?.let { file ->
+        fileUri.value?.let { uri ->
             Image(
-                painter = rememberAsyncImagePainter(file),
+                painter = rememberAsyncImagePainter(uri),
                 contentDescription = "Selected Image",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier

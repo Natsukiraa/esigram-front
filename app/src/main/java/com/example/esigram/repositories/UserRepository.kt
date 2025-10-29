@@ -1,6 +1,6 @@
 package com.example.esigram.repositories
 
-import android.net.Uri
+import android.util.Log
 import com.example.esigram.services.ApiService
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
@@ -11,6 +11,10 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import java.io.File
 import kotlin.io.inputStream
 
@@ -36,40 +40,54 @@ class UserRepository {
     suspend fun registerUserToDB(
         username: String,
         description: String?,
-        file: Uri?= null
+        file: File?= null
     ): HttpResponse {
+        val jsonData = Json.encodeToString(
+            serializer = JsonObject.serializer(),
+            value = buildJsonObject {
+                put("username", username)
+                if (description != null) {
+                    put("description", description)
+                }
+            }
+        )
+
         val response = api.client.patch("/users/me") {
             setBody(
                 MultiPartFormDataContent(
                     formData {
                         append(
                             "data",
-                            """
-                                        {
-                                            "username": "$username",
-                                            "description": "${description ?: ""}"
-                                        }
-                                    """.trimIndent()
-                        )
-
-                        file?.let {
-                            val filePath = it.path?.let { path -> File(path) }
-                            if (filePath != null && filePath.exists()) {
-                                val bytes = filePath.inputStream().readBytes()
+                            jsonData,
+                            Headers.build {
                                 append(
-                                    key = "profilePicture",
-                                    value = bytes,
-                                    headers = Headers.build {
-                                        append(HttpHeaders.ContentDisposition, "form-data; name=\"profilePicture\"; filename=\"${filePath.name}\"")
-                                        append(HttpHeaders.ContentType, ContentType.Image.Any.toString())
-                                    }
+                                    HttpHeaders.ContentType,
+                                    ContentType.Application.Json.toString()
                                 )
                             }
-                        }
+                        )
+
+                        if (file != null)
+                            append(
+                                "profilePicture",
+                                file.readBytes(),
+                                Headers.build {
+                                    append(
+                                        HttpHeaders.ContentDisposition,
+                                        "filename=\"${file.name}\""
+                                    )
+                                    append(
+                                        HttpHeaders.ContentType,
+                                        ContentType.Image.Any.toString()
+                                    )
+                                }
+                            )
                     }
                 )
             )
         }
+
+        Log.d("UserRepository", "registerUserToDB response status: ${response.status.value}")
 
         return response
     }
