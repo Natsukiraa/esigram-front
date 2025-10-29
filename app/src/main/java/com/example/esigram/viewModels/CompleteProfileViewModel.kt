@@ -3,9 +3,7 @@ package com.example.esigram.viewModels
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import android.webkit.MimeTypeMap
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.esigram.Destinations
@@ -34,6 +32,7 @@ class CompleteProfileViewModel: ViewModel() {
 
     private val _submitResult = MutableStateFlow<Boolean?>(null)
     val submitResult = _submitResult.asStateFlow()
+
     private val _destination = MutableStateFlow<String?>(null)
     val destination = _destination.asStateFlow()
 
@@ -84,7 +83,6 @@ class CompleteProfileViewModel: ViewModel() {
                 file = file.value
             )
 
-            Log.d("CompleteProfileVM", "Response status: ${response.status.value}")
             _submitResult.value = response.status.value == 200
         }
     }

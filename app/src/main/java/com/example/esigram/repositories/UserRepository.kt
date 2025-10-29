@@ -1,6 +1,5 @@
 package com.example.esigram.repositories
 
-import android.util.Log
 import com.example.esigram.services.ApiService
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
@@ -16,7 +15,6 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import java.io.File
-import kotlin.io.inputStream
 
 class UserRepository {
     private val api = ApiService()
@@ -86,8 +84,6 @@ class UserRepository {
                 )
             )
         }
-
-        Log.d("UserRepository", "registerUserToDB response status: ${response.status.value}")
 
         return response
     }
