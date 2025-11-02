@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import com.example.esigram.ui.screens.ConversationScreen
 import com.example.esigram.ui.theme.EsigramTheme
 import com.example.esigram.viewModels.AuthViewModel
+import com.example.esigram.viewModels.CameraViewModel
 import com.example.esigram.viewModels.CompleteProfileViewModel
 import com.example.esigram.viewModels.ConversationViewModel
 
@@ -18,6 +19,8 @@ class MainActivity : ComponentActivity() {
     private val authViewModel: AuthViewModel by viewModels()
     private val completeProfileViewModel: CompleteProfileViewModel by viewModels()
     private val conversationViewModel: ConversationViewModel by viewModels()
+
+    private val cameraViewModel: CameraViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -29,7 +32,8 @@ class MainActivity : ComponentActivity() {
                         NavGraph(
                             authViewModel = authViewModel,
                             convViewModel = conversationViewModel,
-                            completeProfileViewModel = completeProfileViewModel
+                            completeProfileViewModel = completeProfileViewModel,
+                            cameraViewModel = cameraViewModel
                         )
                     }
                 }
