@@ -38,6 +38,7 @@ class AuthViewModel(): ViewModel() {
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
             .setTheme(R.style.FirebaseLoginTheme)
+            .setLogo(R.drawable.logo_smaller)
             .build()
     }
 
