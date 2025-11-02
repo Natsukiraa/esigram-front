@@ -12,7 +12,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -28,17 +30,25 @@ import com.example.esigram.viewModels.CompleteProfileViewModel
 
 @Composable
 fun CompleteProfileScreen(
-    completeProfileViewModel: CompleteProfileViewModel
+    completeProfileViewModel: CompleteProfileViewModel,
+    onSuccessSignUp: () -> Unit = {}
 ) {
     // mutable state data from VM
     val description = completeProfileViewModel.description.collectAsState()
     val fileUri = completeProfileViewModel.fileUri.collectAsState()
     val username = completeProfileViewModel.username.collectAsState()
+    val submitResult by completeProfileViewModel.submitResult.collectAsState()
 
     val context = LocalContext.current
 
     val getContent = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let { completeProfileViewModel.onFileChange(it, context) }
+    }
+
+    LaunchedEffect(submitResult) {
+        submitResult.let {
+            if(it == true) onSuccessSignUp()
+        }
     }
 
     Column(modifier = Modifier.fillMaxWidth()

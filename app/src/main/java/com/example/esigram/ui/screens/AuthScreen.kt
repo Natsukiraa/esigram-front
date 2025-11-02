@@ -19,13 +19,19 @@ import com.example.esigram.viewModels.AuthViewModel
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 
 @Composable
-fun AuthScreen(authViewModel: AuthViewModel, onSuccessSignIn: () -> Unit = {}) {
+fun AuthScreen(authViewModel: AuthViewModel, onSuccessSignIn: () -> Unit = {}, onSignUp : () -> Unit = {}) {
     val signInLauncher = rememberLauncherForActivityResult(
         contract = FirebaseAuthUIActivityResultContract()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
             authViewModel.refreshUser()
-            onSuccessSignIn()
+            val isNewUser = authViewModel.isNewUser()
+
+            if (isNewUser) {
+                onSignUp()
+            } else {
+                onSuccessSignIn()
+            }
         }
     }
 

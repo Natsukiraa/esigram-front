@@ -27,7 +27,6 @@ class UserRepository {
         return response
     }
 
-
     /*
      * PATCH /users/me
      * Format : form-data

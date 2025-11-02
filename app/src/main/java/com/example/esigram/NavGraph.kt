@@ -1,18 +1,12 @@
 package com.example.esigram
 
 import android.util.Log
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.esigram.models.Message
 import com.example.esigram.ui.screens.HomeScreen
 import com.example.esigram.ui.screens.AuthScreen
 import com.example.esigram.ui.screens.CompleteProfileScreen
@@ -29,6 +23,7 @@ fun NavGraph(
     convViewModel: ConversationViewModel
 ){
     val navController = rememberNavController()
+
     val startDestination = when {
         !authViewModel.isUserLoggedIn() -> Destinations.AUTH
         else -> Destinations.HOME
@@ -42,7 +37,6 @@ fun NavGraph(
             HomeScreen(
                 authViewModel = authViewModel,
                 convViewModel = convViewModel,
-                completeProfileViewModel = completeProfileViewModel,
                 onSignOut = {
                     navController.navigate(Destinations.AUTH)
                 }
@@ -51,7 +45,12 @@ fun NavGraph(
 
         composable(Destinations.COMPLETE_PROFILE) {
             CompleteProfileScreen (
-                completeProfileViewModel = completeProfileViewModel
+                completeProfileViewModel = completeProfileViewModel,
+                onSuccessSignUp = {
+                    navController.navigate(Destinations.HOME) {
+                        popUpTo(0)
+                    }
+                }
             )
         }
 
@@ -59,7 +58,14 @@ fun NavGraph(
             AuthScreen (
                 authViewModel = authViewModel,
                 onSuccessSignIn = {
-                    navController.navigate(Destinations.HOME)
+                    navController.navigate(Destinations.HOME) {
+                        popUpTo(0)
+                    }
+                },
+                onSignUp = {
+                    navController.navigate(Destinations.COMPLETE_PROFILE) {
+                        popUpTo(0)
+                    }
                 }
             )
         }

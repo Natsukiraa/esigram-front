@@ -3,10 +3,10 @@ package com.example.esigram.viewModels
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.esigram.Destinations
 import com.example.esigram.repositories.UserRepository
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +16,7 @@ import java.io.File
 
 class CompleteProfileViewModel: ViewModel() {
     private val repository = UserRepository()
-    private val firebaseAuth = FirebaseAuth.getInstance()
+    private val firebaseAuth = FirebaseAuth.getInstance().currentUser
 
     private val _description = MutableStateFlow<String?>("")
     val description = _description.asStateFlow()
@@ -27,14 +27,11 @@ class CompleteProfileViewModel: ViewModel() {
     private val _fileUri = MutableStateFlow<Uri?>(null)
     val fileUri = _fileUri.asStateFlow()
 
-    private val _username = MutableStateFlow(firebaseAuth.currentUser?.displayName ?: "")
+    private val _username = MutableStateFlow(firebaseAuth?.displayName ?: "")
     val username = _username.asStateFlow()
 
     private val _submitResult = MutableStateFlow<Boolean?>(null)
     val submitResult = _submitResult.asStateFlow()
-
-    private val _destination = MutableStateFlow<String?>(null)
-    val destination = _destination.asStateFlow()
 
     fun onDescriptionChange(newDescription: String) {
         _description.value = newDescription
@@ -60,17 +57,6 @@ class CompleteProfileViewModel: ViewModel() {
         }
     }
 
-    fun doesUserExistsInPsql(){
-        viewModelScope.launch {
-            val response = repository.getMe()
-            _destination.value = if (response.status.value == 200) {
-                Destinations.HOME
-            } else {
-                Destinations.COMPLETE_PROFILE
-            }
-        }
-    }
-
     fun onUsernameChange(newUsername: String) {
         _username.value = newUsername
     }
@@ -82,6 +68,8 @@ class CompleteProfileViewModel: ViewModel() {
                 description = description.value,
                 file = file.value
             )
+
+            Log.d("CompleteProfileViewModel", "Complete sign up response: ${response.status.value}")
 
             _submitResult.value = response.status.value == 200
         }

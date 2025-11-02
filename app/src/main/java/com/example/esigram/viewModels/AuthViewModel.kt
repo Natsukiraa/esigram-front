@@ -6,7 +6,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.esigram.repositories.AuthRepository
-import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseUser
 
@@ -38,5 +37,13 @@ class AuthViewModel(): ViewModel() {
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
             .build()
+    }
+
+    fun isNewUser(): Boolean {
+        val user = repository.getCurrentUser() ?: return false
+        val creationTimestamp = user.metadata?.creationTimestamp ?: return false
+        val lastSignInTimestamp = user.metadata?.lastSignInTimestamp ?: return false
+
+        return creationTimestamp == lastSignInTimestamp
     }
 }
