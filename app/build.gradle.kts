@@ -55,6 +55,9 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.viewfinder.compose)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.camera.lifecycle)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -62,6 +65,14 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    implementation("androidx.camera:camera-core")
+    implementation("androidx.camera:camera-camera2")
+    implementation("androidx.camera:camera-lifecycle")
+    implementation("androidx.camera:camera-video")
+    implementation("androidx.camera:camera-compose")
+
+    implementation("com.google.accompanist:accompanist-permissions:0.37.3")
 
     implementation(platform("com.google.firebase:firebase-bom:34.4.0"))
     implementation("com.firebaseui:firebase-ui-auth:9.0.0")

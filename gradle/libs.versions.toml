@@ -22,6 +22,9 @@ firebaseCommonKtx = "22.0.1"
 litertlm = "0.0.0-alpha02"
 firebaseDataconnect = "17.1.0"
 transportRuntime = "4.0.0"
+cameraView = "1.5.1"
+viewfinderCompose = "1.5.1"
+cameraLifecycle = "1.5.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -55,6 +58,9 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 litertlm = { group = "com.google.ai.edge.litertlm", name = "litertlm", version.ref = "litertlm" }
 firebase-dataconnect = { group = "com.google.firebase", name = "firebase-dataconnect", version.ref = "firebaseDataconnect" }
 transport-runtime = { group = "com.google.android.datatransport", name = "transport-runtime", version.ref = "transportRuntime" }
+androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "cameraView" }
+androidx-viewfinder-compose = { group = "androidx.camera.viewfinder", name = "viewfinder-compose", version.ref = "viewfinderCompose" }
+androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraLifecycle" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
