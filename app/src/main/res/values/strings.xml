@@ -6,4 +6,7 @@
     <string name="filter_all">All</string>
     <string name="filter_unread">Unread</string>
     <string name="sign_up">Sign up</string>
+    <string name="welcome">Welcome to Esigram</string>
+    <string name="welcome_desc">Connect with friends and the world around you on Esigram.</string>
+    <string name="login">Login</string>
 </resources>
