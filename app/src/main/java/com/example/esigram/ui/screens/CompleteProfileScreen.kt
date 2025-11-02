@@ -4,23 +4,29 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
@@ -51,46 +57,75 @@ fun CompleteProfileScreen(
         }
     }
 
-    Column(modifier = Modifier.fillMaxWidth()
-        .padding(horizontal = 16.dp, vertical = 8.dp)) {
-        Text(
-            context.getString(R.string.sign_up),
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Bold,
-            color = colorResource(id = R.color.textPrimary),
-        )
+    LaunchedEffect(Unit) {
+        completeProfileViewModel.setDefaultProfilePicture(context)
+    }
 
-        InputTextField(
-            value = username.value,
-            onValueChanged = { completeProfileViewModel.onUsernameChange(it) },
-            label = "Username"
-        )
-
-        InputTextField(
-            value = description.value,
-            onValueChanged = { completeProfileViewModel.onDescriptionChange(it) },
-            label = "Description"
-        )
-
-        fileUri.value?.let { uri ->
-            Image(
-                painter = rememberAsyncImagePainter(uri),
-                contentDescription = "Selected Image",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(128.dp)
-                    .clip(CircleShape)
+    Surface (modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp)) {
+            Text(
+                context.getString(R.string.sign_up),
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Bold,
+                color = colorResource(id = R.color.textPrimary),
             )
+
+            Column(modifier = Modifier.padding(top = 36.dp, bottom = 12.dp)
+                .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    context.getString(R.string.complete_profile),
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = colorResource(id = R.color.textPrimary)
+                )
+
+                Text(
+                    context.getString(R.string.profile_desc),
+                    fontSize = 16.sp,
+                    color = colorResource(id = R.color.textSecondary),
+                    modifier = Modifier.width(250.dp),
+                    textAlign = TextAlign.Center
+                )
+            }
+
+            Column(modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally) {
+                Image(
+                    painter = rememberAsyncImagePainter(fileUri.value),
+                    contentDescription = context.getString(R.string.profile_picture),
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.size(128.dp)
+                        .clip(CircleShape)
+                        .clickable { getContent.launch("image/*") }
+                )
+
+                Column(modifier = Modifier
+                    .padding(vertical = 16.dp)
+                    .fillMaxWidth()) {
+                    InputTextField(
+                        value = username.value,
+                        onValueChanged = { completeProfileViewModel.onUsernameChange(it) },
+                        label = context.getString(R.string.username)
+                    )
+
+                    InputTextField(
+                        value = description.value,
+                        onValueChanged = { completeProfileViewModel.onDescriptionChange(it) },
+                        label = context.getString(R.string.description)
+                    )
+                }
+
+                Button(
+                    onClick = { completeProfileViewModel.completeSignUp() },
+                    modifier = Modifier.fillMaxWidth(),
+                    content = { Text(context.getString(R.string.sign_up)) }
+                )
+            }
+
+
         }
-
-        Button(
-            onClick = { getContent.launch("image/*") },
-            content = { Text("Select Profile Picture") }
-        )
-
-        Button(
-            onClick = { completeProfileViewModel.completeSignUp() },
-            content = { Text("Submit") }
-        )
     }
 }
+

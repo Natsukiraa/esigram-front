@@ -3,7 +3,6 @@ package com.example.esigram.viewModels
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -37,6 +36,15 @@ class CompleteProfileViewModel: ViewModel() {
         _description.value = newDescription
     }
 
+    // Set a default picture at start of screen
+    fun setDefaultProfilePicture(context: Context) {
+        if (_fileUri.value == null) {
+            val defaultUri = Uri.parse("android.resource://${context.packageName}/drawable/default_picture")
+            onFileChange(defaultUri, context)
+        }
+    }
+
+
     fun onFileChange(newFile: Uri, context: Context) {
         // Used to get mime type from URI
         val contentResolver: ContentResolver = context.contentResolver
@@ -68,8 +76,6 @@ class CompleteProfileViewModel: ViewModel() {
                 description = description.value,
                 file = file.value
             )
-
-            Log.d("CompleteProfileViewModel", "Complete sign up response: ${response.status.value}")
 
             _submitResult.value = response.status.value == 200
         }
