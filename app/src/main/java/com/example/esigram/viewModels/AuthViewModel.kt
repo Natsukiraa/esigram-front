@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.example.esigram.repositories.AuthRepository
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseUser
+import com.example.esigram.R
 
 class AuthViewModel(): ViewModel() {
     private val repository = AuthRepository()
@@ -36,6 +37,7 @@ class AuthViewModel(): ViewModel() {
         return AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
+            .setTheme(R.style.FirebaseLoginTheme)
             .build()
     }
 

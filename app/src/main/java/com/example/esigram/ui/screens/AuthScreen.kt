@@ -5,7 +5,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import com.example.esigram.viewModels.AuthViewModel
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.example.esigram.R
-import com.example.esigram.ui.components.ProfileImage
 
 @Composable
 fun AuthScreen(authViewModel: AuthViewModel, onSuccessSignIn: () -> Unit = {}, onSignUp : () -> Unit = {}) {
