@@ -3,18 +3,18 @@ package com.example.esigram.viewModels
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.esigram.repositories.UserRepository
+import com.example.esigram.usecase.user.UserUseCases
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.io.File
 
-class CompleteProfileViewModel: ViewModel() {
-    private val repository = UserRepository()
+class CompleteProfileViewModel(private val useCases: UserUseCases): ViewModel() {
     private val firebaseAuth = FirebaseAuth.getInstance().currentUser
 
     private val _description = MutableStateFlow<String?>("")
@@ -71,13 +71,16 @@ class CompleteProfileViewModel: ViewModel() {
 
     fun completeSignUp(){
         viewModelScope.launch {
-            val response = repository.registerUserToDB(
+            Log.d("CompleteProfileVM", "Submitting profile with username: ${username.value}, description: ${description.value}, file: ${file.value}")
+            val response = useCases.registerUserToDBUseCases(
                 username = username.value,
                 description = description.value,
                 file = file.value
             )
 
-            _submitResult.value = response.status.value == 200
+            Log.d("CompleteProfileVM", "Profile submission result: $response")
+
+            _submitResult.value = response.isSuccess
         }
     }
 }
