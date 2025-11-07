@@ -71,14 +71,11 @@ class CompleteProfileViewModel(private val useCases: UserUseCases): ViewModel() 
 
     fun completeSignUp(){
         viewModelScope.launch {
-            Log.d("CompleteProfileVM", "Submitting profile with username: ${username.value}, description: ${description.value}, file: ${file.value}")
-            val response = useCases.registerUserToDBUseCases(
+            val response = useCases.registerUserToDBUseCase(
                 username = username.value,
                 description = description.value,
                 file = file.value
             )
-
-            Log.d("CompleteProfileVM", "Profile submission result: $response")
 
             _submitResult.value = response.isSuccess
         }
