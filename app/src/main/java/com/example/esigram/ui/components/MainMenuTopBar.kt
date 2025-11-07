@@ -1,5 +1,6 @@
 package com.example.esigram.ui.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -52,8 +53,8 @@ fun MainMenuTopBar(viewModel: AuthViewModel, onSignOut: () -> Unit = {}) {
     }
 }
 
+
 @Preview
 @Composable
 fun MainMenuTopBarPreview() {
-    MainMenuTopBar(viewModel = AuthViewModel(), onSignOut = {})
 }

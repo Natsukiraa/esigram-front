@@ -1,27 +1,9 @@
 package com.example.esigram.repositories
 
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
-class AuthRepository {
-    private val auth = FirebaseAuth.getInstance()
-
-    fun getCurrentUser() = auth.currentUser
-    fun signOut() = auth.signOut()
-
-    fun getUserIdToken(result: (String?) -> Unit) {
-        val user = auth.currentUser
-
-        if(user == null) {
-            result(null)
-            return
-        }
-
-        user.getIdToken(true)
-            .addOnSuccessListener {
-                result(it.token)
-            }
-            .addOnFailureListener {
-                result(null)
-            }
-    }
+interface AuthRepository {
+    fun getCurrentUser(): FirebaseUser?
+    fun signOut()
+    fun getUserIdToken(result: (String?) -> Unit)
 }

@@ -1,5 +1,6 @@
 package com.example.esigram.networks
 
+import com.example.esigram.datas.repositories.AuthRepositoryImpl
 import com.example.esigram.networks.interceptors.AuthInterceptor
 import com.example.esigram.repositories.AuthRepository
 import okhttp3.OkHttpClient
@@ -8,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
     private const val BASE_URL = "http://192.168.3.54:8080/"
-    private val authRepository = AuthRepository()
+    private val authRepository = AuthRepositoryImpl()
 
     private val client = OkHttpClient.Builder()
         .addInterceptor(AuthInterceptor(authRepository))

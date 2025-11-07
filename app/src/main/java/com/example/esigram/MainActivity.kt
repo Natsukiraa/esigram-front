@@ -8,10 +8,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.example.esigram.datas.repositories.AuthRepositoryImpl
 import com.example.esigram.datas.repositories.ConversationRepositoryImpl
 import com.example.esigram.datas.repositories.UserRepositoryImpl
 import com.example.esigram.repositories.ConversationRepository
 import com.example.esigram.ui.theme.EsigramTheme
+import com.example.esigram.usecase.auth.AuthUseCases
+import com.example.esigram.usecase.auth.GetCurrentUserUseCase
+import com.example.esigram.usecase.auth.GetUserIdTokenUseCase
+import com.example.esigram.usecase.auth.SignOutUseCase
 import com.example.esigram.usecase.conversation.ConversationUseCases
 import com.example.esigram.usecase.conversation.GetAllUseCase
 import com.example.esigram.usecase.conversation.GetByIdUseCase
@@ -24,6 +29,14 @@ import com.example.esigram.viewModels.CompleteProfileViewModel
 import com.example.esigram.viewModels.ConversationViewModel
 
 class MainActivity : ComponentActivity() {
+    // auth repo implem
+    private val authRepository: AuthRepositoryImpl = AuthRepositoryImpl()
+    private val authUseCases: AuthUseCases = AuthUseCases(
+        getCurrentUserUseCase = GetCurrentUserUseCase(authRepository),
+        signOutUseCase = SignOutUseCase(authRepository),
+        getUserIdTokenUseCase = GetUserIdTokenUseCase(authRepository),
+    )
+
     // user repo implem
     private val userRepository: UserRepositoryImpl = UserRepositoryImpl()
     private val userUseCases: UserUseCases = UserUseCases(
@@ -39,7 +52,7 @@ class MainActivity : ComponentActivity() {
         observeConversationUseCase = ObserveConversationUseCase(conversationRepository)
     )
 
-    private val authViewModel: AuthViewModel by viewModels()
+    private val authViewModel: AuthViewModel = AuthViewModel(authUseCases)
     private val completeProfileViewModel: CompleteProfileViewModel = CompleteProfileViewModel(userUseCases)
     private val conversationViewModel: ConversationViewModel by viewModels()
     //private val conversationViewModel: ConversationViewModel = ConversationViewModel(conversationUseCases)
