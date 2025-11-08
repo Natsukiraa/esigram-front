@@ -86,6 +86,7 @@ fun NavGraph(
         ) { backStackEntry ->
             val convId = backStackEntry.arguments?.getString("ConvId") ?: ""
             ConversationScreen(
+                messageViewModel = messageViewModel,
                 chatId = convId
             )
         }

@@ -1,5 +1,6 @@
 package com.example.esigram.ui.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,7 +13,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,13 +32,14 @@ import com.example.esigram.viewModels.MessageViewModel
 
 @Composable
 fun ConversationScreen(
+    messageViewModel: MessageViewModel,
     chatId: String
 ) {
     val scrollState = rememberScrollState()
+    var messageText by rememberSaveable { mutableStateOf("") }
 
-    val messageViewModel = remember { MessageViewModel() }
-    messageViewModel.getMessages(chatId)
-
+    val messageViewModel = remember { messageViewModel }
+    messageViewModel.startListening(chatId)
     val user = User(
         id = "",
         forename = "John",
@@ -83,9 +89,15 @@ fun ConversationScreen(
 
             SendBar(
                 onAddMedia = {},
-                value = "",
-                onValueChanged = {},
-                onMicroPhoneActivate = {}
+                value = messageText,
+                onValueChanged = { messageText = it },
+                onMicroPhoneActivate = {},
+                onSendClick = {
+                    if (messageText.isNotBlank()) {
+                        messageViewModel.createMessage(chatId, messageText)
+                        messageText = ""
+                    }
+                }
             )
 
         }
@@ -94,10 +106,13 @@ fun ConversationScreen(
 }
 
 
+@SuppressLint("ViewModelConstructorInComposable")
 @Composable
 @Preview
 fun ConversationScreenPreview() {
+    val messageViewModel = MessageViewModel()
     ConversationScreen(
-        chatId = "2f19981f-3200-460d-9ad5-9fa365f74fcf"
+        messageViewModel = messageViewModel,
+        chatId = "7bc4b585-4c37-4410-bebb-14533c3b862e"
     )
 }
