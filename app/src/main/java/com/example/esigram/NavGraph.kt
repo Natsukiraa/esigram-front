@@ -83,7 +83,8 @@ fun NavGraph(
 
         composable(route = Destinations.PROFILE) {
             ProfileScreen(
-                profileViewModel = profileViewModel
+                profileViewModel = profileViewModel,
+                onBackClick = { navController.popBackStack() }
             )
         }
 

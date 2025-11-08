@@ -1,20 +1,42 @@
 package com.example.esigram.ui.screens
 
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import com.example.esigram.ui.components.navigation.NavigationBar
 import com.example.esigram.viewModels.ProfileViewModel
+import com.example.esigram.R
+import com.example.esigram.ui.components.ProfileImage
 
 @Composable
 fun ProfileScreen(
-    profileViewModel: ProfileViewModel
+    profileViewModel: ProfileViewModel,
+    onBackClick: () -> Unit
 ) {
-    val me = profileViewModel.me.collectAsState()
+    val context = LocalContext.current
 
-    Surface {
-        Text("Profile Screen" + (me.value?.username ?: "Loading..."))
+    val me = profileViewModel.me.collectAsState()
+    val profilePicture = me.value?.profilePictureUrl?.signedUrl?.replace("localhost", "192.168.3.54") ?: "android.resource://${context.packageName}/drawable/default_picture"
+
+    Column {
+    NavigationBar(
+        title = context.getString(R.string.profile),
+        showBackButton = true,
+        onBackClick = onBackClick
+    )
+
+        ProfileImage(
+            url = profilePicture,
+            modifier = Modifier
+                .size(64.dp)
+            
+        )
     }
+
 
 
 }
