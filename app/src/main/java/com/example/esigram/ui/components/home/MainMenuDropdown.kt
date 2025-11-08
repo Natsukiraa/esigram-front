@@ -1,4 +1,4 @@
-package com.example.esigram.ui.components
+package com.example.esigram.ui.components.home
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
@@ -9,9 +9,12 @@ import androidx.compose.runtime.Composable
 import com.example.esigram.viewModels.AuthViewModel
 
 @Composable
-fun MainMenuDropdown(expandedState: Boolean, onExpandChange: (Boolean) -> Unit = {}, viewModel: AuthViewModel, onSignOut: () -> Unit = {}) {
+fun MainMenuDropdown(expandedState: Boolean,
+                     onExpandChange: (Boolean) -> Unit = {},
+                     viewModel: AuthViewModel,
+                     onSignOut: () -> Unit,
+                     onNavigateProfile: () -> Unit) {
     val context = LocalActivity.current as ComponentActivity
-
     DropdownMenu(
         expanded = expandedState,
         onDismissRequest = { onExpandChange(false) }
