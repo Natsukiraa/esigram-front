@@ -6,5 +6,6 @@ object Destinations {
     const val COMPLETE_PROFILE: String = "complete_profile"
     val MESSAGE = "message"
     val CONVERSATION = "conversation"
+    const val PROFILE = "profile"
 
 }

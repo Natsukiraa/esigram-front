@@ -1,4 +1,4 @@
-package com.example.esigram.ui.components
+package com.example.esigram.ui.components.home
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.size

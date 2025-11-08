@@ -1,5 +1,6 @@
 package com.example.esigram.datas.remote.services
 
+import com.example.esigram.domains.models.UserResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -9,8 +10,8 @@ import retrofit2.http.PATCH
 import retrofit2.http.Part
 
 interface UserApiService {
-    @GET("/me")
-    suspend fun getMe(): Response<Unit>
+    @GET("/users/me")
+    suspend fun getMe(): Response<UserResponse>
 
     @Multipart
     @PATCH("/users/me")

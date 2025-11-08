@@ -2,6 +2,7 @@ package com.example.esigram
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
@@ -10,6 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.esigram.datas.repositories.AuthRepositoryImpl
 import com.example.esigram.datas.repositories.ConversationRepositoryImpl
+import com.example.esigram.datas.repositories.MessageRepositoryImpl
 import com.example.esigram.datas.repositories.UserRepositoryImpl
 import com.example.esigram.domains.repositories.ConversationRepository
 import com.example.esigram.ui.theme.EsigramTheme
@@ -21,12 +23,18 @@ import com.example.esigram.domains.usecase.conversation.ConversationUseCases
 import com.example.esigram.domains.usecase.conversation.GetAllUseCase
 import com.example.esigram.domains.usecase.conversation.GetByIdUseCase
 import com.example.esigram.domains.usecase.conversation.ObserveConversationUseCase
+import com.example.esigram.domains.usecase.message.CreateMessageUseCase
+import com.example.esigram.domains.usecase.message.DeleteMessageUseCase
+import com.example.esigram.domains.usecase.message.ListenMessagesUseCase
+import com.example.esigram.domains.usecase.message.MessageUseCases
 import com.example.esigram.domains.usecase.user.GetMeCase
 import com.example.esigram.domains.usecase.user.RegisterUserToDBUseCase
 import com.example.esigram.domains.usecase.user.UserUseCases
 import com.example.esigram.viewModels.AuthViewModel
 import com.example.esigram.viewModels.CompleteProfileViewModel
 import com.example.esigram.viewModels.ConversationViewModel
+import com.example.esigram.viewModels.MessageViewModel
+import com.example.esigram.viewModels.ProfileViewModel
 
 class MainActivity : ComponentActivity() {
     // auth repo implem
@@ -52,10 +60,19 @@ class MainActivity : ComponentActivity() {
         observeConversationUseCase = ObserveConversationUseCase(conversationRepository)
     )
 
+    // message repo implem
+    private val messageRepository: MessageRepositoryImpl = MessageRepositoryImpl()
+    private val messageUseCases: MessageUseCases = MessageUseCases(
+        listenMessagesUseCase = ListenMessagesUseCase(messageRepository),
+        createMessageUseCase = CreateMessageUseCase(messageRepository),
+        deleteMessageUseCase = DeleteMessageUseCase(messageRepository)
+    )
+
     private val authViewModel: AuthViewModel = AuthViewModel(authUseCases)
     private val completeProfileViewModel: CompleteProfileViewModel = CompleteProfileViewModel(userUseCases)
-    private val conversationViewModel: ConversationViewModel by viewModels()
-    //private val conversationViewModel: ConversationViewModel = ConversationViewModel(conversationUseCases)
+    private val conversationViewModel: ConversationViewModel = ConversationViewModel(conversationUseCases)
+    private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases)
+    private val profileViewModel: ProfileViewModel = ProfileViewModel(userUseCases)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -67,7 +84,9 @@ class MainActivity : ComponentActivity() {
                         NavGraph(
                             authViewModel = authViewModel,
                             convViewModel = conversationViewModel,
-                            completeProfileViewModel = completeProfileViewModel
+                            completeProfileViewModel = completeProfileViewModel,
+                            messageViewModel = messageViewModel,
+                            profileViewModel = profileViewModel
                         )
                     }
                 }
