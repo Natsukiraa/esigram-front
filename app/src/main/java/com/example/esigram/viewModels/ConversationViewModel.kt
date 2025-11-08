@@ -10,12 +10,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.esigram.models.Conversation
 import com.example.esigram.models.ConversationFilterType
 import com.example.esigram.repositories.ConversationRepository
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class ConversationViewModel : ViewModel() {
 
     private val repo = ConversationRepository()
     private val _conversations = mutableStateListOf<Conversation>()
+    private val conversationJobs = mutableListOf<Job>()
 
     var searchQuery by mutableStateOf("")
     var selectedFilter by mutableStateOf(ConversationFilterType.ALL)
@@ -27,21 +30,31 @@ class ConversationViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val ids = repo.getAll()
-                Log.d("Firebase", "Conversations: $ids")
+                Log.d("Firebase", "Conversations IDs: $ids")
 
-                ids.forEach { it ->
-                    var conv = repo.getById(it)
-                    if(conv != null) {
-                        _conversations.add(conv)
+                ids.forEach { id ->
+                    val job = launch {
+                        repo.observeConversation(id).collectLatest { conv ->
+                            if (conv == null) return@collectLatest
+
+                            val existingIndex = _conversations.indexOfFirst { it.id == id }
+                            if (existingIndex >= 0) {
+                                _conversations[existingIndex] = conv
+                            } else {
+                                _conversations.add(conv)
+                            }
+
+                            Log.d("Firebase", "Conversation mise à jour: ${conv.id}")
+                        }
                     }
+                    conversationJobs.add(job)
                 }
 
             } catch (e: Exception) {
-                e.printStackTrace()
+                Log.e("Firebase", "Erreur chargement conversations", e)
             }
         }
     }
-
     private fun filterConversations(): List<Conversation> {
         val normalizedQuery = searchQuery.trim().lowercase()
 
@@ -64,4 +77,10 @@ class ConversationViewModel : ViewModel() {
 
         return result.sortedByDescending { it.createdAt }
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        conversationJobs.forEach { it.cancel() }
+    }
+
 }
