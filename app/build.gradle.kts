@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -10,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.esigram"
-        minSdk = 26
+        minSdk = 31
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -49,6 +50,12 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.coil.compose)
+    implementation(libs.firebase.database)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -56,4 +63,19 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    implementation(platform("com.google.firebase:firebase-bom:34.4.0"))
+    implementation("com.firebaseui:firebase-ui-auth:9.0.0")
+
+    implementation("com.google.firebase:firebase-auth")
+    implementation("androidx.credentials:credentials:1.3.0")
+    implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+    implementation(platform(libs.firebase.bom))
+    implementation("io.ktor:ktor-client-core:2.3.11")
+    implementation("io.ktor:ktor-client-cio:2.3.11")
+    implementation("io.ktor:ktor-client-content-negotiation:2.3.11")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.11")
+    implementation("io.ktor:ktor-client-logging:2.3.11")
+
 }

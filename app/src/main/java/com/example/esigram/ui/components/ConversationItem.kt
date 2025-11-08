@@ -1,0 +1,156 @@
+package com.example.esigram.ui.components
+
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.esigram.R
+import com.example.esigram.models.Conversation
+import com.example.esigram.models.Message
+import com.example.esigram.models.User
+import com.example.esigram.ui.utils.formatConversationDate
+import java.time.Instant
+
+@Composable
+fun ConversationItem(
+    conversation: Conversation,
+    modifier: Modifier = Modifier,
+    currentUserId: String,
+    onClick: () -> Unit
+) {
+
+    val otherUsers = conversation.members.filter { it.id != currentUserId }
+
+    val displayName = if (conversation.isGroup) {
+        conversation.title ?: otherUsers.joinToString(", ") { "${it.forename} ${it.name}" }
+    } else {
+        "${otherUsers.firstOrNull()?.forename ?: ""} ${otherUsers.firstOrNull()?.name ?: ""}"
+    }
+
+    val displayImage = if (conversation.isGroup) {
+        otherUsers.firstOrNull()?.image
+    } else {
+        otherUsers.firstOrNull()?.image
+    }
+
+    Surface(
+        modifier = modifier.clickable{ onClick() }
+    ){
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ProfileImage(url = displayImage ?: "",
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .border(BorderStroke(1.dp, androidx.compose.ui.graphics.Color.LightGray), CircleShape)
+            )
+
+            Column(
+                modifier = Modifier.padding(start = 8.dp)
+            ) {
+                Text(
+                    displayName,
+                    fontSize = 18.sp, fontWeight = FontWeight.SemiBold,
+                    color = colorResource(id = R.color.textPrimary
+                    )
+                )
+
+                conversation.lastMessage?.let{ message ->
+
+                    val color = if(conversation.unreadCount > 0) { R.color.primaryColor } else { R.color.textSecondary }
+                    Text(
+                        message.content,
+                        fontSize = 12.sp,
+                        color = colorResource(id = color)
+                    )
+                }
+            }
+
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.End
+            ) {
+                conversation.lastMessage?.let{ message ->
+                    Text(
+                        text = formatConversationDate(message.createdAt),
+                        fontSize = 12.sp,
+                        color = colorResource(id = R.color.textSecondary)
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    if(conversation.unreadCount > 0) {
+                        Badge(
+                            modifier = Modifier
+                                .size(22.dp),
+                            text = conversation.unreadCount.toString(),
+                            fontSize = 12
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@Preview
+@Composable
+fun ConversationItemPreview() {
+    val user = User(
+        id = "user1",
+        forename = "Arthur",
+        name = "Morelon",
+        image = "https://randomuser.me/api/portraits/men/1.jpg"
+    )
+
+    val user2 = User(
+        id = "user2",
+        forename = "Léna",
+        name = "Mabille",
+        image = "https://randomuser.me/api/portraits/men/1.jpg"
+    )
+
+    val user3 = User(
+        id = "user3",
+        forename = "Lina",
+        name = "Phe",
+        image = "https://randomuser.me/api/portraits/men/1.jpg"
+    )
+
+    val message = Message(
+        id = "rkokdoqdko",
+        content = "coucou",
+        authorId = "1",
+        colorIndex = 0
+    )
+    val conversation = Conversation(
+        "dkqsjdioqsjd",
+        members = mutableListOf(user, user2, user3),
+        lastMessage = message,
+        createdAt = Instant.now(),
+        unreadCount = 2)
+    ConversationItem(conversation, Modifier,"user1", {} )
+}

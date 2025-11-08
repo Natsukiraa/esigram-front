@@ -1,6 +1,5 @@
 package com.example.esigram.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -9,6 +8,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
@@ -36,7 +36,6 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun EsigramTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
@@ -50,9 +49,25 @@ fun EsigramTheme(
         else -> LightColorScheme
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    val extraColors = if (darkTheme) {
+        ExtraColors(
+            chatBubble = Color(0xFF1E1E1E),
+            onlineBadge =  Color(0xFF7BCE62)
+        )
+    } else {
+        ExtraColors(
+            chatBubble =  Color(0xFFEEEEEE),
+            onlineBadge =  Color(0xFF7BCE62)
+        )
+    }
+
+    androidx.compose.runtime.CompositionLocalProvider(
+        LocalExtraColors provides extraColors
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }

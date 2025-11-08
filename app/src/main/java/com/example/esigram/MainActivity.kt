@@ -3,45 +3,47 @@ package com.example.esigram
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.example.esigram.ui.screens.ConversationScreen
 import com.example.esigram.ui.theme.EsigramTheme
+import com.example.esigram.viewModels.AuthViewModel
+import com.example.esigram.viewModels.ConversationViewModel
+import com.example.esigram.viewModels.MessageViewModel
 
 class MainActivity : ComponentActivity() {
+    private val authViewModel: AuthViewModel by viewModels()
+    private val conversationViewModel: ConversationViewModel by viewModels()
+
+    private val messageViewModel: MessageViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             EsigramTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                Scaffold { innerPadding ->
+                    Surface(
                         modifier = Modifier.padding(innerPadding)
-                    )
+                    ) {
+
+                        /*NavGraph(
+                            authViewModel = authViewModel,
+                            convViewModel = conversationViewModel,
+                            messageViewModel = messageViewModel
+                        )
+*/
+
+                        ConversationScreen(
+                            messageViewModel = messageViewModel,
+                            chatId = "7bc4b585-4c37-4410-bebb-14533c3b862e"
+                        )
+
+
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    EsigramTheme {
-        Greeting("Android")
     }
 }

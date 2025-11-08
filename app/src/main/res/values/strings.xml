@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Esigram</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="message">Message</string>
+    <string name="search">Search here…</string>
+    <string name="filter_all">All</string>
+    <string name="filter_unread">Unread</string>
 </resources>
