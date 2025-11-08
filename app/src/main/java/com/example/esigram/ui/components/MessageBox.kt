@@ -105,7 +105,6 @@ fun MessageBox(
 @Composable
 @Preview
 fun MessageBoxPreview() {
-    val user = User("1", "Léna", "Mabille", null, true)
     MessageBox(
         message = Message(
             id = "doksqpdqsod",

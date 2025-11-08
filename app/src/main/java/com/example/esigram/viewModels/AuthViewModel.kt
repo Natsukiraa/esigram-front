@@ -38,4 +38,10 @@ class AuthViewModel(): ViewModel() {
             .setAvailableProviders(providers)
             .build()
     }
+
+    fun getUserIdToken(onResult: (String?) -> Unit) {
+        repository.getUserIdToken { token ->
+            onResult(token)
+        }
+    }
 }

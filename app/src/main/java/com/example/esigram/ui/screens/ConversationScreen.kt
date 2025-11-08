@@ -1,5 +1,6 @@
 package com.example.esigram.ui.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,18 +28,25 @@ import com.example.esigram.models.User
 import com.example.esigram.ui.components.ContactBanner
 import com.example.esigram.ui.components.MessageBox
 import com.example.esigram.ui.components.SendBar
-import java.time.Instant
+import com.example.esigram.viewModels.MessageViewModel
 
 @Composable
 fun ConversationScreen(
-    id: String,
-    user: User,
-    messages: List<Message>
+    messageViewModel: MessageViewModel,
+    chatId: String
 ) {
-
     val scrollState = rememberScrollState()
-    val chatId: String = "2f19981f-3200-460d-9ad5-9fa365f74fcf"
+    var messageText by rememberSaveable { mutableStateOf("") }
 
+    val messageViewModel = remember { messageViewModel }
+    messageViewModel.startListening(chatId)
+    val user = User(
+        id = "",
+        forename = "John",
+        name = "Doe",
+        image = "1761156065698.png"
+    )
+    val messages: List<Message> = messageViewModel.messages
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -76,140 +89,30 @@ fun ConversationScreen(
 
             SendBar(
                 onAddMedia = {},
-                value = "",
-                onValueChanged = {},
-                onMicroPhoneActivate = {}
+                value = messageText,
+                onValueChanged = { messageText = it },
+                onMicroPhoneActivate = {},
+                onSendClick = {
+                    if (messageText.isNotBlank()) {
+                        messageViewModel.createMessage(chatId, messageText)
+                        messageText = ""
+                    }
+                }
             )
 
         }
-
-
 
     }
 }
 
 
+@SuppressLint("ViewModelConstructorInComposable")
 @Composable
 @Preview
 fun ConversationScreenPreview() {
-
-    val user = User(
-        id = "dkoqjsodiqsjd",
-        forename = "John",
-        name = "Doe",
-        isOnline = true
-    )
-
-    val messages: List<Message> = listOf(
-        Message(
-            id = "djqosdoqsd",
-            content = "Coucou 👋 ça va ?",
-            colorIndex = 1,
-            createdAt = Instant.now(),
-            seen = true,
-            authorId = "1"
-        ),
-        Message(
-            id = "disqopdkqsopddqsd",
-            content = "Oui et toi ?",
-            colorIndex = 2,
-            createdAt = Instant.now(),
-            seen = false,
-            authorId = "1"
-        ),
-        Message(
-            id = "opqdkqposdk",
-            content = "Dispo pour demain aprem ?",
-            colorIndex = 2,
-            createdAt = Instant.now(),
-            seen = false,
-            authorId = "1"
-        ),
-        Message(
-            id = "dpkqspodkpqosd",
-            content = "Coucou 👋 ça va ?",
-            colorIndex = 1,
-            createdAt = Instant.now(),
-            seen = true,
-            authorId = "1"
-        ),
-        Message(
-            id = "sdpokqpodksd",
-            content = "Oui et toi ?",
-            colorIndex = 2,
-            createdAt = Instant.now(),
-            seen = false,
-            authorId = "1"
-        ),
-        Message(
-            id = "dpqkpodqskpd",
-            content = "Dispo pour demain aprem ?",
-            colorIndex = 2,
-            createdAt = Instant.now(),
-            seen = false,
-            authorId = "1"
-        ),
-        Message(
-            id = "zodkpoqskdos",
-            content = "Coucou 👋 ça va ?",
-            colorIndex = 1,
-            createdAt = Instant.now(),
-            seen = true,
-            authorId = "1"
-        ),
-        Message(
-            id = "qlsqmdlsdsqpdqsd",
-            content = "Oui et toi ?",
-            colorIndex = 2,
-            createdAt = Instant.now(),
-            seen = false,
-            authorId = "1"
-        ),
-        Message(
-            id = "dpqkpodqskpd",
-            content = "Dispo pour demain aprem ?",
-            colorIndex = 2,
-            createdAt = Instant.now(),
-            seen = false,
-            authorId = "1"
-        ),
-        Message(
-            id = "zodkpoqskdos",
-            content = "Coucou 👋 ça va ?",
-            colorIndex = 1,
-            createdAt = Instant.now(),
-            seen = true,
-            authorId = "1"
-        ),
-        Message(
-            id = "qlsqmdlsdsqpdqsd",
-            content = "Oui et toi ?",
-            colorIndex = 2,
-            createdAt = Instant.now(),
-            seen = false,
-            authorId = "1"
-        ),
-        Message(
-            id = "dpqkpodqskpd",
-            content = "Dispo pour demain aprem ?",
-            colorIndex = 2,
-            createdAt = Instant.now(),
-            seen = false,
-            authorId = "1"
-        ),
-        Message(
-            id = "zodkpoqskdos",
-            content = "Coucou 👋 ça va ?",
-            colorIndex = 1,
-            createdAt = Instant.now(),
-            seen = true,
-            authorId = "1"
-        ),
-    )
-
+    val messageViewModel = MessageViewModel()
     ConversationScreen(
-        id = "UUID.randomUUID()",
-        user = user,
-        messages = messages
+        messageViewModel = messageViewModel,
+        chatId = "7bc4b585-4c37-4410-bebb-14533c3b862e"
     )
 }
