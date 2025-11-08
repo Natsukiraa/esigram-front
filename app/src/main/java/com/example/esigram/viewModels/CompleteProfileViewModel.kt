@@ -3,6 +3,7 @@ package com.example.esigram.viewModels
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 class CompleteProfileViewModel(private val useCases: UserUseCases): ViewModel() {
+    // TODO ici il faut régler le fait que le displayName c'est celui d'avant encore
     private val firebaseAuth = FirebaseAuth.getInstance().currentUser
 
     private val _description = MutableStateFlow<String?>("")

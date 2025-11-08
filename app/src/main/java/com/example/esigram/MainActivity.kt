@@ -2,6 +2,7 @@ package com.example.esigram
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
@@ -42,6 +43,7 @@ import com.example.esigram.viewModels.CompleteProfileViewModel
 import com.example.esigram.viewModels.ConversationViewModel
 import com.example.esigram.viewModels.FriendViewModel
 import com.example.esigram.viewModels.MessageViewModel
+import com.example.esigram.viewModels.ProfileViewModel
 
 class MainActivity : ComponentActivity() {
     // auth repo implem
@@ -90,8 +92,8 @@ class MainActivity : ComponentActivity() {
     private val completeProfileViewModel: CompleteProfileViewModel = CompleteProfileViewModel(userUseCases)
     private val conversationViewModel: ConversationViewModel = ConversationViewModel(conversationUseCases)
     private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases)
+    private val profileViewModel: ProfileViewModel = ProfileViewModel(userUseCases)
     private val friendViewModel: FriendViewModel = FriendViewModel(friendUseCases, userUseCases)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -105,7 +107,8 @@ class MainActivity : ComponentActivity() {
                             convViewModel = conversationViewModel,
                             completeProfileViewModel = completeProfileViewModel,
                             messageViewModel = messageViewModel,
-                            friendViewModel = friendViewModel
+                            friendViewModel = friendViewModel,
+                            profileViewModel = profileViewModel
                             )
                     }
                 }

@@ -16,11 +16,13 @@ import com.example.esigram.ui.screens.ConversationListScreen
 import com.example.esigram.ui.screens.ConversationScreen
 import com.example.esigram.ui.screens.FriendsScreen
 import com.example.esigram.ui.screens.HomeScreen
+import com.example.esigram.ui.screens.ProfileScreen
 import com.example.esigram.viewModels.AuthViewModel
 import com.example.esigram.viewModels.CompleteProfileViewModel
 import com.example.esigram.viewModels.ConversationViewModel
 import com.example.esigram.viewModels.FriendViewModel
 import com.example.esigram.viewModels.MessageViewModel
+import com.example.esigram.viewModels.ProfileViewModel
 
 @Composable
 fun NavGraph(
@@ -28,7 +30,8 @@ fun NavGraph(
     completeProfileViewModel: CompleteProfileViewModel,
     convViewModel: ConversationViewModel,
     messageViewModel: MessageViewModel,
-    friendViewModel: FriendViewModel
+    friendViewModel: FriendViewModel,
+    profileViewModel: ProfileViewModel
     ){
     val navController = rememberNavController()
 
@@ -43,10 +46,10 @@ fun NavGraph(
     ) {
         composable(Destinations.HOME) {
             HomeScreen(
-                authViewModel = authViewModel,
+                profileViewModel = profileViewModel,
                 convViewModel = convViewModel,
-                onSignOut = {
-                    navController.navigate(Destinations.AUTH)
+                onNavigateProfile = {
+                    navController.navigate(Destinations.PROFILE)
                 }
             )
         }
@@ -75,6 +78,12 @@ fun NavGraph(
                         popUpTo(0)
                     }
                 }
+            )
+        }
+
+        composable(route = Destinations.PROFILE) {
+            ProfileScreen(
+                profileViewModel = profileViewModel
             )
         }
 

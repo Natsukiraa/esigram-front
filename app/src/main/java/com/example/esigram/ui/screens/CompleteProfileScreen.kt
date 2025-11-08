@@ -3,15 +3,11 @@ package com.example.esigram.ui.screens
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -21,17 +17,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
 import com.example.esigram.R
 import com.example.esigram.ui.components.InputTextField
+import com.example.esigram.ui.components.profile.ProfilePictureClickable
 import com.example.esigram.viewModels.CompleteProfileViewModel
 
 @Composable
@@ -92,13 +86,9 @@ fun CompleteProfileScreen(
 
             Column(modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally) {
-                Image(
-                    painter = rememberAsyncImagePainter(fileUri.value),
-                    contentDescription = context.getString(R.string.profile_picture),
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.size(128.dp)
-                        .clip(CircleShape)
-                        .clickable { getContent.launch("image/*") }
+                ProfilePictureClickable(
+                    uri = fileUri.value.toString(),
+                    onClick = { getContent.launch("image/*") }
                 )
 
                 Column(modifier = Modifier

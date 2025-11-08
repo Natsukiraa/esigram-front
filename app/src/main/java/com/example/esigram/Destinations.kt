@@ -8,5 +8,6 @@ object Destinations {
     val CONVERSATION = "conversation"
     val FRIENDS = "friends"
     val ADD_FRIENDS = "add_friends"
+    const val PROFILE = "profile"
 
 }
