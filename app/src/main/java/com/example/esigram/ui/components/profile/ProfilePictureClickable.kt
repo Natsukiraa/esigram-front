@@ -16,7 +16,8 @@ import com.example.esigram.R
 @Composable
 fun ProfilePictureClickable(
     uri: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    size: Int = 128
 ){
     val context = LocalContext.current
 
@@ -24,7 +25,7 @@ fun ProfilePictureClickable(
         painter = rememberAsyncImagePainter(uri),
         contentDescription = context.getString(R.string.profile_picture),
         contentScale = ContentScale.Crop,
-        modifier = Modifier.size(128.dp)
+        modifier = Modifier.size(size.dp)
             .clip(CircleShape)
             .clickable { onClick() }
     )
