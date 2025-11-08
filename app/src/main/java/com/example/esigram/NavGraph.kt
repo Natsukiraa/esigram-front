@@ -9,23 +9,24 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.esigram.ui.screens.HomeScreen
 import com.example.esigram.ui.screens.AuthScreen
+import com.example.esigram.ui.screens.CompleteProfileScreen
 import com.example.esigram.ui.screens.ConversationListScreen
 import com.example.esigram.ui.screens.ConversationScreen
 import com.example.esigram.viewModels.AuthViewModel
+import com.example.esigram.viewModels.CompleteProfileViewModel
 import com.example.esigram.viewModels.ConversationViewModel
-import com.example.esigram.viewModels.MessageViewModel
 
 @Composable
 fun NavGraph(
     authViewModel: AuthViewModel,
-    convViewModel: ConversationViewModel,
-    messageViewModel: MessageViewModel){
+    completeProfileViewModel: CompleteProfileViewModel,
+    convViewModel: ConversationViewModel
+){
     val navController = rememberNavController()
 
-    val startDestination = if (authViewModel.isUserLoggedIn()) {
-        Destinations.HOME
-    } else {
-        Destinations.AUTH
+    val startDestination = when {
+        !authViewModel.isUserLoggedIn() -> Destinations.AUTH
+        else -> Destinations.HOME
     }
 
     NavHost(
@@ -42,11 +43,29 @@ fun NavGraph(
             )
         }
 
+        composable(Destinations.COMPLETE_PROFILE) {
+            CompleteProfileScreen (
+                completeProfileViewModel = completeProfileViewModel,
+                onSuccessSignUp = {
+                    navController.navigate(Destinations.HOME) {
+                        popUpTo(0)
+                    }
+                }
+            )
+        }
+
         composable(Destinations.AUTH) {
             AuthScreen (
-                viewModel = authViewModel,
+                authViewModel = authViewModel,
                 onSuccessSignIn = {
-                    navController.navigate(Destinations.HOME)
+                    navController.navigate(Destinations.HOME) {
+                        popUpTo(0)
+                    }
+                },
+                onSignUp = {
+                    navController.navigate(Destinations.COMPLETE_PROFILE) {
+                        popUpTo(0)
+                    }
                 }
             )
         }
