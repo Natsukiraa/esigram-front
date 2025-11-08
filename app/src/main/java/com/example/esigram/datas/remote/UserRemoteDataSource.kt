@@ -1,7 +1,7 @@
 package com.example.esigram.datas.remote
 
 import com.example.esigram.networks.RetrofitInstance
-import com.example.esigram.services.UserApiService
+import com.example.esigram.datas.remote.services.UserApiService
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject

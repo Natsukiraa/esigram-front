@@ -3,11 +3,10 @@ package com.example.esigram.viewModels
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.esigram.usecase.user.UserUseCases
+import com.example.esigram.domains.usecase.user.UserUseCases
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

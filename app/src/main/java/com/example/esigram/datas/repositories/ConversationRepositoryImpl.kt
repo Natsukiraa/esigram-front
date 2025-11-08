@@ -1,7 +1,7 @@
 package com.example.esigram.datas.repositories
 
 import com.example.esigram.datas.remote.ConversationRemoteDataSource
-import com.example.esigram.repositories.ConversationRepository
+import com.example.esigram.domains.repositories.ConversationRepository
 
 class ConversationRepositoryImpl(
     val remote: ConversationRemoteDataSource = ConversationRemoteDataSource()

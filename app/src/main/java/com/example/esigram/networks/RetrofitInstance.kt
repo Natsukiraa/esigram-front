@@ -2,7 +2,6 @@ package com.example.esigram.networks
 
 import com.example.esigram.datas.repositories.AuthRepositoryImpl
 import com.example.esigram.networks.interceptors.AuthInterceptor
-import com.example.esigram.repositories.AuthRepository
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

@@ -18,8 +18,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.esigram.models.Story
-import com.example.esigram.models.User
+import com.example.esigram.domains.models.Story
+import com.example.esigram.domains.models.User
 import com.example.esigram.ui.theme.EsigramExtraColors
 
 @Composable

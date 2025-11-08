@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.esigram.models.Conversation
+import com.example.esigram.domains.models.Conversation
 import com.example.esigram.ui.components.ConversationItem
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt

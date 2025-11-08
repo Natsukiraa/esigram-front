@@ -7,9 +7,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.esigram.models.Conversation
-import com.example.esigram.models.ConversationFilterType
-import com.example.esigram.repositories.ConversationRepository
+import com.example.esigram.domains.models.Conversation
+import com.example.esigram.domains.models.ConversationFilterType
+import com.example.esigram.domains.repositories.ConversationRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

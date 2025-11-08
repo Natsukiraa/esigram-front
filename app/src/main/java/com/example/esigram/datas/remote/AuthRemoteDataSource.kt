@@ -10,7 +10,6 @@ class AuthRemoteDataSource {
     fun signOut() = auth.signOut()
 
     fun getUserIdToken(result: (String?) -> Unit) {
-        Log.d("TESTSICAMARCHE", "HALLO")
         val user = auth.currentUser
 
         if(user == null) {

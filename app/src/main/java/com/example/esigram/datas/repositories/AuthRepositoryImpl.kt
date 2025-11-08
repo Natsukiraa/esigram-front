@@ -1,7 +1,7 @@
 package com.example.esigram.datas.repositories
 
 import com.example.esigram.datas.remote.AuthRemoteDataSource
-import com.example.esigram.repositories.AuthRepository
+import com.example.esigram.domains.repositories.AuthRepository
 
 class AuthRepositoryImpl(
     val remote: AuthRemoteDataSource = AuthRemoteDataSource()

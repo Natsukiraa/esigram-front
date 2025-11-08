@@ -1,8 +1,8 @@
 package com.example.esigram.datas.remote
 
-import com.example.esigram.models.Message
+import com.example.esigram.domains.models.Message
 import com.example.esigram.networks.RetrofitInstance
-import com.example.esigram.services.MessageApiService
+import com.example.esigram.datas.remote.services.MessageApiService
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 

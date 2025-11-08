@@ -1,7 +1,7 @@
 package com.example.esigram.datas.repositories
 
 import com.example.esigram.datas.remote.MessageRemoteDataSource
-import com.example.esigram.repositories.MessageRepository
+import com.example.esigram.domains.repositories.MessageRepository
 import java.io.File
 
 class MessageRepositoryImpl(

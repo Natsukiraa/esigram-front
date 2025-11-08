@@ -20,8 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.esigram.models.Message
-import com.example.esigram.models.User
+import com.example.esigram.domains.models.Message
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 

@@ -23,8 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.esigram.models.Message
-import com.example.esigram.models.User
+import com.example.esigram.domains.models.Message
+import com.example.esigram.domains.models.User
 import com.example.esigram.ui.components.ContactBanner
 import com.example.esigram.ui.components.MessageBox
 import com.example.esigram.ui.components.SendBar

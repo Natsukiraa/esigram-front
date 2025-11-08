@@ -3,9 +3,8 @@ package com.example.esigram.viewModels
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.esigram.models.Message
-import com.example.esigram.repositories.AuthRepository
-import com.example.esigram.repositories.MessageRepository
+import com.example.esigram.domains.models.Message
+import com.example.esigram.domains.repositories.MessageRepository
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.File

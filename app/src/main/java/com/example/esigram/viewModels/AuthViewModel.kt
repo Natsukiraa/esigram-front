@@ -5,11 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.esigram.repositories.AuthRepository
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseUser
 import com.example.esigram.R
-import com.example.esigram.usecase.auth.AuthUseCases
+import com.example.esigram.domains.usecase.auth.AuthUseCases
 
 class AuthViewModel(private val authUseCases: AuthUseCases): ViewModel() {
     private val _user = mutableStateOf(authUseCases.getCurrentUserUseCase())

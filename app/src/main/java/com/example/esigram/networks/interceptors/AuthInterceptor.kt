@@ -1,6 +1,6 @@
 package com.example.esigram.networks.interceptors
 
-import com.example.esigram.repositories.AuthRepository
+import com.example.esigram.domains.repositories.AuthRepository
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
 import okhttp3.Interceptor

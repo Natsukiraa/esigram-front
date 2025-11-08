@@ -2,8 +2,8 @@ package com.example.esigram.viewModels
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
-import com.example.esigram.models.Story
-import com.example.esigram.repositories.StoryRepository
+import com.example.esigram.domains.models.Story
+import com.example.esigram.domains.repositories.StoryRepository
 
 class StoryViewModel: ViewModel() {
     private val repo = StoryRepository()

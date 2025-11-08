@@ -1,6 +1,6 @@
 package com.example.esigram.datas.remote
 
-import com.example.esigram.models.Conversation
+import com.example.esigram.domains.models.Conversation
 import kotlinx.coroutines.flow.Flow
 
 class ConversationRemoteDataSource {
