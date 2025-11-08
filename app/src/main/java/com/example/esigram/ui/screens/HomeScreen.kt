@@ -17,11 +17,6 @@ fun HomeScreen(
     profileViewModel: ProfileViewModel,
     convViewModel: ConversationViewModel,
     onNavigateProfile: () -> Unit) {
-
-    val context = LocalContext.current
-    val me = profileViewModel.me.collectAsState()
-    val profilePicture = me.value?.profilePictureUrl?.signedUrl?.replace("localhost", "192.168.3.54") ?: "android.resource://${context.packageName}/drawable/default_picture"
-
      Column {
         MainMenuTopBar(
             profileViewModel = profileViewModel,
@@ -29,10 +24,6 @@ fun HomeScreen(
         )
         //ConversationListScreen(conversationViewModel = convViewModel) { }
 
-        ProfilePictureClickable(
-            uri = profilePicture,
-            onNavigateProfile
-        )
     }
 }
 
