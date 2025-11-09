@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esigram.R
-import com.example.esigram.models.User
+import com.example.esigram.domains.models.User
 
 @Composable
 fun ContactBanner(

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<style name="FirebaseUITheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <item name="fui_button_vertical_margin">8dp</item>
+    <item name="fui_button_horizontal_margin">16dp</item>
+</style>

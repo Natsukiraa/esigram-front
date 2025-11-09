@@ -58,6 +58,8 @@ dependencies {
     implementation(libs.androidx.viewfinder.compose)
     implementation(libs.androidx.camera.view)
     implementation(libs.androidx.camera.lifecycle)
+
+    implementation(libs.androidx.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -90,5 +92,9 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:2.3.11")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.11")
     implementation("io.ktor:ktor-client-logging:2.3.11")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
+    implementation("com.squareup.retrofit2:retrofit:3.0.0")
+    implementation("com.squareup.retrofit2:converter-gson:3.0.0")
 
 }

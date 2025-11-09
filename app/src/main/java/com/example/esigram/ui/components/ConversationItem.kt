@@ -24,9 +24,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esigram.R
-import com.example.esigram.models.Conversation
-import com.example.esigram.models.Message
-import com.example.esigram.models.User
+import com.example.esigram.domains.models.Conversation
+import com.example.esigram.domains.models.Message
+import com.example.esigram.domains.models.User
 import com.example.esigram.ui.utils.formatConversationDate
 import java.time.Instant
 
