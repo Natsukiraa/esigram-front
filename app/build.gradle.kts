@@ -73,6 +73,7 @@ dependencies {
     implementation("androidx.camera:camera-compose")
     implementation("androidx.media3:media3-exoplayer:1.3.1")
     implementation("androidx.media3:media3-ui:1.3.1")
+    implementation("androidx.compose.foundation:foundation:1.9,4")
 
     implementation("com.google.accompanist:accompanist-permissions:0.37.3")
 
