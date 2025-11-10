@@ -1,7 +1,10 @@
 package com.example.esigram.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -15,7 +18,8 @@ import com.example.esigram.ui.components.ProfileImage
 @Composable
 fun ProfileScreen(
     profileViewModel: ProfileViewModel,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onSignOut: () -> Unit
 ) {
     val context = LocalContext.current
 
@@ -35,6 +39,12 @@ fun ProfileScreen(
                 .size(64.dp)
             
         )
+
+        Button(
+            onClick = onSignOut
+        ) {
+            Text(context.getString(R.string.sign_out))
+        }
     }
 
 

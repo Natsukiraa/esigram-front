@@ -1,6 +1,7 @@
 package com.example.esigram.viewModels
 
 import android.content.Intent
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -22,7 +23,7 @@ class AuthViewModel(private val authUseCases: AuthUseCases): ViewModel() {
         return authUseCases.getCurrentUserUseCase() != null
     }
 
-    fun signOut(context: ComponentActivity) {
+    fun signOut() {
         authUseCases.signOutUseCase()
         refreshUser()
     }
