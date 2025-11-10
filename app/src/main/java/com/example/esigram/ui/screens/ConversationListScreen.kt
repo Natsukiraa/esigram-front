@@ -106,15 +106,3 @@ fun ConversationListScreen(
         }
     }
 }
-
-@SuppressLint("ViewModelConstructorInComposable")
-@Preview
-@Composable
-fun ConversationListScreenPreview() {
-    val view = ConversationViewModel()
-
-    ConversationListScreen(
-        conversationViewModel = view,
-        onOpenMessage = {}
-    )
-}

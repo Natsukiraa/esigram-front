@@ -3,11 +3,16 @@ package com.example.esigram.ui.screens
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -17,6 +22,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -25,7 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esigram.R
 import com.example.esigram.ui.components.InputTextField
-import com.example.esigram.ui.components.profile.ProfilePictureClickable
+import com.example.esigram.ui.components.ProfileImage
+import com.example.esigram.ui.theme.LightGray
 import com.example.esigram.viewModels.CompleteProfileViewModel
 
 @Composable
@@ -86,9 +93,12 @@ fun CompleteProfileScreen(
 
             Column(modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally) {
-                ProfilePictureClickable(
-                    uri = fileUri.value.toString(),
-                    onClick = { getContent.launch("image/*") }
+                ProfileImage(
+                    url = fileUri.value.toString(),
+                    modifier = Modifier.size(48.dp)
+                        .clip(CircleShape)
+                        .border(BorderStroke(1.dp, LightGray), CircleShape)
+                        .clickable { getContent.launch("image/*") }
                 )
 
                 Column(modifier = Modifier

@@ -60,7 +60,8 @@ fun ConversationItem(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ProfileImage(url = displayImage ?: "",
+            ProfileImage(
+                url = displayImage ?: "",
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
