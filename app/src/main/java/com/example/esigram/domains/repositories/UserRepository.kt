@@ -1,7 +1,7 @@
 package com.example.esigram.domains.repositories
 
 import com.example.esigram.domains.models.CorrectUser
-import com.example.esigram.domains.models.UserResponse
+import com.example.esigram.domains.models.responses.UserResponse
 import retrofit2.Response
 import java.io.File
 
