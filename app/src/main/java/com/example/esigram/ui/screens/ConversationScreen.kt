@@ -104,15 +104,3 @@ fun ConversationScreen(
 
     }
 }
-
-
-@SuppressLint("ViewModelConstructorInComposable")
-@Composable
-@Preview
-fun ConversationScreenPreview() {
-    val messageViewModel = MessageViewModel()
-    ConversationScreen(
-        messageViewModel = messageViewModel,
-        chatId = "7bc4b585-4c37-4410-bebb-14533c3b862e"
-    )
-}

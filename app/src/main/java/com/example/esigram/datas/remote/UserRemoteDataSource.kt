@@ -4,7 +4,7 @@ import android.util.Log
 import com.example.esigram.networks.RetrofitInstance
 import com.example.esigram.datas.remote.services.UserApiService
 import com.example.esigram.domains.models.CorrectUser
-import com.example.esigram.domains.models.UserResponse
+import com.example.esigram.domains.models.responses.UserResponse
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
@@ -18,10 +18,10 @@ import java.io.File
 
 class UserRemoteDataSource {
     private val api = RetrofitInstance.api
-    private val authService = api.create(UserApiService::class.java)
+    private val userService = api.create(UserApiService::class.java)
 
     suspend fun getMe(): Response<UserResponse> {
-        return authService.getMe()
+        return userService.getMe()
     }
 
     suspend fun registerUserToDB(
@@ -49,7 +49,7 @@ class UserRemoteDataSource {
                 )
             }
 
-            val res = authService.registerUserToDB(
+            val res = userService.registerUserToDB(
                 requestBody,
                 profilePicture
             )

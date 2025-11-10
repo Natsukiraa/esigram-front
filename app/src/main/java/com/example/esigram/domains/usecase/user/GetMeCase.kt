@@ -1,6 +1,6 @@
 package com.example.esigram.domains.usecase.user
 
-import com.example.esigram.domains.models.UserResponse
+import com.example.esigram.domains.models.responses.UserResponse
 import com.example.esigram.domains.repositories.UserRepository
 import retrofit2.Response
 

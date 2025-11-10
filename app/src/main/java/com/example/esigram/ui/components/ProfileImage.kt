@@ -9,7 +9,7 @@ import com.example.esigram.R
 
 @Composable
 fun ProfileImage(
-    url: String,
+    url: String?,
     modifier: Modifier = Modifier
 ) {
     AsyncImage(
