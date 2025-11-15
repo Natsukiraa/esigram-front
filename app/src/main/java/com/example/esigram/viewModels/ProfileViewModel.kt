@@ -5,8 +5,6 @@ import com.example.esigram.datas.local.SessionManager
 import com.example.esigram.domains.usecase.user.UserUseCases
 
 class ProfileViewModel(private val userUseCases: UserUseCases): ViewModel() {
-
-
-
+    // TODO refresh data user
 }
 
