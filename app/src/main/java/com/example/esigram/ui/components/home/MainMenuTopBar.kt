@@ -13,19 +13,23 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.example.esigram.datas.local.SessionManager
 import com.example.esigram.ui.components.ProfileImage
 import com.example.esigram.ui.theme.LightGray
 import com.example.esigram.viewModels.ProfileViewModel
 
 @Composable
 fun MainMenuTopBar(profileViewModel: ProfileViewModel,
+                   sessionManager: SessionManager,
                    onNavigateProfile: () -> Unit) {
-    val context = LocalContext.current
+    val profilePictureUrl by sessionManager.profilePictureUrl.collectAsState(initial = "")
+    val username by sessionManager.username.collectAsState(initial = "User")
 
     Row(
         modifier = Modifier
@@ -39,14 +43,14 @@ fun MainMenuTopBar(profileViewModel: ProfileViewModel,
             verticalAlignment = Alignment.CenterVertically,
         ) {
             ProfileImage(
-                url = "http://placehold.it/100x100",
+                url = profilePictureUrl,
                 modifier = Modifier.size(48.dp)
                     .clip(CircleShape)
                     .border(BorderStroke(1.dp, LightGray), CircleShape)
                     .clickable { onNavigateProfile() }
             )
 
-            Text(text = "@grocaca",
+            Text(text = "@$username",
                 modifier = Modifier.padding(start = 6.dp))
         }
     }

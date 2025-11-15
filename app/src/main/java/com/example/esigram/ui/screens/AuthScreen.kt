@@ -38,12 +38,12 @@ fun AuthScreen(authViewModel: AuthViewModel, onSuccessSignIn: () -> Unit = {}, o
         if (result.resultCode == RESULT_OK) {
             authViewModel.refreshUser()
             val isNewUser = authViewModel.isNewUser()
-            authViewModel.saveUserSession()
 
             if (isNewUser) {
                 onSignUp()
             } else {
                 onSuccessSignIn()
+                authViewModel.saveUserSession()
             }
         }
     }

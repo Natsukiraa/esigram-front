@@ -38,7 +38,8 @@ import com.example.esigram.viewModels.CompleteProfileViewModel
 @Composable
 fun CompleteProfileScreen(
     completeProfileViewModel: CompleteProfileViewModel,
-    onSuccessSignUp: () -> Unit = {}
+    onSuccessSignUp: () -> Unit ,
+    saveUser: () -> Unit
 ) {
     // mutable state data from VM
     val description = completeProfileViewModel.description.collectAsState()
@@ -54,7 +55,10 @@ fun CompleteProfileScreen(
 
     LaunchedEffect(submitResult) {
         submitResult.let {
-            if(it == true) onSuccessSignUp()
+            if(it == true) {
+                onSuccessSignUp()
+                saveUser()
+            }
         }
     }
 
@@ -63,7 +67,8 @@ fun CompleteProfileScreen(
     }
 
     Surface (modifier = Modifier.fillMaxSize()) {
-        Column(modifier = Modifier.fillMaxWidth()
+        Column(modifier = Modifier
+            .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)) {
             Text(
                 context.getString(R.string.sign_up),
@@ -72,7 +77,8 @@ fun CompleteProfileScreen(
                 color = colorResource(id = R.color.textPrimary),
             )
 
-            Column(modifier = Modifier.padding(top = 36.dp, bottom = 12.dp)
+            Column(modifier = Modifier
+                .padding(top = 36.dp, bottom = 12.dp)
                 .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
@@ -95,7 +101,8 @@ fun CompleteProfileScreen(
                 horizontalAlignment = Alignment.CenterHorizontally) {
                 ProfileImage(
                     url = fileUri.value.toString(),
-                    modifier = Modifier.size(48.dp)
+                    modifier = Modifier
+                        .size(128.dp)
                         .clip(CircleShape)
                         .border(BorderStroke(1.dp, LightGray), CircleShape)
                         .clickable { getContent.launch("image/*") }
