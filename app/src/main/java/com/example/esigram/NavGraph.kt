@@ -12,21 +12,26 @@ import com.example.esigram.ui.screens.AuthScreen
 import com.example.esigram.ui.screens.CompleteProfileScreen
 import com.example.esigram.ui.screens.ConversationListScreen
 import com.example.esigram.ui.screens.ConversationScreen
+import com.example.esigram.ui.screens.FriendsScreen
 import com.example.esigram.viewModels.AuthViewModel
 import com.example.esigram.viewModels.CompleteProfileViewModel
 import com.example.esigram.viewModels.ConversationViewModel
+import com.example.esigram.viewModels.FriendViewModel
+import com.example.esigram.viewModels.MessageViewModel
 
 @Composable
 fun NavGraph(
     authViewModel: AuthViewModel,
     completeProfileViewModel: CompleteProfileViewModel,
-    convViewModel: ConversationViewModel
-){
+    convViewModel: ConversationViewModel,
+    messageViewModel: MessageViewModel,
+    friendViewModel: FriendViewModel
+    ){
     val navController = rememberNavController()
 
     val startDestination = when {
         !authViewModel.isUserLoggedIn() -> Destinations.AUTH
-        else -> Destinations.HOME
+        else -> Destinations.FRIENDS
     }
 
     NavHost(
@@ -88,6 +93,14 @@ fun NavGraph(
             ConversationScreen(
                 messageViewModel = messageViewModel,
                 chatId = convId
+            )
+        }
+
+        composable(
+            route = Destinations.FRIENDS
+        ) {
+            FriendsScreen(
+                friendViewModel = friendViewModel
             )
         }
     }
