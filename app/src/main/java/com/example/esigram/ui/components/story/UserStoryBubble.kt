@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColor
 import com.example.esigram.models.CorrectUserToDelete
-import com.example.esigram.models.Media
+import com.example.esigram.domains.models.Media
 import com.example.esigram.ui.components.ProfileImage
 import com.example.esigram.R
 
