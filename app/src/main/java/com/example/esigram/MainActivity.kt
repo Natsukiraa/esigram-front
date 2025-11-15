@@ -2,7 +2,6 @@ package com.example.esigram
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
@@ -35,6 +34,7 @@ import com.example.esigram.viewModels.CompleteProfileViewModel
 import com.example.esigram.viewModels.ConversationViewModel
 import com.example.esigram.viewModels.MessageViewModel
 import com.example.esigram.viewModels.ProfileViewModel
+import com.example.esigram.viewModels.factories.AuthViewModelFactory
 
 class MainActivity : ComponentActivity() {
     // auth repo implem
@@ -68,7 +68,13 @@ class MainActivity : ComponentActivity() {
         deleteMessageUseCase = DeleteMessageUseCase(messageRepository)
     )
 
-    private val authViewModel: AuthViewModel = AuthViewModel(authUseCases)
+    private val authViewModel: AuthViewModel by viewModels {
+        AuthViewModelFactory(
+            authUseCases = authUseCases,
+            userUseCases = userUseCases,
+            context = this
+        )
+    }
     private val completeProfileViewModel: CompleteProfileViewModel = CompleteProfileViewModel(userUseCases)
     private val conversationViewModel: ConversationViewModel = ConversationViewModel(conversationUseCases)
     private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases)
