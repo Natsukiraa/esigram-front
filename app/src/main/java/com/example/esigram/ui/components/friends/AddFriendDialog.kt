@@ -18,12 +18,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.example.esigram.domains.models.TmpUser
 import com.example.esigram.models.CorrectUserToDelete
 import com.example.esigram.ui.components.ProfileImage
 
 @Composable
 fun AddFriendDialog(
-    user: CorrectUserToDelete, onAdd: (CorrectUserToDelete) -> Unit, onCancel: () -> Unit
+    user: TmpUser, onAdd: (TmpUser) -> Unit, onCancel: () -> Unit
 ) {
     Dialog(onDismissRequest = { onCancel() }) {
         Surface(
