@@ -15,6 +15,7 @@ import com.example.esigram.R
 import com.example.esigram.datas.local.SessionManager
 import com.example.esigram.domains.usecase.auth.AuthUseCases
 import com.example.esigram.domains.usecase.user.UserUseCases
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class AuthViewModel(private val authUseCases: AuthUseCases, private val userUseCases: UserUseCases, context: Context): ViewModel() {

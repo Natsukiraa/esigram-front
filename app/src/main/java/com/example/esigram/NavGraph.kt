@@ -44,17 +44,21 @@ fun NavGraph(
                 convViewModel = convViewModel,
                 onNavigateProfile = {
                     navController.navigate(Destinations.PROFILE)
-                }
+                },
+                sessionManager = authViewModel.sessionManager
             )
         }
 
         composable(Destinations.COMPLETE_PROFILE) {
-            CompleteProfileScreen (
+            CompleteProfileScreen(
                 completeProfileViewModel = completeProfileViewModel,
                 onSuccessSignUp = {
                     navController.navigate(Destinations.HOME) {
                         popUpTo(0)
                     }
+                },
+                saveUser = {
+                    authViewModel.saveUserSession()
                 }
             )
         }
