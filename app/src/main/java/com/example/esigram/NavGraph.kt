@@ -90,7 +90,8 @@ fun NavGraph(
                     navController.navigate(Destinations.AUTH) {
                         popUpTo(0)
                     }
-                }
+                },
+                sessionManager = authViewModel.sessionManager
             )
         }
 

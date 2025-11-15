@@ -26,8 +26,6 @@ import com.example.esigram.viewModels.ProfileViewModel
 fun MainMenuTopBar(profileViewModel: ProfileViewModel,
                    onNavigateProfile: () -> Unit) {
     val context = LocalContext.current
-    val me = profileViewModel.me.collectAsState()
-    val profilePicture = me.value?.profilePictureUrl?.signedUrl?.replace("localhost", "192.168.3.54") ?: "android.resource://${context.packageName}/drawable/default_picture"
 
     Row(
         modifier = Modifier
@@ -41,14 +39,14 @@ fun MainMenuTopBar(profileViewModel: ProfileViewModel,
             verticalAlignment = Alignment.CenterVertically,
         ) {
             ProfileImage(
-                url = profilePicture,
+                url = "http://placehold.it/100x100",
                 modifier = Modifier.size(48.dp)
                     .clip(CircleShape)
                     .border(BorderStroke(1.dp, LightGray), CircleShape)
                     .clickable { onNavigateProfile() }
             )
 
-            Text(text = "@${me.value?.username}",
+            Text(text = "@grocaca",
                 modifier = Modifier.padding(start = 6.dp))
         }
     }
