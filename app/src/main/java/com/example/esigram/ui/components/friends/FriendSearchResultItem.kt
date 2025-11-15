@@ -18,13 +18,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.example.esigram.domains.models.TmpUser
 import com.example.esigram.models.CorrectUserToDelete
 import com.example.esigram.ui.components.ProfileImage
 
 @Composable
 fun FriendSearchResultItem(
-    user: CorrectUserToDelete,
-    onClick: (CorrectUserToDelete) -> Unit
+    user: TmpUser,
+    onClick: (TmpUser) -> Unit
 ) {
     Row(
         modifier = Modifier
