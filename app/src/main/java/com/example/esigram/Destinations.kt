@@ -7,5 +7,6 @@ object Destinations {
     val MESSAGE = "message"
     val CONVERSATION = "conversation"
     val FRIENDS = "friends"
+    val ADD_FRIENDS = "add_friends"
 
 }
