@@ -17,7 +17,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.esigram.datas.local.SessionManager
 import com.example.esigram.ui.components.ProfileImage
@@ -47,7 +46,9 @@ fun MainMenuTopBar(profileViewModel: ProfileViewModel,
                 modifier = Modifier.size(48.dp)
                     .clip(CircleShape)
                     .border(BorderStroke(1.dp, LightGray), CircleShape)
-                    .clickable { onNavigateProfile() }
+                    .clickable {
+                        onNavigateProfile()
+                    }
             )
 
             Text(text = "@$username",

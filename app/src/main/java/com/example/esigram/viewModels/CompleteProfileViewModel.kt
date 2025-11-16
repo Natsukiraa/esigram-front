@@ -74,7 +74,7 @@ class CompleteProfileViewModel(private val useCases: UserUseCases): ViewModel() 
 
     fun completeSignUp(){
         viewModelScope.launch {
-            val response = useCases.registerUserToDBUseCase(
+            val response = useCases.patchUserUseCase(
                 username = username.value,
                 description = description.value,
                 file = file.value
