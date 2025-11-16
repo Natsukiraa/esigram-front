@@ -14,9 +14,9 @@ import java.io.File
 
 class UserRemoteDataSource {
     private val api = RetrofitInstance.api
-    private val authService = api.create(UserApiService::class.java)
+    private val userService = api.create(UserApiService::class.java)
 
-    suspend fun getMe() = authService.getMe()
+    suspend fun getMe() = userService.getMe()
 
     suspend fun registerUserToDB(
         username: String,
@@ -43,7 +43,7 @@ class UserRemoteDataSource {
                 )
             }
 
-            val res = authService.registerUserToDB(
+            val res = userService.registerUserToDB(
                 requestBody,
                 profilePicture
             )
@@ -56,4 +56,7 @@ class UserRemoteDataSource {
 
 
     }
+
+    suspend fun getUsers(page: Int, size: Int, username: String?) =
+        userService.getUsers(page, size, username)
 }

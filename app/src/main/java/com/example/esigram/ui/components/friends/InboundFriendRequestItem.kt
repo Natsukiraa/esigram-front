@@ -1,5 +1,6 @@
 package com.example.esigram.ui.components.friends
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,8 +11,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -24,12 +25,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.esigram.domains.models.FriendRequest
 import com.example.esigram.domains.models.TmpUser
 import com.example.esigram.ui.components.ProfileImage
+import java.time.Instant
 
 @Composable
-fun FriendListItem(
-    user: TmpUser, onMessageClick: (TmpUser) -> Unit = {}, onDeleteClick: (TmpUser) -> Unit = {}
+fun InboundFriendRequestItem(
+    request: FriendRequest,
+    onAcceptClick: (FriendRequest) -> Unit,
+    onDeclineClick: (FriendRequest) -> Unit
 ) {
     Surface(
         color = MaterialTheme.colorScheme.surface,
@@ -46,19 +51,16 @@ fun FriendListItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             ProfileImage(
-                url = user.profilePicture?.signedUrl,
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape)
+                url = request.userAsking?.profilePicture?.signedUrl, modifier = Modifier.size(48.dp).clip(CircleShape)
             )
 
             Spacer(modifier = Modifier.width(12.dp))
 
 
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = user.username, style = MaterialTheme.typography.bodyLarge)
+                Text(text = request.userAsking?.username ?: "", style = MaterialTheme.typography.bodyLarge)
                 Text(
-                    text = user.email, style = MaterialTheme.typography.bodySmall.copy(
+                    text = request.userAsking?.email ?: "", style = MaterialTheme.typography.bodySmall.copy(
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                     )
                 )
@@ -67,30 +69,39 @@ fun FriendListItem(
 
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 FilledIconButton(
-                    onClick = { onMessageClick(user) },
+                    onClick = { onAcceptClick(request) },
                     modifier = Modifier.size(40.dp),
                     shape = CircleShape
                 ) {
-                    Icon(Icons.Default.Send, contentDescription = "Message")
+                    Icon(Icons.Default.Check, contentDescription = "Accept")
                 }
 
                 OutlinedIconButton(
-                    onClick = { onDeleteClick(user) },
+                    onClick = { onDeclineClick(request) },
                     modifier = Modifier.size(40.dp),
                     shape = CircleShape
                 ) {
-                    Icon(Icons.Default.Delete, contentDescription = "Delete")
+                    Icon(Icons.Default.Delete, contentDescription = "Decline")
                 }
             }
         }
     }
+
 }
 
 @Composable
-@Preview(showBackground = true)
-fun FriendListItemPreview() {
-    val user = TmpUser(
-        id = "friend1", username = "Friend 1", email = "a@a.fr"
+@Preview
+fun FriendRequestItemPreview() {
+    val fakeRequest = FriendRequest(
+        id = "1",
+        userAsked = TmpUser(
+            id = "2", username = "John Doe", email = "a@.fr"
+        ),
+        userAsking = TmpUser(
+            id = "3", username = "Jane Smith", email = "b@.fr"
+        ),
+        status = FriendRequest.FriendStatus.PENDING,
     )
-    FriendListItem(user = user)
+
+    InboundFriendRequestItem(request = fakeRequest, onAcceptClick = {}, onDeclineClick = {})
 }

@@ -1,14 +1,14 @@
-package com.example.esigram.models
+package com.example.esigram.domains.models
 
+import com.example.esigram.models.CorrectUserToDelete
 import java.time.Instant
 
 data class FriendRequest(
     val id: String? = null,
-    val userAsking: CorrectUserToDelete? = null,
-    val userAsked: CorrectUserToDelete? = null,
+    val userAsking: TmpUser? = null,
+    val userAsked: TmpUser? = null,
     val status: FriendStatus? = null,
-    val createdAt: Instant? = null,
-    val updatedAt: Instant? = null,
+    val createdAt: String? = null,
 ) {
     enum class FriendStatus {
         PENDING,

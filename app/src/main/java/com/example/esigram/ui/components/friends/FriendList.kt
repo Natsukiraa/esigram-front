@@ -10,27 +10,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.esigram.domains.models.TmpUser
 import com.example.esigram.models.CorrectUserToDelete
 
 @Composable
 fun FriendList(
-    friends: List<CorrectUserToDelete> = emptyList(),
-    onMessageClick: (CorrectUserToDelete) -> Unit = {},
-    onDeleteClick: (CorrectUserToDelete) -> Unit = {}
+    modifier: Modifier = Modifier,
+    friends: List<TmpUser> = emptyList(),
+    onMessageClick: (TmpUser) -> Unit = {},
+    onDeleteClick: (TmpUser) -> Unit = {}
 ) {
     Surface(
         tonalElevation = 2.dp,
         shape = MaterialTheme.shapes.medium,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(16.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = "Friends",
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
+
 
             LazyColumn(
                 modifier = Modifier
@@ -54,12 +52,12 @@ fun FriendList(
 @Preview(showBackground = true)
 fun FriendListPreview() {
     val fakeFriends = listOf(
-        CorrectUserToDelete("1", "Alice", "alice@test.com"),
-        CorrectUserToDelete("2", "Bob", "bob@test.com"),
-        CorrectUserToDelete("3", "Charlie", "charlie@test.com"),
-        CorrectUserToDelete("4", "Diana", "diana@test.com"),
-        CorrectUserToDelete("5", "Eve", "eve@test.com"),
-        CorrectUserToDelete("6", "Frank", "frank@test.com"),
+        TmpUser("1", "Alice", "alice@test.com"),
+        TmpUser("2", "Bob", "bob@test.com"),
+        TmpUser("3", "Charlie", "charlie@test.com"),
+        TmpUser("4", "Diana", "diana@test.com"),
+        TmpUser("5", "Eve", "eve@test.com"),
+        TmpUser("6", "Frank", "frank@test.com"),
     )
     FriendList(friends = fakeFriends)
 }
