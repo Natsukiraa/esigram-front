@@ -1,12 +1,9 @@
 package com.example.esigram.ui.components.navigation
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
@@ -24,7 +21,8 @@ import com.example.esigram.R
 fun NavigationBar(
     title: String = "",
     showBackButton: Boolean = false,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    endContent: @Composable (() -> Unit)? = null
 ) {
     val context = LocalContext.current
 
@@ -37,7 +35,7 @@ fun NavigationBar(
         ) {
             Text(text = title)
 
-            if(showBackButton) {
+            if (showBackButton) {
                 IconButton(
                     onClick = onBackClick,
                     modifier = Modifier.align(Alignment.CenterStart)
@@ -48,7 +46,16 @@ fun NavigationBar(
                     )
                 }
             }
+
+            if (endContent != null) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 8.dp)
+                ) {
+                    endContent()
+                }
+            }
         }
     }
-
 }
