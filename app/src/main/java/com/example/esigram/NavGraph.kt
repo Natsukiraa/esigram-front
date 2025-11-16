@@ -88,14 +88,17 @@ fun NavGraph(
         composable(route = Destinations.PROFILE) {
             ProfileScreen(
                 profileViewModel = profileViewModel,
-                onBackClick = { navController.popBackStack() },
+                onBackClick = {
+                    navController.navigate(Destinations.HOME) {
+                        popUpTo(0)
+                    }
+                },
                 onSignOut = {
                     authViewModel.signOut()
                     navController.navigate(Destinations.AUTH) {
                         popUpTo(0)
                     }
-                },
-                sessionManager = authViewModel.sessionManager
+                }
             )
         }
 

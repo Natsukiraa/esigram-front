@@ -35,7 +35,7 @@ import com.example.esigram.domains.usecase.message.ListenMessagesUseCase
 import com.example.esigram.domains.usecase.message.MessageUseCases
 import com.example.esigram.domains.usecase.user.GetMeCase
 import com.example.esigram.domains.usecase.user.GetUsersUseCase
-import com.example.esigram.domains.usecase.user.RegisterUserToDBUseCase
+import com.example.esigram.domains.usecase.user.PatchUserUseCase
 import com.example.esigram.domains.usecase.user.UserUseCases
 import com.example.esigram.viewModels.AuthViewModel
 import com.example.esigram.viewModels.CompleteProfileViewModel
@@ -44,6 +44,7 @@ import com.example.esigram.viewModels.FriendViewModel
 import com.example.esigram.viewModels.MessageViewModel
 import com.example.esigram.viewModels.ProfileViewModel
 import com.example.esigram.viewModels.factories.AuthViewModelFactory
+import com.example.esigram.viewModels.factories.ProfileViewModelFactory
 
 class MainActivity : ComponentActivity() {
     // auth repo implem
@@ -58,7 +59,7 @@ class MainActivity : ComponentActivity() {
     private val userRepository: UserRepositoryImpl = UserRepositoryImpl()
     private val userUseCases: UserUseCases = UserUseCases(
         getMeCase = GetMeCase(userRepository),
-        registerUserToDBUseCase = RegisterUserToDBUseCase(userRepository),
+        patchUserUseCase = PatchUserUseCase(userRepository),
         getUsersUseCase = GetUsersUseCase(userRepository)
     )
 
@@ -95,6 +96,14 @@ class MainActivity : ComponentActivity() {
             context = this
         )
     }
+
+    private val profileViewModel: ProfileViewModel by viewModels {
+        ProfileViewModelFactory(
+            userUseCases = userUseCases,
+            context = this
+        )
+    }
+
     private val completeProfileViewModel: CompleteProfileViewModel = CompleteProfileViewModel(userUseCases)
     private val conversationViewModel: ConversationViewModel = ConversationViewModel(conversationUseCases)
     private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases)
