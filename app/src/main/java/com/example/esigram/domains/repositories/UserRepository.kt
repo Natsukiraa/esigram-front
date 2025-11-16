@@ -9,6 +9,6 @@ import java.io.File
 
 interface UserRepository {
     suspend fun getMe(): Response<UserResponse>
-    suspend fun registerUserToDB(username: String, description: String?, file: File?= null): Result<Unit>
+    suspend fun patchUser(username: String, description: String?, file: File?= null): Result<Unit>
     suspend fun getUsers(page: Int, size: Int, username: String?): PageModel<TmpUser>
 }
