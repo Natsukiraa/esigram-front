@@ -15,7 +15,7 @@ interface UserApiService {
 
     @Multipart
     @PATCH("/users/me")
-    suspend fun registerUserToDB(
+    suspend fun patchUser(
         @Part("data") data: RequestBody,
         @Part profilePicture: MultipartBody.Part?
     ): Response<Unit>

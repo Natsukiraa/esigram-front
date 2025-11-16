@@ -34,6 +34,18 @@ class SessionManager(private val context: Context) {
         }
     }
 
+    suspend fun updateUserSession(
+        username: String,
+        description: String?,
+        profilePictureUrl: String?
+    ) {
+        context.dataStore.edit { preferences ->
+            preferences[USERNAME] = username
+            description?.let { preferences[DESCRIPTION] = it }
+            profilePictureUrl?.let { preferences[PROFILE_PICTURE_URL] = it }
+        }
+    }
+
     val id: Flow<String> = context.dataStore.data.map { preferences ->
         preferences[USER_ID] ?: ""
     }

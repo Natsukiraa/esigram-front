@@ -8,5 +8,5 @@ class UserRepositoryImpl(
     val remote: UserRemoteDataSource = UserRemoteDataSource()
 ): UserRepository {
     override suspend fun getMe() = remote.getMe()
-    override suspend fun registerUserToDB(username: String, description: String?, file: File?) = remote.registerUserToDB(username, description, file)
+    override suspend fun patchUser(username: String, description: String?, file: File?) = remote.patchUser(username, description, file)
 }

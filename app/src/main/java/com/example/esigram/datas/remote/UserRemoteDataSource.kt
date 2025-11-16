@@ -24,7 +24,7 @@ class UserRemoteDataSource {
         return userService.getMe()
     }
 
-    suspend fun registerUserToDB(
+    suspend fun patchUser(
         username: String,
         description: String?,
         file: File?= null): Result<Unit> {
@@ -49,7 +49,7 @@ class UserRemoteDataSource {
                 )
             }
 
-            val res = userService.registerUserToDB(
+            val res = userService.patchUser(
                 requestBody,
                 profilePicture
             )
