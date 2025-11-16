@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.esigram.domains.models.FriendRequest
@@ -50,7 +51,7 @@ fun InboundFriendRequestItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             ProfileImage(
-                url = request.userAsking?.profilePicture?.signedUrl, modifier = Modifier.size(48.dp)
+                url = request.userAsking?.profilePicture?.signedUrl, modifier = Modifier.size(48.dp).clip(CircleShape)
             )
 
             Spacer(modifier = Modifier.width(12.dp))

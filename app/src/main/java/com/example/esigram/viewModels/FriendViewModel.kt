@@ -13,10 +13,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class FriendViewModel(private val useCases: FriendUseCases, private val userUsesCases: UserUseCases) : ViewModel() {
+class FriendViewModel(
+    private val useCases: FriendUseCases, private val userUsesCases: UserUseCases
+) : ViewModel() {
 
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing = _isRefreshing.asStateFlow()
@@ -26,10 +27,12 @@ class FriendViewModel(private val useCases: FriendUseCases, private val userUses
     val friends: StateFlow<PageModel<TmpUser>> = _friends.asStateFlow()
 
     private val _outboundFriendRequests = MutableStateFlow(createEmptyPageModel<FriendRequest>())
-    val outboundFriendRequests: StateFlow<PageModel<FriendRequest>> = _outboundFriendRequests.asStateFlow()
+    val outboundFriendRequests: StateFlow<PageModel<FriendRequest>> =
+        _outboundFriendRequests.asStateFlow()
 
     private val _inboundFriendRequests = MutableStateFlow(createEmptyPageModel<FriendRequest>())
-    val inboundFriendRequests: StateFlow<PageModel<FriendRequest>> = _inboundFriendRequests.asStateFlow()
+    val inboundFriendRequests: StateFlow<PageModel<FriendRequest>> =
+        _inboundFriendRequests.asStateFlow()
 
     private val _searchedUsers = MutableStateFlow<PageModel<TmpUser>>(createEmptyPageModel())
     val searchedUsers: StateFlow<PageModel<TmpUser>> = _searchedUsers.asStateFlow()
@@ -43,9 +46,7 @@ class FriendViewModel(private val useCases: FriendUseCases, private val userUses
         loadFriendRequests(outbound = false)
 
         viewModelScope.launch {
-            _searchQuery
-                .filter { it.isNotBlank() }
-                .collect { query ->
+            _searchQuery.filter { it.isNotBlank() }.collect { query ->
                     Log.d("FriendViewModel", "Searching users with query: $query")
                     searchUsers(query)
                 }
@@ -54,7 +55,6 @@ class FriendViewModel(private val useCases: FriendUseCases, private val userUses
 
     fun refreshAllData() {
         viewModelScope.launch {
-            Log.d("FriendViewModel", "Refreshing all data")
             _isRefreshing.value = true
 
             try {
@@ -76,15 +76,13 @@ class FriendViewModel(private val useCases: FriendUseCases, private val userUses
 
 
     fun updateSearchQuery(query: String) {
-        Log.d("FriendViewModel", "Update search query: $query")
         _searchQuery.value = query
     }
 
     private suspend fun searchUsers(query: String) {
         try {
-            val results = userUsesCases.getUsersUseCase(0,20,query)
+            val results = userUsesCases.getUsersUseCase(0, 20, query)
             _searchedUsers.value = _searchedUsers.value.copy(data = results.data)
-            Log.d("FriendViewModel", "Search results: ${results.data} users found")
         } catch (e: Exception) {
         }
     }
@@ -120,7 +118,7 @@ class FriendViewModel(private val useCases: FriendUseCases, private val userUses
                 Log.d("FriendViewModel", "Asking friend with ID: $friendId")
                 useCases.askFriendUseCase(friendId)
                 loadFriendRequests(true)
-                if( accept ) {
+                if (accept) {
                     loadFriendRequests(false)
                     loadFriends()
                 }

@@ -28,11 +28,7 @@ fun FriendList(
             .padding(16.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = "Friends",
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
+
 
             LazyColumn(
                 modifier = Modifier
