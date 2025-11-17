@@ -27,6 +27,9 @@ import com.example.esigram.R
 import com.example.esigram.domains.models.Conversation
 import com.example.esigram.domains.models.Message
 import com.example.esigram.domains.models.User
+import com.example.esigram.models.CorrectUserToDelete
+import com.example.esigram.models.Media
+import com.example.esigram.models.UserConversation
 import com.example.esigram.ui.utils.formatConversationDate
 import java.time.Instant
 
@@ -41,16 +44,12 @@ fun ConversationItem(
     val otherUsers = conversation.members.filter { it.id != currentUserId }
 
     val displayName = if (conversation.isGroup) {
-        conversation.title ?: otherUsers.joinToString(", ") { "${it.forename} ${it.name}" }
+        conversation.title ?: otherUsers.joinToString(", ") { it.username }
     } else {
-        "${otherUsers.firstOrNull()?.forename ?: ""} ${otherUsers.firstOrNull()?.name ?: ""}"
+        otherUsers.firstOrNull()?.username ?: ""
     }
 
-    val displayImage = if (conversation.isGroup) {
-        otherUsers.firstOrNull()?.image
-    } else {
-        otherUsers.firstOrNull()?.image
-    }
+    val displayImage = null
 
     Surface(
         modifier = modifier.clickable { onClick() }
@@ -130,25 +129,19 @@ fun ConversationItem(
 @Preview
 @Composable
 fun ConversationItemPreview() {
-    val user = User(
+    val user1 = UserConversation(
         id = "user1",
-        forename = "Arthur",
-        name = "Morelon",
-        image = "https://randomuser.me/api/portraits/men/1.jpg"
+        username = "azdazd",
     )
 
-    val user2 = User(
+    val user2 = UserConversation(
         id = "user2",
-        forename = "Léna",
-        name = "Mabille",
-        image = "https://randomuser.me/api/portraits/men/1.jpg"
+        username = "azdazd",
     )
 
-    val user3 = User(
+    val user3 = UserConversation(
         id = "user3",
-        forename = "Lina",
-        name = "Phe",
-        image = "https://randomuser.me/api/portraits/men/1.jpg"
+        username = "azdazd",
     )
 
     val message = Message(
@@ -159,7 +152,7 @@ fun ConversationItemPreview() {
     )
     val conversation = Conversation(
         "dkqsjdioqsjd",
-        members = mutableListOf(user, user2, user3),
+        members = mutableListOf(user1, user2, user3),
         lastMessage = message,
         createdAt = Instant.now(),
         unreadCount = 2

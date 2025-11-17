@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class ConversationViewModel(private val conversationUseCases: ConversationUseCases) : ViewModel() {
+
     private val _conversations = mutableStateListOf<Conversation>()
     private val conversationJobs = mutableListOf<Job>()
 
@@ -27,8 +28,9 @@ class ConversationViewModel(private val conversationUseCases: ConversationUseCas
     init {
         viewModelScope.launch {
             try {
-                val ids = conversationUseCases.getAllUseCase()
-                Log.d("Firebase", "Conversations IDs: $ids")
+                val userId: String = "0EVICHYX64fhkzxQ1dAPMKzpLRC2" // TODO
+                val ids = conversationUseCases.getAllUseCase(userId)
+                Log.d("Conversation", "Conversations IDs: $ids")
 
                 ids.forEach { id ->
                     val job = launch {
@@ -42,14 +44,13 @@ class ConversationViewModel(private val conversationUseCases: ConversationUseCas
                                 _conversations.add(conv)
                             }
 
-                            Log.d("Firebase", "Conversation mise à jour: ${conv.id}")
                         }
                     }
                     conversationJobs.add(job)
                 }
 
             } catch (e: Exception) {
-                Log.e("Firebase", "Erreur chargement conversations", e)
+                Log.e("Conversation", "Error loading conversations", e)
             }
         }
     }
@@ -62,9 +63,7 @@ class ConversationViewModel(private val conversationUseCases: ConversationUseCas
         if (normalizedQuery.isNotEmpty()) {
             result = result.filter { conv ->
                 conv.members.any { user ->
-                    val fullName1 = "${user.name} ${user.forename}".lowercase()
-                    val fullName2 = "${user.forename} ${user.name}".lowercase()
-                    fullName1.contains(normalizedQuery) || fullName2.contains(normalizedQuery)
+                    user.username.contains(normalizedQuery)
                 }
             }
         }
