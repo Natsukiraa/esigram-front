@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esigram.domains.models.Conversation
-import com.example.esigram.ui.components.ConversationItem
+import com.example.esigram.ui.components.conversations.ConversationItem
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 

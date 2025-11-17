@@ -19,10 +19,10 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.esigram.ui.components.conversations.ProfileImage
 import com.example.esigram.R
 import com.example.esigram.domains.models.Media
 import com.example.esigram.domains.models.TmpUser
-import com.example.esigram.ui.components.ProfileImage
 
 @Composable
 fun UserStoryBubble(

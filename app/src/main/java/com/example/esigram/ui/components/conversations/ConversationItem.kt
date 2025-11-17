@@ -1,4 +1,4 @@
-package com.example.esigram.ui.components
+package com.example.esigram.ui.components.conversations
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,9 +27,6 @@ import androidx.compose.ui.unit.sp
 import com.example.esigram.R
 import com.example.esigram.domains.models.Conversation
 import com.example.esigram.domains.models.Message
-import com.example.esigram.domains.models.User
-import com.example.esigram.models.CorrectUserToDelete
-import com.example.esigram.models.Media
 import com.example.esigram.models.UserConversation
 import com.example.esigram.ui.utils.formatConversationDate
 import java.time.Instant
@@ -66,10 +64,7 @@ fun ConversationItem(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
-                    .border(
-                        BorderStroke(1.dp, androidx.compose.ui.graphics.Color.LightGray),
-                        CircleShape
-                    )
+                    .border(BorderStroke(1.dp, Color.LightGray), CircleShape)
             )
 
             Column(

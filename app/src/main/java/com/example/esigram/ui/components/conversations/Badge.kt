@@ -1,4 +1,4 @@
-package com.example.esigram.ui.components
+package com.example.esigram.ui.components.conversations
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

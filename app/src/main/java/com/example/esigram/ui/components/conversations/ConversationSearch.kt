@@ -1,4 +1,4 @@
-package com.example.esigram.ui.components
+package com.example.esigram.ui.components.conversations
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
