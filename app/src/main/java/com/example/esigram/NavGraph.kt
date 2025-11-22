@@ -16,11 +16,13 @@ import com.example.esigram.ui.screens.ConversationListScreen
 import com.example.esigram.ui.screens.ConversationScreen
 import com.example.esigram.ui.screens.FriendsScreen
 import com.example.esigram.ui.screens.HomeScreen
+import com.example.esigram.ui.screens.ProfileScreen
 import com.example.esigram.viewModels.AuthViewModel
 import com.example.esigram.viewModels.CompleteProfileViewModel
 import com.example.esigram.viewModels.ConversationViewModel
 import com.example.esigram.viewModels.FriendViewModel
 import com.example.esigram.viewModels.MessageViewModel
+import com.example.esigram.viewModels.ProfileViewModel
 
 @Composable
 fun NavGraph(
@@ -28,13 +30,14 @@ fun NavGraph(
     completeProfileViewModel: CompleteProfileViewModel,
     convViewModel: ConversationViewModel,
     messageViewModel: MessageViewModel,
-    friendViewModel: FriendViewModel
+    friendViewModel: FriendViewModel,
+    profileViewModel: ProfileViewModel
     ){
     val navController = rememberNavController()
 
     val startDestination = when {
         !authViewModel.isUserLoggedIn() -> Destinations.AUTH
-        else -> Destinations.FRIENDS
+        else -> Destinations.HOME
     }
 
     NavHost(
@@ -43,21 +46,25 @@ fun NavGraph(
     ) {
         composable(Destinations.HOME) {
             HomeScreen(
-                authViewModel = authViewModel,
+                profileViewModel = profileViewModel,
                 convViewModel = convViewModel,
-                onSignOut = {
-                    navController.navigate(Destinations.AUTH)
-                }
+                onNavigateProfile = {
+                    navController.navigate(Destinations.PROFILE)
+                },
+                sessionManager = authViewModel.sessionManager
             )
         }
 
         composable(Destinations.COMPLETE_PROFILE) {
-            CompleteProfileScreen (
+            CompleteProfileScreen(
                 completeProfileViewModel = completeProfileViewModel,
                 onSuccessSignUp = {
                     navController.navigate(Destinations.HOME) {
                         popUpTo(0)
                     }
+                },
+                saveUser = {
+                    authViewModel.saveUserSession()
                 }
             )
         }
@@ -72,6 +79,23 @@ fun NavGraph(
                 },
                 onSignUp = {
                     navController.navigate(Destinations.COMPLETE_PROFILE) {
+                        popUpTo(0)
+                    }
+                }
+            )
+        }
+
+        composable(route = Destinations.PROFILE) {
+            ProfileScreen(
+                profileViewModel = profileViewModel,
+                onBackClick = {
+                    navController.navigate(Destinations.HOME) {
+                        popUpTo(0)
+                    }
+                },
+                onSignOut = {
+                    authViewModel.signOut()
+                    navController.navigate(Destinations.AUTH) {
                         popUpTo(0)
                     }
                 }

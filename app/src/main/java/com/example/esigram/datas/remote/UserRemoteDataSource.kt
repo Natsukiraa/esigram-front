@@ -2,6 +2,7 @@ package com.example.esigram.datas.remote
 
 import com.example.esigram.networks.RetrofitInstance
 import com.example.esigram.datas.remote.services.UserApiService
+import com.example.esigram.domains.models.responses.UserResponse
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
@@ -10,18 +11,21 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Response
 import java.io.File
 
 class UserRemoteDataSource {
     private val api = RetrofitInstance.api
     private val userService = api.create(UserApiService::class.java)
 
-    suspend fun getMe() = userService.getMe()
+    suspend fun getMe(): Response<UserResponse> {
+        return userService.getMe()
+    }
 
-    suspend fun registerUserToDB(
+    suspend fun patchUser(
         username: String,
         description: String?,
-        file: File?= null): Result<Unit> {
+        file: File?= null): Result<UserResponse> {
         return try {
 
             val jsonData = Json.encodeToString(
@@ -43,13 +47,18 @@ class UserRemoteDataSource {
                 )
             }
 
-            val res = userService.registerUserToDB(
+            val res = userService.patchUser(
                 requestBody,
                 profilePicture
             )
 
-            if(res.isSuccessful) Result.success(Unit)
-            else Result.failure(Exception("Error ${res.code()}"))
+            if (res.isSuccessful) {
+                val meRes = userService.getMe()
+                if (meRes.isSuccessful) Result.success(meRes.body()!!)
+                else Result.failure(Exception("Error ${meRes.code()}"))
+            } else {
+                Result.failure(Exception("Error ${res.code()}"))
+            }
         } catch (e: Exception){
             Result.failure(e)
         }

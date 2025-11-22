@@ -2,6 +2,7 @@ package com.example.esigram.datas.remote.services
 
 import com.example.esigram.domains.models.TmpUser
 import com.example.esigram.domains.models.responses.PageModel
+import com.example.esigram.domains.models.responses.UserResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -12,12 +13,12 @@ import retrofit2.http.Part
 import retrofit2.http.Query
 
 interface UserApiService {
-    @GET("/me")
-    suspend fun getMe(): Response<Unit>
+    @GET("/users/me")
+    suspend fun getMe(): Response<UserResponse>
 
     @Multipart
     @PATCH("/users/me")
-    suspend fun registerUserToDB(
+    suspend fun patchUser(
         @Part("data") data: RequestBody,
         @Part profilePicture: MultipartBody.Part?
     ): Response<Unit>

@@ -43,6 +43,7 @@ fun AuthScreen(authViewModel: AuthViewModel, onSuccessSignIn: () -> Unit = {}, o
                 onSignUp()
             } else {
                 onSuccessSignIn()
+                authViewModel.saveUserSession()
             }
         }
     }

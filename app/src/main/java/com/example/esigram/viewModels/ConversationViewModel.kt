@@ -10,13 +10,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.esigram.domains.models.Conversation
 import com.example.esigram.domains.models.ConversationFilterType
 import com.example.esigram.domains.repositories.ConversationRepository
+import com.example.esigram.domains.usecase.conversation.ConversationUseCases
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class ConversationViewModel : ViewModel() {
-
-    private val repo = ConversationRepository()
+class ConversationViewModel(private val conversationUseCases: ConversationUseCases) : ViewModel() {
     private val _conversations = mutableStateListOf<Conversation>()
     private val conversationJobs = mutableListOf<Job>()
 
@@ -29,12 +28,12 @@ class ConversationViewModel : ViewModel() {
     init {
         viewModelScope.launch {
             try {
-                val ids = repo.getAll()
+                val ids = conversationUseCases.getAllUseCase()
                 Log.d("Firebase", "Conversations IDs: $ids")
 
                 ids.forEach { id ->
                     val job = launch {
-                        repo.observeConversation(id).collectLatest { conv ->
+                        conversationUseCases.observeConversationUseCase(id).collectLatest { conv ->
                             if (conv == null) return@collectLatest
 
                             val existingIndex = _conversations.indexOfFirst { it.id == id }

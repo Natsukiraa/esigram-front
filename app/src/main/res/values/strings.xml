@@ -14,5 +14,10 @@
     <string name="username">Username</string>
     <string name="description">Description</string>
     <string name="profile_picture">Profile picture</string>
+    <string name="email">Email</string>
+    <string name="profile">Profile</string>
     <string name="back">Back</string>
+    <string name="sign_out">Sign out</string>
+    <string name="personal_info">Personal informations</string>
+    <string name="save_changes">Save changes</string>
 </resources>

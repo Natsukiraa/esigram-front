@@ -5,19 +5,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.esigram.domains.models.Message
 import com.example.esigram.domains.repositories.MessageRepository
+import com.example.esigram.domains.usecase.message.MessageUseCases
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.File
 
-class MessageViewModel : ViewModel() {
-
-    private val repo = MessageRepository()
+class MessageViewModel(private val messageUseCases: MessageUseCases) : ViewModel() {
     private val _messages = mutableStateListOf<Message>()
     val messages: List<Message> get() = _messages
 
     fun startListening(chatId: String) {
         viewModelScope.launch {
-            repo.listenMessages(chatId).collectLatest { newMessages ->
+            messageUseCases.listenMessagesUseCase(chatId).collectLatest { newMessages ->
                 _messages.clear()
                 _messages.addAll(
                     elements = newMessages
@@ -28,13 +27,13 @@ class MessageViewModel : ViewModel() {
 
     fun createMessage(chatId: String, content: String, files: List<File>? = null) {
         viewModelScope.launch {
-            repo.createMessage(chatId = chatId, content = content, files = files)
+            messageUseCases.createMessageUseCase(chatId = chatId, content = content, files = files)
         }
     }
 
     fun deleteMessage(messageId: String) {
         viewModelScope.launch {
-            repo.deleteMessage(messageId)
+            messageUseCases.deleteMessageUseCase(messageId)
         }
     }
 }

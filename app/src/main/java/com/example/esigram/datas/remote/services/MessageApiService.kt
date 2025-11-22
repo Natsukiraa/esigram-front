@@ -8,7 +8,7 @@ import retrofit2.http.POST
 interface MessageApiService {
     @Multipart
     @POST("/chats/{chatId}/messages")
-    //TODO suspend fun sendMessage(chatId: String): Response<Unit>
+    suspend fun sendMessage(chatId: String): Response<Unit>
 
     @DELETE("/messages/{id}")
     suspend fun deleteMessage(id: String): Response<Unit>

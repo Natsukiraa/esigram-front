@@ -3,7 +3,8 @@ package com.example.esigram.ui.screens
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,22 +23,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
 import com.example.esigram.R
 import com.example.esigram.ui.components.InputTextField
+import com.example.esigram.ui.components.ProfileImage
+import com.example.esigram.ui.theme.LightGray
 import com.example.esigram.viewModels.CompleteProfileViewModel
 
 @Composable
 fun CompleteProfileScreen(
     completeProfileViewModel: CompleteProfileViewModel,
-    onSuccessSignUp: () -> Unit = {}
+    onSuccessSignUp: () -> Unit ,
+    saveUser: () -> Unit
 ) {
     // mutable state data from VM
     val description = completeProfileViewModel.description.collectAsState()
@@ -48,12 +50,17 @@ fun CompleteProfileScreen(
     val context = LocalContext.current
 
     val getContent = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let { completeProfileViewModel.onFileChange(it, context) }
+        uri?.let { newUri ->
+            completeProfileViewModel.onFileChangeUtil(newUri, context)
+        }
     }
 
     LaunchedEffect(submitResult) {
         submitResult.let {
-            if(it == true) onSuccessSignUp()
+            if(it == true) {
+                onSuccessSignUp()
+                saveUser()
+            }
         }
     }
 
@@ -62,7 +69,8 @@ fun CompleteProfileScreen(
     }
 
     Surface (modifier = Modifier.fillMaxSize()) {
-        Column(modifier = Modifier.fillMaxWidth()
+        Column(modifier = Modifier
+            .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)) {
             Text(
                 context.getString(R.string.sign_up),
@@ -71,7 +79,8 @@ fun CompleteProfileScreen(
                 color = colorResource(id = R.color.textPrimary),
             )
 
-            Column(modifier = Modifier.padding(top = 36.dp, bottom = 12.dp)
+            Column(modifier = Modifier
+                .padding(top = 36.dp, bottom = 12.dp)
                 .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
@@ -92,12 +101,12 @@ fun CompleteProfileScreen(
 
             Column(modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally) {
-                Image(
-                    painter = rememberAsyncImagePainter(fileUri.value),
-                    contentDescription = context.getString(R.string.profile_picture),
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.size(128.dp)
+                ProfileImage(
+                    url = fileUri.value.toString(),
+                    modifier = Modifier
+                        .size(128.dp)
                         .clip(CircleShape)
+                        .border(BorderStroke(1.dp, LightGray), CircleShape)
                         .clickable { getContent.launch("image/*") }
                 )
 
