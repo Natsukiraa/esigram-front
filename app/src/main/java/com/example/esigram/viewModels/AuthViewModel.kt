@@ -74,7 +74,7 @@ class AuthViewModel(
                         username = userData.username,
                         email = userData.email,
                         description = userData.description,
-                        profilePictureUrl = userData.profilePictureUrl?.signedUrl
+                        profilePictureUrl = userData.profilePicture?.signedUrl
                     )
                 }
             }

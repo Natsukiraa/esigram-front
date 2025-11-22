@@ -88,7 +88,7 @@ class ProfileViewModel(
                     sessionManager.updateUserSession(
                         username = newUserProfile.username,
                         description = newUserProfile.description,
-                        profilePictureUrl = newUserProfile.profilePictureUrl?.signedUrl
+                        profilePictureUrl = newUserProfile.profilePicture?.signedUrl
                     )
 
                     Toast.makeText(context, "Profile updated successfully !", Toast.LENGTH_SHORT)
