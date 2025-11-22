@@ -20,4 +20,9 @@
     <string name="sign_out">Sign out</string>
     <string name="personal_info">Personal informations</string>
     <string name="save_changes">Save changes</string>
+    <string name="app_logo_desc">Esigram App Logo</string>
+    <string name="register">Sign up</string>
+    <string name="password">Password</string>
+    <string name="not_registered_yet">Not registered yet? Sign up</string>
+    <string name="already_registered">Already registered? Login</string>
 </resources>

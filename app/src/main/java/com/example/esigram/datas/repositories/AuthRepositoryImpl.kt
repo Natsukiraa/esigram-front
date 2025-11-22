@@ -8,7 +8,8 @@ class AuthRepositoryImpl(
 ) : AuthRepository {
     override fun getCurrentUser() = remote.getCurrentUser()
     override fun signOut() = remote.signOut()
-
+    override suspend fun login(email: String, pass: String) = remote.login(email, pass)
+    override suspend fun register(email: String, pass: String) = remote.register(email, pass)
     override fun getUserIdToken(result: (String?) -> Unit) {
         remote.getUserIdToken(result)
     }

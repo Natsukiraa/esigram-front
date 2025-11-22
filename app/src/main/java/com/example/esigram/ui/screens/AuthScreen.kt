@@ -1,20 +1,11 @@
 package com.example.esigram.ui.screens
 
-import android.app.Activity.RESULT_OK
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,11 +15,10 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.esigram.R
+import com.example.esigram.ui.components.form.EditTextField
 import com.example.esigram.viewModels.AuthViewModel
-import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 
 @Composable
 fun AuthScreen(
@@ -36,78 +26,110 @@ fun AuthScreen(
     onSuccessSignIn: () -> Unit = {},
     onSignUp: () -> Unit = {}
 ) {
-    val signInLauncher = rememberLauncherForActivityResult(
-        contract = FirebaseAuthUIActivityResultContract()
-    ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            authViewModel.refreshUser()
-            val isNewUser = authViewModel.isNewUser()
+    val context = LocalContext.current
 
-            if (isNewUser) {
-                onSignUp()
-            } else {
-                onSuccessSignIn()
-                authViewModel.saveUserSession()
-            }
+    val finishedAuth = authViewModel.finishedAuth.collectAsState()
+    val email = authViewModel.email.collectAsState()
+    val password = authViewModel.password.collectAsState()
+    val pageState = authViewModel.pageState.collectAsState()
+
+    LaunchedEffect(finishedAuth) {
+        if (authViewModel.isNewUser()) {
+            onSignUp()
+        } else {
+            onSuccessSignIn()
         }
     }
 
-    AuthScreenContent {
-        signInLauncher.launch(authViewModel.signIn())
-    }
-}
-
-@Composable
-fun AuthScreenContent(onSignInClick: () -> Unit = {}) {
-    val context = LocalContext.current
-
     Surface(modifier = Modifier.fillMaxSize()) {
         Box(contentAlignment = Alignment.Center) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .padding(24.dp)
+                    .fillMaxWidth()
+            ) {
                 Image(
-                    painter = painterResource(id = R.drawable.logo),
-                    contentDescription = "App Logo",
+                    painter = painterResource(id = R.drawable.logo), // Assure-toi d'avoir ce drawable
+                    contentDescription = context.getString(R.string.app_logo_desc),
                     modifier = Modifier
-                        .width(150.dp)
-                        .height(150.dp)
+                        .size(120.dp)
                         .padding(bottom = 8.dp)
                         .clip(CircleShape),
                     contentScale = ContentScale.Crop,
                 )
 
-                Column(
-                    modifier = Modifier.padding(vertical = 16.dp)
-                ) {
+                Column(modifier = Modifier.padding(vertical = 16.dp)) {
                     Text(
-                        context.getString(R.string.welcome),
+                        text = if (pageState.equals("Login")) context.getString(R.string.welcome) else context.getString(R.string.register),
                         style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
                     )
 
                     Text(
-                        context.getString(R.string.welcome_desc),
+                        text = context.getString(R.string.welcome_desc),
                         style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.width(250.dp),
                         textAlign = TextAlign.Center,
-                        color = colorResource(id = R.color.textSecondary)
+                        color = colorResource(id = R.color.textSecondary),
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                EditTextField(
+                    value = email.value,
+                    onValueChange = {
+                        authViewModel.onEmailChange(it)
+                    },
+                    label = context.getString(R.string.email)
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                EditTextField(
+                    value = password.value,
+                    onValueChange = {
+                        authViewModel.onPasswordChange(it)
+                    },
+                    label = context.getString(R.string.password),
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
 
                 Button(
-                    onClick = onSignInClick,
-                    modifier = Modifier.width(250.dp)
+                    onClick = {
+                        if (pageState.equals("Login")) {
+                            authViewModel.login(email.value, password.value)
+                        } else {
+                            authViewModel.register(email.value, password.value)
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
                 ) {
                     Text(
-                        context.getString(R.string.login) + "/" + context.getString(R.string.sign_up)
+                        text = if (pageState.equals("Login")) context.getString(R.string.login) else context.getString(R.string.sign_up)
                     )
                 }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = if (pageState.equals("Login")) context.getString(R.string.not_registered_yet) else context.getString(R.string.already_registered),
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier
+                        .clickable {
+                            authViewModel.onPageStateChange(
+                                if (pageState.equals("Login")) "Register" else "Login"
+                            )
+                        }
+                        .padding(8.dp)
+                )
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun AuthScreenPreview() {
-    AuthScreenContent()
 }

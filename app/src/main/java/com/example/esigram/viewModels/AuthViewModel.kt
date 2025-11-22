@@ -1,27 +1,37 @@
 package com.example.esigram.viewModels
 
 import android.content.Context
-import android.content.Intent
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.esigram.R
 import com.example.esigram.datas.local.SessionManager
 import com.example.esigram.domains.usecase.auth.AuthUseCases
 import com.example.esigram.domains.usecase.user.UserUseCases
-import com.firebase.ui.auth.AuthUI
-import com.google.firebase.auth.FirebaseUser
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class AuthViewModel(
     private val authUseCases: AuthUseCases,
     private val userUseCases: UserUseCases,
-    context: Context
+    private val context: Context
 ) : ViewModel() {
     val sessionManager = SessionManager(context)
-    private val _user = mutableStateOf(authUseCases.getCurrentUserUseCase())
-    val user: State<FirebaseUser?> = _user
+
+    private val _user = MutableStateFlow(authUseCases.getCurrentUserUseCase())
+    val user = _user.asStateFlow()
+
+    private val _finishedAuth = MutableStateFlow(false)
+    val finishedAuth = _finishedAuth.asStateFlow()
+
+    private val _email = MutableStateFlow("")
+    val email = _email.asStateFlow()
+
+    private val _password = MutableStateFlow("")
+    val password = _password.asStateFlow()
+
+    private val _pageState = MutableStateFlow("Login")
+    val pageState = _pageState.asStateFlow()
 
     fun refreshUser() {
         _user.value = authUseCases.getCurrentUserUseCase()
@@ -31,34 +41,105 @@ class AuthViewModel(
         return authUseCases.getCurrentUserUseCase() != null
     }
 
+    fun changeFinishedAuth(value: Boolean) {
+        _finishedAuth.value = value
+    }
+
+    fun onEmailChange(newEmail: String) {
+        _email.value = newEmail
+    }
+
+    fun onPasswordChange(newPassword: String) {
+        _password.value = newPassword
+    }
+
+    fun onPageStateChange(newState: String) {
+        _pageState.value = newState
+    }
+
+    fun login(email: String, pass: String) {
+        if (email.isBlank() || pass.isBlank()) {
+            Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        viewModelScope.launch {
+            try {
+                val result = authUseCases.loginUseCase(email, pass)
+
+                if (result.isSuccess) {
+                    changeFinishedAuth(true)
+                    refreshUser()
+                    saveUserSession()
+                } else {
+                    Toast.makeText(
+                        context,
+                        result.exceptionOrNull()?.message ?: "An error has occurred, please try again",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(
+                    context,
+                    e.message ?: "An error has occurred, please try again",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    fun register(email: String, pass: String) {
+        if (email.isBlank() || pass.isBlank()) {
+            Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        viewModelScope.launch {
+            try {
+                val result = authUseCases.registerUseCase(email, pass)
+
+                if (result.isSuccess) {
+                    changeFinishedAuth(true)
+                    refreshUser()
+                    saveUserSession()
+                } else {
+                    Toast.makeText(
+                        context,
+                        result.exceptionOrNull()?.message ?: "An error has occurred, please try again",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(
+                    context,
+                    e.message ?: "An error has occurred, please try again",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
     fun signOut() {
         viewModelScope.launch {
             sessionManager.clearSession()
             authUseCases.signOutUseCase()
+            resetStateFlow()
             refreshUser()
         }
-
     }
 
-    fun signIn(): Intent {
-        val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build(),
-            AuthUI.IdpConfig.GoogleBuilder().build()
-        )
-        return AuthUI.getInstance()
-            .createSignInIntentBuilder()
-            .setAvailableProviders(providers)
-            .setTheme(R.style.FirebaseLoginTheme)
-            .setLogo(R.drawable.logo_smaller)
-            .build()
+    fun resetStateFlow() {
+        _email.value = ""
+        _password.value = ""
+        _pageState.value = "Login"
+        _finishedAuth .value = false
     }
 
     fun isNewUser(): Boolean {
         val user = authUseCases.getCurrentUserUseCase() ?: return false
         val creationTimestamp = user.metadata?.creationTimestamp ?: return false
         val lastSignInTimestamp = user.metadata?.lastSignInTimestamp ?: return false
-
-        return creationTimestamp == lastSignInTimestamp
+        return lastSignInTimestamp == creationTimestamp
     }
 
     fun saveUserSession() {
@@ -67,10 +148,9 @@ class AuthViewModel(
 
             if (userResponse.isSuccessful) {
                 val userData = userResponse.body()?.data
-
                 userData?.let {
                     sessionManager.saveUserSession(
-                        id = user.value!!.uid,
+                        id = userData.id,
                         username = userData.username,
                         email = userData.email,
                         description = userData.description,
@@ -80,4 +160,5 @@ class AuthViewModel(
             }
         }
     }
+
 }
