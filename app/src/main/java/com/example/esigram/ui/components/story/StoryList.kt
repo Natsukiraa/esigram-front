@@ -10,14 +10,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.esigram.models.CorrectUserToDelete
+import com.example.esigram.domains.models.TmpUser
 
 @Composable
 fun StoryList(
-    me: CorrectUserToDelete,
-    friends: List<CorrectUserToDelete>,
+    me: TmpUser,
+    friends: List<TmpUser>,
     onMyStoryClick: () -> Unit = {},
-    onFriendStoryClick: (CorrectUserToDelete) -> Unit = {},
+    onFriendStoryClick: (TmpUser) -> Unit = {},
 ) {
     val sortedFriends = friends
         .filter { it.hasStories }
@@ -50,35 +50,35 @@ fun StoryList(
 @Preview(showBackground = true)
 @Composable
 fun StoryListPreview() {
-    val me = CorrectUserToDelete(
+    val me = TmpUser(
         id = "me",
         username = "Me",
         email = "me@mail.com"
     )
 
     val friends = listOf(
-        CorrectUserToDelete(
+        TmpUser(
             "1",
             "Alice",
             "a@mail.com",
             hasStories = true,
             alreadyViewedStories = false
         ),
-        CorrectUserToDelete(
+        TmpUser(
             "2",
             "Bob",
             "b@mail.com",
             hasStories = true,
             alreadyViewedStories = true
         ),
-        CorrectUserToDelete(
+        TmpUser(
             "3",
             "Charlie",
             "c@mail.com",
             hasStories = true,
             alreadyViewedStories = false
         ),
-        CorrectUserToDelete(
+        TmpUser(
             "4",
             "Diana",
             "d@mail.com",
