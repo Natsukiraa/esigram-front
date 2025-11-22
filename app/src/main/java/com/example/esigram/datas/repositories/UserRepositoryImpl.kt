@@ -6,8 +6,11 @@ import java.io.File
 
 class UserRepositoryImpl(
     val remote: UserRemoteDataSource = UserRemoteDataSource()
-): UserRepository {
+) : UserRepository {
     override suspend fun getMe() = remote.getMe()
-    override suspend fun patchUser(username: String, description: String?, file: File?) = remote.patchUser(username, description, file)
-    override suspend fun getUsers(page: Int, size: Int, username: String?) = remote.getUsers(page, size, username)
+    override suspend fun patchUser(username: String, description: String?, file: File?) =
+        remote.patchUser(username, description, file)
+
+    override suspend fun getUsers(page: Int, size: Int, username: String?) =
+        remote.getUsers(page, size, username)
 }

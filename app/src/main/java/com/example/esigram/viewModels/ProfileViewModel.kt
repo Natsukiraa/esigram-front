@@ -48,7 +48,7 @@ class ProfileViewModel(
             sessionManager.email,
             sessionManager.description,
             sessionManager.profilePictureUrl
-        ) {username, email, description, profilePictureUrl ->
+        ) { username, email, description, profilePictureUrl ->
             _username.value = username
             _email.value = email
             _description.value = description ?: ""
@@ -91,7 +91,8 @@ class ProfileViewModel(
                         profilePictureUrl = newUserProfile.profilePictureUrl?.signedUrl
                     )
 
-                    Toast.makeText(context, "Profile updated successfully !", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Profile updated successfully !", Toast.LENGTH_SHORT)
+                        .show()
                     _isEditing.value = false
 
                     clearProfilePictureData()

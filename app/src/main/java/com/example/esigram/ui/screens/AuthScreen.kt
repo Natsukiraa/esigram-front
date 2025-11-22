@@ -26,12 +26,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.esigram.R
 import com.example.esigram.viewModels.AuthViewModel
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
-import com.example.esigram.R
 
 @Composable
-fun AuthScreen(authViewModel: AuthViewModel, onSuccessSignIn: () -> Unit = {}, onSignUp : () -> Unit = {}) {
+fun AuthScreen(
+    authViewModel: AuthViewModel,
+    onSuccessSignIn: () -> Unit = {},
+    onSignUp: () -> Unit = {}
+) {
     val signInLauncher = rememberLauncherForActivityResult(
         contract = FirebaseAuthUIActivityResultContract()
     ) { result ->
@@ -63,7 +67,8 @@ fun AuthScreenContent(onSignInClick: () -> Unit = {}) {
                 Image(
                     painter = painterResource(id = R.drawable.logo),
                     contentDescription = "App Logo",
-                    modifier = Modifier.width(150.dp)
+                    modifier = Modifier
+                        .width(150.dp)
                         .height(150.dp)
                         .padding(bottom = 8.dp)
                         .clip(CircleShape),
@@ -88,7 +93,8 @@ fun AuthScreenContent(onSignInClick: () -> Unit = {}) {
                     )
                 }
 
-                Button(onClick = onSignInClick,
+                Button(
+                    onClick = onSignInClick,
                     modifier = Modifier.width(250.dp)
                 ) {
                     Text(

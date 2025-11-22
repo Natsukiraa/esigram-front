@@ -7,6 +7,11 @@ import java.io.File
 
 interface MessageRepository {
     fun listenMessages(chatId: String): Flow<List<Message>>
-    suspend fun createMessage(chatId: String, content: String, files: List<File>? = null): Response<Unit>
+    suspend fun createMessage(
+        chatId: String,
+        content: String,
+        files: List<File>? = null
+    ): Response<Unit>
+
     suspend fun deleteMessage(messageId: String): Response<Unit>
 }

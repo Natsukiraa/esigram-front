@@ -2,8 +2,8 @@ package com.example.esigram.datas.mappers
 
 import com.example.esigram.domains.models.Conversation
 import com.example.esigram.domains.models.Message
-import java.time.Instant
 import com.example.esigram.domains.models.User
+import java.time.Instant
 
 object ConversationMapper {
 

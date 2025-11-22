@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SettingsButton(onCLick: () -> Unit){
+fun SettingsButton(onCLick: () -> Unit) {
     Button(
         onClick = { onCLick() },
         shape = CircleShape,
@@ -36,7 +36,7 @@ fun SettingsButton(onCLick: () -> Unit){
 
 @Preview
 @Composable
-fun SettingsButtonPreview(){
+fun SettingsButtonPreview() {
     SettingsButton(onCLick = {})
 }
 

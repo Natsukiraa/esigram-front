@@ -24,12 +24,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import com.example.esigram.ui.components.navigation.NavigationBar
-import com.example.esigram.viewModels.ProfileViewModel
 import com.example.esigram.R
 import com.example.esigram.ui.components.ProfileImage
 import com.example.esigram.ui.components.form.EditTextField
+import com.example.esigram.ui.components.navigation.NavigationBar
 import com.example.esigram.ui.theme.LightGray
+import com.example.esigram.viewModels.ProfileViewModel
 
 @Composable
 fun ProfileScreen(
@@ -46,12 +46,13 @@ fun ProfileScreen(
     val isEditing = profileViewModel.isEditing.collectAsState()
     val fileUri = profileViewModel.fileUri.collectAsState()
 
-    val getContent = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let { newUri ->
-            profileViewModel.onFileChangeUtil(newUri, context)
+    val getContent =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let { newUri ->
+                profileViewModel.onFileChangeUtil(newUri, context)
+            }
+            profileViewModel.onEdit()
         }
-        profileViewModel.onEdit()
-    }
 
     Column {
         NavigationBar(

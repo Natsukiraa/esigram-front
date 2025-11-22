@@ -7,7 +7,12 @@ import android.webkit.MimeTypeMap
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.io.File
 
-fun onFileChange(newFile: Uri, context: Context, _fileUri: MutableStateFlow<Uri?>, _file: MutableStateFlow<File?>) {
+fun onFileChange(
+    newFile: Uri,
+    context: Context,
+    _fileUri: MutableStateFlow<Uri?>,
+    _file: MutableStateFlow<File?>
+) {
     // Used to get mime type from URI
     val contentResolver: ContentResolver = context.contentResolver
     val mime: MimeTypeMap = MimeTypeMap.getSingleton()
@@ -16,7 +21,7 @@ fun onFileChange(newFile: Uri, context: Context, _fileUri: MutableStateFlow<Uri?
     _fileUri.value = newFile
 
     // Copy URI content into temporary file
-    val inputStream =  context.contentResolver.openInputStream(newFile)
+    val inputStream = context.contentResolver.openInputStream(newFile)
 
     inputStream?.let {
         val tmpFile = File.createTempFile("profilePicture", ".$mimeType", context.cacheDir)

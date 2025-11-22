@@ -27,8 +27,8 @@ import java.util.UUID
 fun ConversationBanner(
     onClickOpen: (UUID) -> Unit,
     conversationUuid: UUID,
-    user : User
-){
+    user: User
+) {
     val message = Message(
         id = "kdjqsoidoidjqsoidjis",
         content = "Ceci est un test Ceci est un test Ceci est un test Ceci est un test Ceci est un test Ceci est un test",
@@ -79,7 +79,7 @@ fun ConversationBanner(
 
 @Composable
 @Preview
-fun ConversationBannerPreview(){
+fun ConversationBannerPreview() {
     ConversationBanner(
         onClickOpen = {},
         conversationUuid = UUID.randomUUID(),

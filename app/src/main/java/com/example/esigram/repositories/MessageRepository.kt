@@ -2,10 +2,14 @@ package com.example.esigram.repositories
 
 import com.example.esigram.providers.FirebaseProvider
 import com.example.esigram.services.ApiService
-import io.ktor.client.request.*
-import io.ktor.client.request.forms.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
+import io.ktor.client.request.delete
+import io.ktor.client.request.forms.formData
+import io.ktor.client.request.forms.submitFormWithBinaryData
+import io.ktor.client.statement.HttpResponse
+import io.ktor.http.ContentType
+import io.ktor.http.Headers
+import io.ktor.http.HttpHeaders
+import io.ktor.http.append
 import kotlinx.coroutines.tasks.await
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.buildJsonObject
@@ -51,7 +55,7 @@ class MessageRepository {
                         )
                     })
 
-                files ?. forEach { file ->
+                files?.forEach { file ->
                     append(
                         "attachments",
                         file.readBytes(),
@@ -60,7 +64,7 @@ class MessageRepository {
                                 HttpHeaders.ContentDisposition,
                                 "filename=\"${file.name}\""
                             )
-                            append (HttpHeaders.ContentType, ContentType.Image.Any.toString())
+                            append(HttpHeaders.ContentType, ContentType.Image.Any.toString())
                         })
                 }
             })

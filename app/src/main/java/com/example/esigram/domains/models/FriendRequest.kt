@@ -1,8 +1,5 @@
 package com.example.esigram.domains.models
 
-import com.example.esigram.models.CorrectUserToDelete
-import java.time.Instant
-
 data class FriendRequest(
     val id: String? = null,
     val userAsking: TmpUser? = null,

@@ -71,7 +71,7 @@ class StoryRepository {
 
     fun getAll(): List<Story> = stories
 
-    fun getById(id: String): Story? = stories.find{ it.id == id }
+    fun getById(id: String): Story? = stories.find { it.id == id }
 
     fun addNote(story: Story) = stories.add(story)
 

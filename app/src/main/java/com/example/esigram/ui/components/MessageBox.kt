@@ -72,7 +72,7 @@ fun MessageBox(
         }
 
 
-        Row{
+        Row {
 
             Row(
                 modifier = Modifier.fillMaxWidth(),

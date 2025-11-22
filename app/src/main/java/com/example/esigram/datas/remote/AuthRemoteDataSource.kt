@@ -1,6 +1,5 @@
 package com.example.esigram.datas.remote
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 
 class AuthRemoteDataSource {
@@ -12,7 +11,7 @@ class AuthRemoteDataSource {
     fun getUserIdToken(result: (String?) -> Unit) {
         val user = auth.currentUser
 
-        if(user == null) {
+        if (user == null) {
             result(null)
             return
         }

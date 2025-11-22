@@ -1,9 +1,6 @@
 package com.example.esigram.ui.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -26,9 +23,10 @@ fun Badge(
     fontSize: Int = 12
 ) {
 
-    Box(modifier = modifier
-        .clip(CircleShape)
-        .background(colorResource(color)),
+    Box(
+        modifier = modifier
+            .clip(CircleShape)
+            .background(colorResource(color)),
         contentAlignment = Alignment.Center
     ) {
         Text(

@@ -14,7 +14,6 @@ import com.example.esigram.datas.repositories.FriendRepositoryImpl
 import com.example.esigram.datas.repositories.MessageRepositoryImpl
 import com.example.esigram.datas.repositories.UserRepositoryImpl
 import com.example.esigram.domains.repositories.ConversationRepository
-import com.example.esigram.ui.theme.EsigramTheme
 import com.example.esigram.domains.usecase.auth.AuthUseCases
 import com.example.esigram.domains.usecase.auth.GetCurrentUserUseCase
 import com.example.esigram.domains.usecase.auth.GetUserIdTokenUseCase
@@ -37,6 +36,7 @@ import com.example.esigram.domains.usecase.user.GetMeCase
 import com.example.esigram.domains.usecase.user.GetUsersUseCase
 import com.example.esigram.domains.usecase.user.PatchUserUseCase
 import com.example.esigram.domains.usecase.user.UserUseCases
+import com.example.esigram.ui.theme.EsigramTheme
 import com.example.esigram.viewModels.AuthViewModel
 import com.example.esigram.viewModels.CompleteProfileViewModel
 import com.example.esigram.viewModels.ConversationViewModel
@@ -78,7 +78,7 @@ class MainActivity : ComponentActivity() {
         createMessageUseCase = CreateMessageUseCase(messageRepository),
         deleteMessageUseCase = DeleteMessageUseCase(messageRepository)
     )
-    
+
     // friend repo implem
     private val friendRepository: FriendRepositoryImpl = FriendRepositoryImpl()
     private val friendUseCases: FriendUseCases = FriendUseCases(
@@ -104,8 +104,10 @@ class MainActivity : ComponentActivity() {
         )
     }
 
-    private val completeProfileViewModel: CompleteProfileViewModel = CompleteProfileViewModel(userUseCases)
-    private val conversationViewModel: ConversationViewModel = ConversationViewModel(conversationUseCases)
+    private val completeProfileViewModel: CompleteProfileViewModel =
+        CompleteProfileViewModel(userUseCases)
+    private val conversationViewModel: ConversationViewModel =
+        ConversationViewModel(conversationUseCases)
     private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases)
     private val friendViewModel: FriendViewModel = FriendViewModel(friendUseCases, userUseCases)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -123,7 +125,7 @@ class MainActivity : ComponentActivity() {
                             messageViewModel = messageViewModel,
                             friendViewModel = friendViewModel,
                             profileViewModel = profileViewModel
-                            )
+                        )
                     }
                 }
             }

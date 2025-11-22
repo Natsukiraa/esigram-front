@@ -53,10 +53,12 @@ fun ConversationItem(
     }
 
     Surface(
-        modifier = modifier.clickable{ onClick() }
-    ){
+        modifier = modifier.clickable { onClick() }
+    ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -65,7 +67,10 @@ fun ConversationItem(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
-                    .border(BorderStroke(1.dp, androidx.compose.ui.graphics.Color.LightGray), CircleShape)
+                    .border(
+                        BorderStroke(1.dp, androidx.compose.ui.graphics.Color.LightGray),
+                        CircleShape
+                    )
             )
 
             Column(
@@ -74,13 +79,18 @@ fun ConversationItem(
                 Text(
                     displayName,
                     fontSize = 18.sp, fontWeight = FontWeight.SemiBold,
-                    color = colorResource(id = R.color.textPrimary
+                    color = colorResource(
+                        id = R.color.textPrimary
                     )
                 )
 
-                conversation.lastMessage?.let{ message ->
+                conversation.lastMessage?.let { message ->
 
-                    val color = if(conversation.unreadCount > 0) { R.color.primaryColor } else { R.color.textSecondary }
+                    val color = if (conversation.unreadCount > 0) {
+                        R.color.primaryColor
+                    } else {
+                        R.color.textSecondary
+                    }
                     Text(
                         message.content,
                         fontSize = 12.sp,
@@ -93,7 +103,7 @@ fun ConversationItem(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.End
             ) {
-                conversation.lastMessage?.let{ message ->
+                conversation.lastMessage?.let { message ->
                     Text(
                         text = formatConversationDate(message.createdAt),
                         fontSize = 12.sp,
@@ -102,7 +112,7 @@ fun ConversationItem(
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    if(conversation.unreadCount > 0) {
+                    if (conversation.unreadCount > 0) {
                         Badge(
                             modifier = Modifier
                                 .size(22.dp),
@@ -152,6 +162,7 @@ fun ConversationItemPreview() {
         members = mutableListOf(user, user2, user3),
         lastMessage = message,
         createdAt = Instant.now(),
-        unreadCount = 2)
-    ConversationItem(conversation, Modifier,"user1", {} )
+        unreadCount = 2
+    )
+    ConversationItem(conversation, Modifier, "user1", {})
 }

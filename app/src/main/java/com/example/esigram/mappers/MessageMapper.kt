@@ -7,7 +7,8 @@ object MessageMapper {
 
     fun fromMap(id: String, data: Map<String, Any>): Message {
 
-        val attachments = (data["attachments"] as? List<*>)?.mapNotNull { it.toString() } ?: emptyList()
+        val attachments =
+            (data["attachments"] as? List<*>)?.mapNotNull { it.toString() } ?: emptyList()
         val authorId = data["authorId"].toString()
         val content = data["content"].toString()
         val createdAt = Instant.parse(data["createdAt"].toString())

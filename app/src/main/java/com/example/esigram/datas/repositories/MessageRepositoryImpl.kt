@@ -6,7 +6,7 @@ import java.io.File
 
 class MessageRepositoryImpl(
     val remote: MessageRemoteDataSource = MessageRemoteDataSource()
-): MessageRepository {
+) : MessageRepository {
     override fun listenMessages(chatId: String) = remote.listenMessage(chatId)
 
     override suspend fun createMessage(

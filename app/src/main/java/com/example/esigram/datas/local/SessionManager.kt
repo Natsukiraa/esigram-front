@@ -63,7 +63,8 @@ class SessionManager(private val context: Context) {
     }
 
     val profilePictureUrl: Flow<String?> = context.dataStore.data.map { preferences ->
-        preferences[PROFILE_PICTURE_URL]?.replace("localhost", "192.168.3.54") ?: "android.resource://${context.packageName}/drawable/default_picture"
+        preferences[PROFILE_PICTURE_URL]?.replace("localhost", "192.168.3.54")
+            ?: "android.resource://${context.packageName}/drawable/default_picture"
     }
 
     suspend fun clearSession() {

@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.esigram.domains.models.Conversation
 import com.example.esigram.domains.models.ConversationFilterType
-import com.example.esigram.domains.repositories.ConversationRepository
 import com.example.esigram.domains.usecase.conversation.ConversationUseCases
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
@@ -54,6 +53,7 @@ class ConversationViewModel(private val conversationUseCases: ConversationUseCas
             }
         }
     }
+
     private fun filterConversations(): List<Conversation> {
         val normalizedQuery = searchQuery.trim().lowercase()
 

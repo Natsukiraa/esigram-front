@@ -1,6 +1,5 @@
 package com.example.esigram.ui.components.friends
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import com.example.esigram.domains.models.FriendRequest
 import com.example.esigram.domains.models.TmpUser
 import com.example.esigram.ui.components.ProfileImage
-import java.time.Instant
 
 @Composable
 fun InboundFriendRequestItem(
@@ -51,16 +49,23 @@ fun InboundFriendRequestItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             ProfileImage(
-                url = request.userAsking?.profilePicture?.signedUrl, modifier = Modifier.size(48.dp).clip(CircleShape)
+                url = request.userAsking?.profilePicture?.signedUrl,
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(CircleShape)
             )
 
             Spacer(modifier = Modifier.width(12.dp))
 
 
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = request.userAsking?.username ?: "", style = MaterialTheme.typography.bodyLarge)
                 Text(
-                    text = request.userAsking?.email ?: "", style = MaterialTheme.typography.bodySmall.copy(
+                    text = request.userAsking?.username ?: "",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                Text(
+                    text = request.userAsking?.email ?: "",
+                    style = MaterialTheme.typography.bodySmall.copy(
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                     )
                 )

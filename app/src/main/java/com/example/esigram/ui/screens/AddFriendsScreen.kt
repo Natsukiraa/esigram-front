@@ -64,11 +64,11 @@ fun AddFriendsScreen(
                 if (query.isNotBlank()) {
                     FriendSearchOverlay(
                         allUsers = searchedUsers.data.filter {
-                        it.id !in friends.data.map { friend -> friend.id } && it.id !in outboundRequests.data.map { request -> request.userAsked?.id }
-                    }, query = query, onUserSelected = { user ->
-                        selectedUser.value = user
-                        showDialog.value = true
-                    }, modifier = Modifier
+                            it.id !in friends.data.map { friend -> friend.id } && it.id !in outboundRequests.data.map { request -> request.userAsked?.id }
+                        }, query = query, onUserSelected = { user ->
+                            selectedUser.value = user
+                            showDialog.value = true
+                        }, modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 8.dp)
                     )

@@ -24,9 +24,11 @@ import com.example.esigram.ui.theme.LightGray
 import com.example.esigram.viewModels.ProfileViewModel
 
 @Composable
-fun MainMenuTopBar(profileViewModel: ProfileViewModel,
-                   sessionManager: SessionManager,
-                   onNavigateProfile: () -> Unit) {
+fun MainMenuTopBar(
+    profileViewModel: ProfileViewModel,
+    sessionManager: SessionManager,
+    onNavigateProfile: () -> Unit
+) {
     val profilePictureUrl by sessionManager.profilePictureUrl.collectAsState(initial = "")
     val username by sessionManager.username.collectAsState(initial = "User")
 
@@ -43,7 +45,8 @@ fun MainMenuTopBar(profileViewModel: ProfileViewModel,
         ) {
             ProfileImage(
                 url = profilePictureUrl,
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier
+                    .size(48.dp)
                     .clip(CircleShape)
                     .border(BorderStroke(1.dp, LightGray), CircleShape)
                     .clickable {
@@ -51,8 +54,10 @@ fun MainMenuTopBar(profileViewModel: ProfileViewModel,
                     }
             )
 
-            Text(text = "@$username",
-                modifier = Modifier.padding(start = 6.dp))
+            Text(
+                text = "@$username",
+                modifier = Modifier.padding(start = 6.dp)
+            )
         }
     }
 }

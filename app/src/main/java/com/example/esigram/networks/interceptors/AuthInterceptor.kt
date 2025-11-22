@@ -6,7 +6,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class AuthInterceptor(private val authRepository: AuthRepository): Interceptor {
+class AuthInterceptor(private val authRepository: AuthRepository) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val token = runBlocking {

@@ -1,7 +1,5 @@
 package com.example.esigram.ui.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,13 +31,12 @@ fun ConversationSearch(
         modifier = modifier
             .height(58.dp)
             .padding(horizontal = 8.dp, vertical = 2.dp)
-    ){
+    ) {
         TextField(
-            modifier = modifier.fillMaxWidth()
-            ,
+            modifier = modifier.fillMaxWidth(),
             value = query,
             onValueChange = onQueryChanged,
-            placeholder = { Text(LocalContext.current.getString(R.string.search))},
+            placeholder = { Text(LocalContext.current.getString(R.string.search)) },
             singleLine = true,
             leadingIcon = {
                 Icon(

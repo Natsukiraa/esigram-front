@@ -38,7 +38,7 @@ import com.example.esigram.viewModels.CompleteProfileViewModel
 @Composable
 fun CompleteProfileScreen(
     completeProfileViewModel: CompleteProfileViewModel,
-    onSuccessSignUp: () -> Unit ,
+    onSuccessSignUp: () -> Unit,
     saveUser: () -> Unit
 ) {
     // mutable state data from VM
@@ -49,15 +49,16 @@ fun CompleteProfileScreen(
 
     val context = LocalContext.current
 
-    val getContent = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let { newUri ->
-            completeProfileViewModel.onFileChangeUtil(newUri, context)
+    val getContent =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let { newUri ->
+                completeProfileViewModel.onFileChangeUtil(newUri, context)
+            }
         }
-    }
 
     LaunchedEffect(submitResult) {
         submitResult.let {
-            if(it == true) {
+            if (it == true) {
                 onSuccessSignUp()
                 saveUser()
             }
@@ -68,10 +69,12 @@ fun CompleteProfileScreen(
         completeProfileViewModel.setDefaultProfilePicture(context)
     }
 
-    Surface (modifier = Modifier.fillMaxSize()) {
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)) {
+    Surface(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+        ) {
             Text(
                 context.getString(R.string.sign_up),
                 fontSize = 32.sp,
@@ -79,10 +82,12 @@ fun CompleteProfileScreen(
                 color = colorResource(id = R.color.textPrimary),
             )
 
-            Column(modifier = Modifier
-                .padding(top = 36.dp, bottom = 12.dp)
-                .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                modifier = Modifier
+                    .padding(top = 36.dp, bottom = 12.dp)
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Text(
                     context.getString(R.string.complete_profile),
                     fontSize = 24.sp,
@@ -99,8 +104,10 @@ fun CompleteProfileScreen(
                 )
             }
 
-            Column(modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 ProfileImage(
                     url = fileUri.value.toString(),
                     modifier = Modifier
@@ -110,9 +117,11 @@ fun CompleteProfileScreen(
                         .clickable { getContent.launch("image/*") }
                 )
 
-                Column(modifier = Modifier
-                    .padding(vertical = 16.dp)
-                    .fillMaxWidth()) {
+                Column(
+                    modifier = Modifier
+                        .padding(vertical = 16.dp)
+                        .fillMaxWidth()
+                ) {
                     InputTextField(
                         value = username.value,
                         onValueChanged = { completeProfileViewModel.onUsernameChange(it) },

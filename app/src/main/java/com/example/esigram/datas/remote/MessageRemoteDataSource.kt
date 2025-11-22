@@ -1,9 +1,9 @@
 package com.example.esigram.datas.remote
 
 import com.example.esigram.datas.mappers.MessageMapper
+import com.example.esigram.datas.remote.services.MessageApiService
 import com.example.esigram.domains.models.Message
 import com.example.esigram.networks.RetrofitInstance
-import com.example.esigram.datas.remote.services.MessageApiService
 import com.example.esigram.providers.FirebaseProvider
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

@@ -23,7 +23,7 @@ class AuthRepository {
     fun getUserIdToken(result: (String?) -> Unit) {
         val user = auth.currentUser
 
-        if(user == null) {
+        if (user == null) {
             result(null)
             return
         }
@@ -47,7 +47,7 @@ class AuthRepository {
     suspend fun registerUserToDB(
         username: String,
         description: String?,
-        file: Uri?= null
+        file: Uri? = null
     ): HttpResponse {
         val response = api.client.patch("${api.baseUrl}/users/me") {
             setBody(
@@ -71,8 +71,14 @@ class AuthRepository {
                                     key = "profilePicture",
                                     value = bytes,
                                     headers = Headers.build {
-                                        append(HttpHeaders.ContentDisposition, "form-data; name=\"profilePicture\"; filename=\"${filePath.name}\"")
-                                        append(HttpHeaders.ContentType, ContentType.Image.Any.toString())
+                                        append(
+                                            HttpHeaders.ContentDisposition,
+                                            "form-data; name=\"profilePicture\"; filename=\"${filePath.name}\""
+                                        )
+                                        append(
+                                            HttpHeaders.ContentType,
+                                            ContentType.Image.Any.toString()
+                                        )
                                     }
                                 )
                             }

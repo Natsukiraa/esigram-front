@@ -2,7 +2,6 @@ package com.example.esigram.ui.components.camera
 
 import androidx.camera.compose.CameraXViewfinder
 import androidx.camera.core.SurfaceRequest
-import androidx.camera.video.Recording
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding

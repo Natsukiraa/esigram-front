@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun InputTextField(value: String?, onValueChanged: (String) -> Unit, label: String){
+fun InputTextField(value: String?, onValueChanged: (String) -> Unit, label: String) {
     if (value != null) {
         OutlinedTextField(
             value = value,

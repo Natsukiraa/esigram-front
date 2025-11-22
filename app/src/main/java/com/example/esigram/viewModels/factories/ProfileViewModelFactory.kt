@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.esigram.domains.usecase.user.UserUseCases
 import com.example.esigram.viewModels.ProfileViewModel
 
-class ProfileViewModelFactory (
+class ProfileViewModelFactory(
     private val userUseCases: UserUseCases,
     private val context: Context
-): ViewModelProvider.Factory {
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
             return ProfileViewModel(userUseCases, context) as T

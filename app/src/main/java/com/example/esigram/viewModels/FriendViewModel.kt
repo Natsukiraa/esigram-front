@@ -47,9 +47,9 @@ class FriendViewModel(
 
         viewModelScope.launch {
             _searchQuery.filter { it.isNotBlank() }.collect { query ->
-                    Log.d("FriendViewModel", "Searching users with query: $query")
-                    searchUsers(query)
-                }
+                Log.d("FriendViewModel", "Searching users with query: $query")
+                searchUsers(query)
+            }
         }
     }
 

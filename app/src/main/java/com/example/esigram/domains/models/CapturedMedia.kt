@@ -1,4 +1,4 @@
-package com.example.esigram.models
+package com.example.esigram.domains.models
 
 import android.net.Uri
 

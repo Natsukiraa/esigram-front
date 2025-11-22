@@ -57,10 +57,34 @@ fun StoryListPreview() {
     )
 
     val friends = listOf(
-        CorrectUserToDelete("1", "Alice", "a@mail.com", hasStories = true, alreadyViewedStories = false),
-        CorrectUserToDelete("2", "Bob", "b@mail.com", hasStories = true, alreadyViewedStories = true),
-        CorrectUserToDelete("3", "Charlie", "c@mail.com", hasStories = true, alreadyViewedStories = false),
-        CorrectUserToDelete("4", "Diana", "d@mail.com", hasStories = true, alreadyViewedStories = true)
+        CorrectUserToDelete(
+            "1",
+            "Alice",
+            "a@mail.com",
+            hasStories = true,
+            alreadyViewedStories = false
+        ),
+        CorrectUserToDelete(
+            "2",
+            "Bob",
+            "b@mail.com",
+            hasStories = true,
+            alreadyViewedStories = true
+        ),
+        CorrectUserToDelete(
+            "3",
+            "Charlie",
+            "c@mail.com",
+            hasStories = true,
+            alreadyViewedStories = false
+        ),
+        CorrectUserToDelete(
+            "4",
+            "Diana",
+            "d@mail.com",
+            hasStories = true,
+            alreadyViewedStories = true
+        )
     )
 
     StoryList(me = me, friends = friends)

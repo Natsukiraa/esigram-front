@@ -8,7 +8,7 @@ import androidx.camera.video.VideoRecordEvent
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
-import com.example.esigram.models.CapturedMedia
+import com.example.esigram.domains.models.CapturedMedia
 import com.example.esigram.services.CameraService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -128,7 +128,10 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun onSendHandled() {
-        Log.d("CameraViewModel", "Send handled, clearing media: ${uiState.value.capturedMedia?.uri}")
+        Log.d(
+            "CameraViewModel",
+            "Send handled, clearing media: ${uiState.value.capturedMedia?.uri}"
+        )
         // Just go back to the camera
         _uiState.update { it.copy(capturedMedia = null) }
     }

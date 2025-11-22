@@ -13,8 +13,9 @@ fun HomeScreen(
     profileViewModel: ProfileViewModel,
     convViewModel: ConversationViewModel,
     sessionManager: SessionManager,
-    onNavigateProfile: () -> Unit) {
-     Column {
+    onNavigateProfile: () -> Unit
+) {
+    Column {
         MainMenuTopBar(
             profileViewModel = profileViewModel,
             onNavigateProfile = onNavigateProfile,
@@ -27,6 +28,6 @@ fun HomeScreen(
 
 @Composable
 @Preview
-fun HomeScreenPreview(){
+fun HomeScreenPreview() {
 
 }

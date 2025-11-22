@@ -61,10 +61,10 @@ fun FriendsScreen(
 
                 FriendList(
                     friends = if (query.isBlank()) friends.data else friends.data.filter {
-                    it.username.contains(
-                        query, ignoreCase = true
-                    )
-                },
+                        it.username.contains(
+                            query, ignoreCase = true
+                        )
+                    },
                     modifier = Modifier.weight(0.5f),
                     onDeleteClick = { friendViewModel.removeFriend(it.id) })
 

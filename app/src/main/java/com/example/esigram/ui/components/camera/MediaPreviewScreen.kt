@@ -27,7 +27,7 @@ import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import coil.compose.AsyncImage
-import com.example.esigram.models.CapturedMedia
+import com.example.esigram.domains.models.CapturedMedia
 
 @Composable
 fun MediaPreviewScreen(

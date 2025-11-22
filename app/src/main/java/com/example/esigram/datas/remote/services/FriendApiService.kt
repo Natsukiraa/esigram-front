@@ -16,7 +16,7 @@ interface FriendApiService {
     suspend fun rejectFriend(@Path("friendId") friendId: String)
 
     @POST("/users/{friendId}/remove-friend")
-    suspend fun removeFriend(@Path("friendId")friendId: String)
+    suspend fun removeFriend(@Path("friendId") friendId: String)
 
     @GET("/users/me/friends")
     suspend fun getFriends(): PageModel<TmpUser>

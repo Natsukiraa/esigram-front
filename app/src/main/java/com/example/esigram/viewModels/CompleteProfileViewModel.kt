@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.io.File
 
-class CompleteProfileViewModel(private val useCases: UserUseCases): ViewModel() {
+class CompleteProfileViewModel(private val useCases: UserUseCases) : ViewModel() {
     // TODO ici il faut régler le fait que le displayName c'est celui d'avant encore
     private val firebaseAuth = FirebaseAuth.getInstance().currentUser
 
@@ -38,7 +38,8 @@ class CompleteProfileViewModel(private val useCases: UserUseCases): ViewModel() 
     // Set a default picture at start of screen
     fun setDefaultProfilePicture(context: Context) {
         if (_fileUri.value == null) {
-            val defaultUri = Uri.parse("android.resource://${context.packageName}/drawable/default_picture")
+            val defaultUri =
+                Uri.parse("android.resource://${context.packageName}/drawable/default_picture")
             onFileChangeUtil(defaultUri, context)
         }
     }
@@ -51,7 +52,7 @@ class CompleteProfileViewModel(private val useCases: UserUseCases): ViewModel() 
         _username.value = newUsername
     }
 
-    fun completeSignUp(){
+    fun completeSignUp() {
         viewModelScope.launch {
             val response = useCases.patchUserUseCase(
                 username = username.value,

@@ -7,13 +7,14 @@ object MessageMapper {
 
     fun fromMap(messageId: String, currentUserId: String, data: Map<String, Any>): Message {
 
-        val attachments = (data["attachments"] as? List<*>)?.mapNotNull { it.toString() } ?: emptyList()
+        val attachments =
+            (data["attachments"] as? List<*>)?.mapNotNull { it.toString() } ?: emptyList()
         val authorId = data["authorId"].toString()
         val content = data["content"].toString()
         val createdAt = Instant.parse(data["createdAt"].toString())
-        val colorIndex: Int = if(authorId == currentUserId){
+        val colorIndex: Int = if (authorId == currentUserId) {
             2
-        }else{
+        } else {
             1
         }
 

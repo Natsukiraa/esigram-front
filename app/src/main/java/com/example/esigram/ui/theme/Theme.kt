@@ -52,12 +52,12 @@ fun EsigramTheme(
     val extraColors = if (darkTheme) {
         ExtraColors(
             chatBubble = Color(0xFF1E1E1E),
-            onlineBadge =  Color(0xFF7BCE62)
+            onlineBadge = Color(0xFF7BCE62)
         )
     } else {
         ExtraColors(
-            chatBubble =  Color(0xFFEEEEEE),
-            onlineBadge =  Color(0xFF7BCE62)
+            chatBubble = Color(0xFFEEEEEE),
+            onlineBadge = Color(0xFF7BCE62)
         )
     }
 

@@ -5,7 +5,7 @@ import com.example.esigram.domains.repositories.AuthRepository
 
 class AuthRepositoryImpl(
     val remote: AuthRemoteDataSource = AuthRemoteDataSource()
-): AuthRepository {
+) : AuthRepository {
     override fun getCurrentUser() = remote.getCurrentUser()
     override fun signOut() = remote.signOut()
 

@@ -32,7 +32,7 @@ fun NavGraph(
     messageViewModel: MessageViewModel,
     friendViewModel: FriendViewModel,
     profileViewModel: ProfileViewModel
-    ){
+) {
     val navController = rememberNavController()
 
     val startDestination = when {
@@ -70,7 +70,7 @@ fun NavGraph(
         }
 
         composable(Destinations.AUTH) {
-            AuthScreen (
+            AuthScreen(
                 authViewModel = authViewModel,
                 onSuccessSignIn = {
                     navController.navigate(Destinations.HOME) {
@@ -114,7 +114,7 @@ fun NavGraph(
 
         composable(
             route = "${Destinations.MESSAGE}/{ConvId}",
-            arguments = listOf(navArgument("ConvId") { type = NavType.StringType})
+            arguments = listOf(navArgument("ConvId") { type = NavType.StringType })
         ) { backStackEntry ->
             val convId = backStackEntry.arguments?.getString("ConvId") ?: ""
             ConversationScreen(

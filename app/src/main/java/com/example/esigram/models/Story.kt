@@ -3,7 +3,7 @@ package com.example.esigram.models
 import com.example.esigram.domains.models.Media
 import java.time.Instant
 
-class Story (
+class Story(
     var id: String,
     var author: User,
 

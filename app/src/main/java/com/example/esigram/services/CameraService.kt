@@ -71,7 +71,8 @@ class CameraService(private val context: Context) {
     }
 
     suspend fun capturePhoto(): Result<Uri> {
-        val capture = imageCapture ?: return Result.failure(IllegalStateException("ImageCapture not initialized"))
+        val capture = imageCapture
+            ?: return Result.failure(IllegalStateException("ImageCapture not initialized"))
 
         return suspendCancellableCoroutine { continuation ->
             val name = "IMG_${System.currentTimeMillis()}.jpg"

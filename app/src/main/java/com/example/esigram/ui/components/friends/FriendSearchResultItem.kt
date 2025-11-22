@@ -25,10 +25,11 @@ import com.example.esigram.ui.components.ProfileImage
 fun FriendSearchResultItem(
     user: TmpUser, onClick: (TmpUser) -> Unit
 ) {
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .clickable { onClick(user) }
-        .padding(horizontal = 16.dp, vertical = 10.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick(user) }
+            .padding(horizontal = 16.dp, vertical = 10.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
 
             ProfileImage(

@@ -65,15 +65,15 @@ fun StoryItem(
 @Composable
 fun StoryItemPreview() {
     val story = Story(
-            "1",
-            User(
-                id = "1",
-                forename = "Arthur",
-                name = "Morelon",
-                image = "https://randomuser.me/api/portraits/men/1.jpg",
-                isOnline = true
-            )
+        "1",
+        User(
+            id = "1",
+            forename = "Arthur",
+            name = "Morelon",
+            image = "https://randomuser.me/api/portraits/men/1.jpg",
+            isOnline = true
         )
+    )
 
     StoryItem(story, Modifier.size(48.dp))
 }

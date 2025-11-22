@@ -37,7 +37,7 @@ fun ChatInputField(
         RoundedCornerShape(16.dp)
     }
 
-    Row (
+    Row(
         modifier = Modifier
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -68,7 +68,7 @@ fun ChatInputField(
         )
 
         if (value.trim().isNotEmpty()) {
-            IconButton (
+            IconButton(
                 onClick = onSendClick,
                 modifier = Modifier
                     .size(42.dp)
@@ -101,7 +101,7 @@ fun ChatInputField(
 
 @Composable
 @Preview
-fun ChatInputFieldPreview(){
+fun ChatInputFieldPreview() {
     ChatInputField(
         value = "1",
         onValueChanged = {},
