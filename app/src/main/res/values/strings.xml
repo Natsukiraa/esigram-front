@@ -19,4 +19,5 @@
     <string name="back">Back</string>
     <string name="sign_out">Sign out</string>
     <string name="personal_info">Personal informations</string>
+    <string name="save_changes">Save changes</string>
 </resources>

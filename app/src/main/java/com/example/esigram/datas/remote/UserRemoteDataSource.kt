@@ -1,9 +1,7 @@
 package com.example.esigram.datas.remote
 
-import android.util.Log
 import com.example.esigram.networks.RetrofitInstance
 import com.example.esigram.datas.remote.services.UserApiService
-import com.example.esigram.domains.models.CorrectUser
 import com.example.esigram.domains.models.responses.UserResponse
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
@@ -27,7 +25,7 @@ class UserRemoteDataSource {
     suspend fun patchUser(
         username: String,
         description: String?,
-        file: File?= null): Result<Unit> {
+        file: File?= null): Result<UserResponse> {
         return try {
 
             val jsonData = Json.encodeToString(
@@ -54,8 +52,13 @@ class UserRemoteDataSource {
                 profilePicture
             )
 
-            if(res.isSuccessful) Result.success(Unit)
-            else Result.failure(Exception("Error ${res.code()}"))
+            if (res.isSuccessful) {
+                val meRes = userService.getMe()
+                if (meRes.isSuccessful) Result.success(meRes.body()!!)
+                else Result.failure(Exception("Error ${meRes.code()}"))
+            } else {
+                Result.failure(Exception("Error ${res.code()}"))
+            }
         } catch (e: Exception){
             Result.failure(e)
         }
