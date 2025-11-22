@@ -2,7 +2,6 @@ package com.example.esigram.datas.remote.services
 
 import com.example.esigram.domains.models.TmpUser
 import com.example.esigram.domains.models.responses.PageModel
-import com.example.esigram.domains.models.UserResponse
 import com.example.esigram.domains.models.responses.UserResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

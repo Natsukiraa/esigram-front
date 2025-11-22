@@ -37,7 +37,7 @@ fun NavGraph(
 
     val startDestination = when {
         !authViewModel.isUserLoggedIn() -> Destinations.AUTH
-        else -> Destinations.FRIENDS
+        else -> Destinations.HOME
     }
 
     NavHost(
