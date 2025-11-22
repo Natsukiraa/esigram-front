@@ -107,7 +107,6 @@ class MainActivity : ComponentActivity() {
     private val completeProfileViewModel: CompleteProfileViewModel = CompleteProfileViewModel(userUseCases)
     private val conversationViewModel: ConversationViewModel = ConversationViewModel(conversationUseCases)
     private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases)
-    private val profileViewModel: ProfileViewModel = ProfileViewModel(userUseCases)
     private val friendViewModel: FriendViewModel = FriendViewModel(friendUseCases, userUseCases)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
