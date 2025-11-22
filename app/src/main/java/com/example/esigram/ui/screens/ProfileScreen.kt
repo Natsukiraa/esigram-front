@@ -1,11 +1,13 @@
 package com.example.esigram.ui.screens
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -43,7 +44,15 @@ fun ProfileScreen(
     val description = profileViewModel.description.collectAsState()
     val profilePictureUrl = profileViewModel.profilePictureUrl.collectAsState()
     val isEditing = profileViewModel.isEditing.collectAsState()
-    
+    val fileUri = profileViewModel.fileUri.collectAsState()
+
+    val getContent = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let { newUri ->
+            profileViewModel.onFileChangeUtil(newUri, context)
+        }
+        profileViewModel.onEdit()
+    }
+
     Column {
         NavigationBar(
             title = context.getString(R.string.profile),
@@ -59,12 +68,15 @@ fun ProfileScreen(
         ) {
 
             ProfileImage(
-                url = profilePictureUrl.value,
+                url = if (fileUri.value != null) fileUri.value.toString() else profilePictureUrl.value,
                 modifier = Modifier
                     .size(128.dp)
                     .clip(CircleShape)
                     .border(BorderStroke(1.dp, LightGray), CircleShape)
                     .align(Alignment.CenterHorizontally)
+                    .clickable {
+                        getContent.launch("image/*")
+                    }
             )
 
             Spacer(Modifier.height(24.dp))
@@ -107,7 +119,7 @@ fun ProfileScreen(
                 enabled = isEditing.value,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Save Changes")
+                Text(context.getString(R.string.save_changes))
             }
 
             Spacer(Modifier.height(12.dp))

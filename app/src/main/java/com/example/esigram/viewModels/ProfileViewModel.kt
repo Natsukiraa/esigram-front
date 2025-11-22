@@ -1,16 +1,19 @@
 package com.example.esigram.viewModels
 
 import android.content.Context
+import android.net.Uri
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.esigram.datas.local.SessionManager
 import com.example.esigram.domains.usecase.user.UserUseCases
+import com.example.esigram.viewModels.utils.onFileChange
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
+import java.io.File
 
 class ProfileViewModel(
     private val useCases: UserUseCases,
@@ -29,6 +32,12 @@ class ProfileViewModel(
 
     private val _profilePictureUrl = MutableStateFlow("")
     val profilePictureUrl = _profilePictureUrl.asStateFlow()
+
+    private val _file = MutableStateFlow<File?>(null)
+    val file = _file.asStateFlow()
+
+    private val _fileUri = MutableStateFlow<Uri?>(null)
+    val fileUri = _fileUri.asStateFlow()
 
     private val _isEditing = MutableStateFlow(false)
     val isEditing = _isEditing.asStateFlow()
@@ -59,27 +68,42 @@ class ProfileViewModel(
         _isEditing.value = true
     }
 
+    fun onFileChangeUtil(newFile: Uri, context: Context) {
+        onFileChange(newFile, context, _fileUri, _file)
+    }
+
     fun onSave() {
         viewModelScope.launch {
             val response = useCases.patchUserUseCase(
                 username = username.value,
                 description = description.value,
-                file = null
+                file = file.value
             )
 
             if (response.isSuccess) {
-                sessionManager.updateUserSession(
-                    username = username.value,
-                    description = description.value,
-                    profilePictureUrl = profilePictureUrl.value
-                )
+                val userResponse = response.getOrNull()
+                val newUserProfile = userResponse?.data
 
-                Toast.makeText(context, "Profile updated successfully !", Toast.LENGTH_SHORT).show()
-                _isEditing.value = false
+                newUserProfile?.let {
+                    sessionManager.updateUserSession(
+                        username = newUserProfile.username,
+                        description = newUserProfile.description,
+                        profilePictureUrl = newUserProfile.profilePictureUrl?.signedUrl
+                    )
+
+                    Toast.makeText(context, "Profile updated successfully !", Toast.LENGTH_SHORT).show()
+                    _isEditing.value = false
+
+                    clearProfilePictureData()
+                }
             }
         }
     }
 
+    fun clearProfilePictureData() {
+        _file.value = null
+        _fileUri.value = null
+    }
 }
 
 

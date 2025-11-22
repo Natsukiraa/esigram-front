@@ -50,7 +50,9 @@ fun CompleteProfileScreen(
     val context = LocalContext.current
 
     val getContent = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let { completeProfileViewModel.onFileChange(it, context) }
+        uri?.let { newUri ->
+            completeProfileViewModel.onFileChangeUtil(newUri, context)
+        }
     }
 
     LaunchedEffect(submitResult) {
