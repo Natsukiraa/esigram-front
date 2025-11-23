@@ -1,12 +1,20 @@
 package com.example.esigram.viewModels
 
-import androidx.compose.runtime.mutableStateListOf
+import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.example.esigram.domains.models.Story
-import com.example.esigram.domains.repositories.StoryRepository
+import com.example.esigram.domains.usecase.story.StoryUseCases
+import java.io.File
 
-class StoryViewModel : ViewModel() {
-    private val repo = StoryRepository()
-    private val _stories = mutableStateListOf<Story>().apply { addAll(repo.getAll()) }
-    val stories: List<Story> = _stories
+class StoryViewModel(
+    private val useCases: StoryUseCases
+) : ViewModel() {
+    suspend fun postStory(file: File): Boolean {
+        return try {
+            useCases.createStoryUseCase(file)
+            true
+        } catch (e: Exception) {
+            Log.e("StoryViewModel", "Error posting story: ${e.message}")
+            false
+        }
+    }
 }
