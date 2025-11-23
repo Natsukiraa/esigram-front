@@ -45,6 +45,14 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    fun unbindCamera() {
+        try {
+            cameraService.unbindCamera()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     fun onMediaSelected(uri: Uri?) {
         if (uri == null) {
             Log.d("CameraViewModel", "Media selection cancelled.")

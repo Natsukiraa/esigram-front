@@ -20,6 +20,7 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 @Composable
 fun CameraScreen(
     viewModel: CameraViewModel,
+    isFocused: Boolean,
     onSend: (CapturedMedia) -> Unit
 ) {
     val permissionState = rememberMultiplePermissionsState(
@@ -39,8 +40,12 @@ fun CameraScreen(
     }
 
     if (permissionState.allPermissionsGranted) {
-        LaunchedEffect(Unit) {
-            viewModel.bindCamera(lifecycleOwner)
+        LaunchedEffect(isFocused) {
+            if (isFocused) {
+                viewModel.bindCamera(lifecycleOwner)
+            } else {
+                viewModel.unbindCamera()
+            }
         }
 
         if (uiState.capturedMedia == null) {
