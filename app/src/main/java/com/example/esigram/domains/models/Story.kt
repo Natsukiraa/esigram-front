@@ -5,8 +5,8 @@ import java.time.Instant
 data class Story(
     var id: String,
     var media: Media,
-    var viewers: List<User>,
-    var author: User,
+    var viewers: List<TmpUser>,
+    var author: TmpUser?,
     var createdAt: Instant,
     var expirationAt: Instant
 )

@@ -7,5 +7,5 @@ data class TmpUser(
     var description: String? = null,
     var profilePicture: Media? = null,
     var hasStories: Boolean = false,
-    var alreadyViewedStories: Boolean = false
+    var hasUnseenStories: Boolean = false
 )

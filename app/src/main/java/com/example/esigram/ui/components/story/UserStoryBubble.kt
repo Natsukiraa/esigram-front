@@ -42,7 +42,7 @@ fun UserStoryBubble(
                 .matchParentSize()
                 .border(
                     width = 3.dp,
-                    brush = if (!author.alreadyViewedStories) {
+                    brush = if (author.hasUnseenStories) {
                         Brush.linearGradient(
                             colors = listOf(colorResource(id = R.color.primaryColor), Color.Cyan),
                             start = androidx.compose.ui.geometry.Offset(50f, 50f),
@@ -89,7 +89,7 @@ fun UserStoryBubblePreview() {
         username = "johndoe",
         email = "jonhdoe@test.fr",
         description = "Just a test user",
-        alreadyViewedStories = false,
+        hasUnseenStories = false,
         profilePicture = Media(
             id = "media1",
             signedUrl = "https://cataas.com/cat"

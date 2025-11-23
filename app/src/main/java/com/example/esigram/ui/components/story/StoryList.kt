@@ -1,5 +1,6 @@
 package com.example.esigram.ui.components.story
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,7 +22,8 @@ fun StoryList(
 ) {
     val sortedFriends = friends
         .filter { it.hasStories }
-        .sortedBy { it.alreadyViewedStories }
+        .sortedBy { it.hasUnseenStories }
+    Log.d("StoryList", "Friends: $friends")
 
     LazyRow(
         modifier = Modifier
@@ -62,28 +64,28 @@ fun StoryListPreview() {
             "Alice",
             "a@mail.com",
             hasStories = true,
-            alreadyViewedStories = false
+            hasUnseenStories = false
         ),
         TmpUser(
             "2",
             "Bob",
             "b@mail.com",
             hasStories = true,
-            alreadyViewedStories = true
+            hasUnseenStories = true
         ),
         TmpUser(
             "3",
             "Charlie",
             "c@mail.com",
             hasStories = true,
-            alreadyViewedStories = false
+            hasUnseenStories = false
         ),
         TmpUser(
             "4",
             "Diana",
             "d@mail.com",
             hasStories = true,
-            alreadyViewedStories = true
+            hasUnseenStories = true
         )
     )
 
