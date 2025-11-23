@@ -1,15 +1,24 @@
 package com.example.esigram.datas.repositories
 
+import ConversationBasic
 import android.util.Log
 import com.example.esigram.datas.mappers.toDomain
+import com.example.esigram.datas.mappers.toDomainBasic
 import com.example.esigram.datas.remote.ConversationRemoteDataSource
+import com.example.esigram.datas.remote.MediaRemoteDataSource
+import com.example.esigram.datas.remote.UserRemoteDataSource
+import com.example.esigram.datas.remote.models.UserDto
 import com.example.esigram.domains.models.Conversation
 import com.example.esigram.domains.repositories.ConversationRepository
+import com.example.esigram.models.Media
+import com.example.esigram.models.UserConversation
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class ConversationRepositoryImpl(
-    val remote: ConversationRemoteDataSource = ConversationRemoteDataSource()
+    val remote: ConversationRemoteDataSource = ConversationRemoteDataSource(),
+    val userRemote: UserRemoteDataSource = UserRemoteDataSource(),
+    val mediaRemote: MediaRemoteDataSource = MediaRemoteDataSource(),
 ): ConversationRepository {
     override suspend fun getAll(userId: String) = remote.getAll(userId)
     override suspend fun getById(id: String): Conversation? {
@@ -20,9 +29,27 @@ class ConversationRepositoryImpl(
     override fun observeConversation(id: String): Flow<Conversation?> {
         return remote.observeConversation(id).map { dto ->
             if (dto == null) return@map null
-            val conv = dto.toDomain()
-            Log.e("DEBUG_CONV", "Conversation reçue = $conv")
-            conv
+
+            val basic = dto.toDomainBasic()
+
+            val membersWithMedia = basic.members.map { member ->
+                val newMember = userRemote.getUserById(member.id)
+                newMember ?: UserConversation(
+                    id = member.id,
+                    username = member.username,
+                    profilePicture = null
+                )
+            }
+
+            return@map Conversation(
+                id = basic.id,
+                members = membersWithMedia,
+                coverImageId = basic.coverImageId,
+                lastMessage = basic.lastMessage,
+                unreadCount = basic.unreadCount,
+                title = basic.title,
+                createdAt = basic.createdAt
+            )
         }
     }
 }

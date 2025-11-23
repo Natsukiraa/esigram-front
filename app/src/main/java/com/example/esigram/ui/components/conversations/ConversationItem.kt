@@ -1,5 +1,6 @@
 package com.example.esigram.ui.components.conversations
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -47,8 +48,8 @@ fun ConversationItem(
         otherUsers.firstOrNull()?.username ?: ""
     }
 
-    val displayImage = null
-
+    val displayImage =
+        conversation.members[0].profilePicture?.signedUrl
     Surface(
         modifier = modifier.clickable { onClick() }
     ) {
@@ -60,7 +61,7 @@ fun ConversationItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             ProfileImage(
-                url = displayImage ?: "",
+                url = displayImage,
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
