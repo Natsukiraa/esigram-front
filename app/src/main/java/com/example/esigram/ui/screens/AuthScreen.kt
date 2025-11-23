@@ -33,11 +33,14 @@ fun AuthScreen(
     val password = authViewModel.password.collectAsState()
     val pageState = authViewModel.pageState.collectAsState()
 
-    LaunchedEffect(finishedAuth) {
-        if (authViewModel.isNewUser()) {
-            onSignUp()
-        } else {
-            onSuccessSignIn()
+    LaunchedEffect(finishedAuth.value) {
+        if(finishedAuth.value) {
+            if (authViewModel.isNewUser()) {
+                onSignUp()
+            } else {
+                onSuccessSignIn()
+            }
+            authViewModel.changeFinishedAuth(false)
         }
     }
 
@@ -50,7 +53,7 @@ fun AuthScreen(
                     .fillMaxWidth()
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.logo), // Assure-toi d'avoir ce drawable
+                    painter = painterResource(id = R.drawable.logo),
                     contentDescription = context.getString(R.string.app_logo_desc),
                     modifier = Modifier
                         .size(120.dp)
@@ -61,7 +64,7 @@ fun AuthScreen(
 
                 Column(modifier = Modifier.padding(vertical = 16.dp)) {
                     Text(
-                        text = if (pageState.equals("Login")) context.getString(R.string.welcome) else context.getString(R.string.register),
+                        text = if (pageState.value == "Login") context.getString(R.string.welcome) else context.getString(R.string.register),
                         style = MaterialTheme.typography.headlineMedium,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
@@ -101,7 +104,7 @@ fun AuthScreen(
 
                 Button(
                     onClick = {
-                        if (pageState.equals("Login")) {
+                        if (pageState.value == "Login") {
                             authViewModel.login(email.value, password.value)
                         } else {
                             authViewModel.register(email.value, password.value)
@@ -112,19 +115,19 @@ fun AuthScreen(
                         .height(50.dp)
                 ) {
                     Text(
-                        text = if (pageState.equals("Login")) context.getString(R.string.login) else context.getString(R.string.sign_up)
+                        text = if (pageState.value =="Login") context.getString(R.string.login) else context.getString(R.string.sign_up)
                     )
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = if (pageState.equals("Login")) context.getString(R.string.not_registered_yet) else context.getString(R.string.already_registered),
+                    text = if (pageState.value == "Login") context.getString(R.string.not_registered_yet) else context.getString(R.string.already_registered),
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                         .clickable {
                             authViewModel.onPageStateChange(
-                                if (pageState.equals("Login")) "Register" else "Login"
+                                if (pageState.value == "Login") "Register" else "Login"
                             )
                         }
                         .padding(8.dp)

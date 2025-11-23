@@ -1,6 +1,7 @@
 package com.example.esigram.viewModels
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -68,9 +69,8 @@ class AuthViewModel(
                 val result = authUseCases.loginUseCase(email, pass)
 
                 if (result.isSuccess) {
-                    changeFinishedAuth(true)
                     refreshUser()
-                    saveUserSession()
+                    changeFinishedAuth(true)
                 } else {
                     Toast.makeText(
                         context,
@@ -99,9 +99,8 @@ class AuthViewModel(
                 val result = authUseCases.registerUseCase(email, pass)
 
                 if (result.isSuccess) {
-                    changeFinishedAuth(true)
                     refreshUser()
-                    saveUserSession()
+                    changeFinishedAuth(true)
                 } else {
                     Toast.makeText(
                         context,
