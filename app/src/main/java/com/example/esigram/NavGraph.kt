@@ -1,5 +1,6 @@
 package com.example.esigram
 
+
 import android.util.Log
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
@@ -17,12 +18,16 @@ import com.example.esigram.ui.screens.ConversationScreen
 import com.example.esigram.ui.screens.FriendsScreen
 import com.example.esigram.ui.screens.HomeScreen
 import com.example.esigram.ui.screens.ProfileScreen
+import com.example.esigram.ui.screens.StoryPlayerScreen
 import com.example.esigram.viewModels.AuthViewModel
+import com.example.esigram.viewModels.CameraViewModel
 import com.example.esigram.viewModels.CompleteProfileViewModel
 import com.example.esigram.viewModels.ConversationViewModel
 import com.example.esigram.viewModels.FriendViewModel
 import com.example.esigram.viewModels.MessageViewModel
 import com.example.esigram.viewModels.ProfileViewModel
+import com.example.esigram.viewModels.StoryPlayerViewModel
+import com.example.esigram.viewModels.StoryViewModel
 
 @Composable
 fun NavGraph(
@@ -31,7 +36,10 @@ fun NavGraph(
     convViewModel: ConversationViewModel,
     messageViewModel: MessageViewModel,
     friendViewModel: FriendViewModel,
-    profileViewModel: ProfileViewModel
+    profileViewModel: ProfileViewModel,
+    cameraViewModel: CameraViewModel,
+    storyViewModel: StoryViewModel,
+    storyPlayerViewModel: StoryPlayerViewModel
 ) {
     val navController = rememberNavController()
 
@@ -51,7 +59,11 @@ fun NavGraph(
                 onNavigateProfile = {
                     navController.navigate(Destinations.PROFILE)
                 },
-                sessionManager = authViewModel.sessionManager
+                sessionManager = authViewModel.sessionManager,
+                cameraViewModel = cameraViewModel,
+                storyViewModel = storyViewModel,
+                friendViewModel = friendViewModel,
+                onClickStory = { userId -> navController.navigate("${Destinations.STORIES}/$userId") }
             )
         }
 
@@ -143,6 +155,21 @@ fun NavGraph(
             exitTransition = { slideOutHorizontally { it } }) {
             AddFriendsScreen(
                 friendViewModel = friendViewModel, onBack = { navController.popBackStack() })
+        }
+
+        composable(
+            route = "${Destinations.STORIES}/{userId}",
+            arguments = listOf(navArgument("userId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId") ?: return@composable
+
+            val playerViewModel: StoryPlayerViewModel = storyPlayerViewModel
+
+            StoryPlayerScreen(
+                viewModel = playerViewModel,
+                userId = userId,
+                onClose = { navController.popBackStack() }
+            )
         }
     }
 }

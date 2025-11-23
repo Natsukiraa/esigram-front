@@ -12,6 +12,7 @@ import com.example.esigram.datas.repositories.AuthRepositoryImpl
 import com.example.esigram.datas.repositories.ConversationRepositoryImpl
 import com.example.esigram.datas.repositories.FriendRepositoryImpl
 import com.example.esigram.datas.repositories.MessageRepositoryImpl
+import com.example.esigram.datas.repositories.StoryRepositoryImpl
 import com.example.esigram.datas.repositories.UserRepositoryImpl
 import com.example.esigram.domains.repositories.ConversationRepository
 import com.example.esigram.domains.usecase.auth.AuthUseCases
@@ -32,17 +33,23 @@ import com.example.esigram.domains.usecase.message.CreateMessageUseCase
 import com.example.esigram.domains.usecase.message.DeleteMessageUseCase
 import com.example.esigram.domains.usecase.message.ListenMessagesUseCase
 import com.example.esigram.domains.usecase.message.MessageUseCases
+import com.example.esigram.domains.usecase.story.CreateStoryUseCase
+import com.example.esigram.domains.usecase.story.GetStoriesUseCase
+import com.example.esigram.domains.usecase.story.StoryUseCases
 import com.example.esigram.domains.usecase.user.GetMeCase
 import com.example.esigram.domains.usecase.user.GetUsersUseCase
 import com.example.esigram.domains.usecase.user.PatchUserUseCase
 import com.example.esigram.domains.usecase.user.UserUseCases
 import com.example.esigram.ui.theme.EsigramTheme
 import com.example.esigram.viewModels.AuthViewModel
+import com.example.esigram.viewModels.CameraViewModel
 import com.example.esigram.viewModels.CompleteProfileViewModel
 import com.example.esigram.viewModels.ConversationViewModel
 import com.example.esigram.viewModels.FriendViewModel
 import com.example.esigram.viewModels.MessageViewModel
 import com.example.esigram.viewModels.ProfileViewModel
+import com.example.esigram.viewModels.StoryPlayerViewModel
+import com.example.esigram.viewModels.StoryViewModel
 import com.example.esigram.viewModels.factories.AuthViewModelFactory
 import com.example.esigram.viewModels.factories.ProfileViewModelFactory
 
@@ -89,6 +96,13 @@ class MainActivity : ComponentActivity() {
         getFriendRequestsUseCase = GetFriendRequestsUseCase(friendRepository)
     )
 
+    private val storyRepository: StoryRepositoryImpl = StoryRepositoryImpl()
+    private val storyUseCases: StoryUseCases = StoryUseCases(
+        createStoryUseCase = CreateStoryUseCase(storyRepository),
+        getStoriesUseCase = GetStoriesUseCase(storyRepository)
+    )
+
+
     private val authViewModel: AuthViewModel by viewModels {
         AuthViewModelFactory(
             authUseCases = authUseCases,
@@ -110,6 +124,10 @@ class MainActivity : ComponentActivity() {
         ConversationViewModel(conversationUseCases)
     private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases)
     private val friendViewModel: FriendViewModel = FriendViewModel(friendUseCases, userUseCases)
+    private val cameraViewModel: CameraViewModel by viewModels()
+    private val storyViewModel: StoryViewModel = StoryViewModel(storyUseCases)
+    private val storyPlayerViewModel: StoryPlayerViewModel = StoryPlayerViewModel(storyUseCases)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -124,7 +142,10 @@ class MainActivity : ComponentActivity() {
                             completeProfileViewModel = completeProfileViewModel,
                             messageViewModel = messageViewModel,
                             friendViewModel = friendViewModel,
-                            profileViewModel = profileViewModel
+                            profileViewModel = profileViewModel,
+                            cameraViewModel = cameraViewModel,
+                            storyViewModel = storyViewModel,
+                            storyPlayerViewModel = storyPlayerViewModel
                         )
                     }
                 }

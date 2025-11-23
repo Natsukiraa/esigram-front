@@ -4,7 +4,10 @@ import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.esigram.domains.models.Media
+import com.example.esigram.domains.models.TmpUser
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 val Context.dataStore by preferencesDataStore(name = "user_session")
@@ -16,6 +19,15 @@ class SessionManager(private val context: Context) {
         val EMAIL = stringPreferencesKey("email")
         val DESCRIPTION = stringPreferencesKey("description")
         val PROFILE_PICTURE_URL = stringPreferencesKey("profilePictureUrl")
+    }
+
+    suspend fun getAsUser(): TmpUser {
+        return TmpUser(
+            id = id.first(),
+            username = username.first(),
+            email = email.first(),
+            profilePicture = Media(id = "null", signedUrl = profilePictureUrl.first() ?: "")
+        )
     }
 
     suspend fun saveUserSession(
