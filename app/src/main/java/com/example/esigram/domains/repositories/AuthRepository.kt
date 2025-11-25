@@ -6,4 +6,6 @@ interface AuthRepository {
     fun getCurrentUser(): FirebaseUser?
     fun signOut()
     fun getUserIdToken(result: (String?) -> Unit)
+    suspend fun login(email: String, pass: String): Result<FirebaseUser?>
+    suspend fun register(email: String, pass: String): Result<FirebaseUser?>
 }

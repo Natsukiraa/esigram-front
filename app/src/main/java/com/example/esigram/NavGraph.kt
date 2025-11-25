@@ -73,6 +73,7 @@ fun NavGraph(
             AuthScreen(
                 authViewModel = authViewModel,
                 onSuccessSignIn = {
+                    authViewModel.saveUserSession()
                     navController.navigate(Destinations.HOME) {
                         popUpTo(0)
                     }

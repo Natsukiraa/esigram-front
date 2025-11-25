@@ -17,6 +17,8 @@ import com.example.esigram.domains.repositories.ConversationRepository
 import com.example.esigram.domains.usecase.auth.AuthUseCases
 import com.example.esigram.domains.usecase.auth.GetCurrentUserUseCase
 import com.example.esigram.domains.usecase.auth.GetUserIdTokenUseCase
+import com.example.esigram.domains.usecase.auth.LoginUseCase
+import com.example.esigram.domains.usecase.auth.RegisterUseCase
 import com.example.esigram.domains.usecase.auth.SignOutUseCase
 import com.example.esigram.domains.usecase.conversation.ConversationUseCases
 import com.example.esigram.domains.usecase.conversation.GetAllUseCase
@@ -53,6 +55,8 @@ class MainActivity : ComponentActivity() {
         getCurrentUserUseCase = GetCurrentUserUseCase(authRepository),
         signOutUseCase = SignOutUseCase(authRepository),
         getUserIdTokenUseCase = GetUserIdTokenUseCase(authRepository),
+        loginUseCase = LoginUseCase(authRepository),
+        registerUseCase = RegisterUseCase(authRepository),
     )
 
     // user repo implem
