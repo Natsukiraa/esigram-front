@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.esigram.R
 import com.example.esigram.ui.components.form.EditTextField
+import com.example.esigram.ui.components.form.PasswordTextField
 import com.example.esigram.viewModels.AuthViewModel
 
 @Composable
@@ -92,12 +93,12 @@ fun AuthScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                EditTextField(
+                PasswordTextField(
                     value = password.value,
                     onValueChange = {
                         authViewModel.onPasswordChange(it)
                     },
-                    label = context.getString(R.string.password),
+                    label = context.getString(R.string.password)
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
