@@ -1,4 +1,4 @@
-package com.example.esigram.ui.components
+package com.example.esigram.ui.components.conversations
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

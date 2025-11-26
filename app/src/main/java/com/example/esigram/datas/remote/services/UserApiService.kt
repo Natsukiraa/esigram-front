@@ -1,5 +1,6 @@
 package com.example.esigram.datas.remote.services
 
+import com.example.esigram.datas.remote.models.ResponsUserDto
 import com.example.esigram.domains.models.TmpUser
 import com.example.esigram.domains.models.responses.PageModel
 import com.example.esigram.domains.models.responses.UserResponse
@@ -10,11 +11,17 @@ import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface UserApiService {
     @GET("/users/me")
     suspend fun getMe(): Response<UserResponse>
+
+    @GET("/users/{id}")
+    suspend fun getUserById(
+        @Path("id") id: String
+    ): Response<ResponsUserDto>
 
     @Multipart
     @PATCH("/users/me")

@@ -1,10 +1,10 @@
 package com.example.esigram.domains.models
-
+import com.example.esigram.models.UserConversation
 import java.time.Instant
 
 data class Conversation(
     val id: String,
-    val members: List<User>,
+    val members: List<UserConversation>,
     val coverImageId: String? = null,
     val lastMessage: Message? = null,
     val unreadCount: Int = 0,

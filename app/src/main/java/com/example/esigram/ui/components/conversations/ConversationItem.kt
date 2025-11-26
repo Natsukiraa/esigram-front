@@ -1,4 +1,4 @@
-package com.example.esigram.ui.components
+package com.example.esigram.ui.components.conversations
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import com.example.esigram.R
 import com.example.esigram.domains.models.Conversation
 import com.example.esigram.domains.models.Message
-import com.example.esigram.domains.models.User
+import com.example.esigram.models.UserConversation
 import com.example.esigram.ui.utils.formatConversationDate
 import java.time.Instant
 
@@ -41,17 +42,13 @@ fun ConversationItem(
     val otherUsers = conversation.members.filter { it.id != currentUserId }
 
     val displayName = if (conversation.isGroup) {
-        conversation.title ?: otherUsers.joinToString(", ") { "${it.forename} ${it.name}" }
+        conversation.title ?: otherUsers.joinToString(", ") { it.username }
     } else {
-        "${otherUsers.firstOrNull()?.forename ?: ""} ${otherUsers.firstOrNull()?.name ?: ""}"
+        otherUsers.firstOrNull()?.username ?: ""
     }
 
-    val displayImage = if (conversation.isGroup) {
-        otherUsers.firstOrNull()?.image
-    } else {
-        otherUsers.firstOrNull()?.image
-    }
-
+    val displayImage =
+        conversation.members[0].profilePicture?.signedUrl
     Surface(
         modifier = modifier.clickable { onClick() }
     ) {
@@ -63,14 +60,11 @@ fun ConversationItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             ProfileImage(
-                url = displayImage ?: "",
+                url = displayImage,
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
-                    .border(
-                        BorderStroke(1.dp, androidx.compose.ui.graphics.Color.LightGray),
-                        CircleShape
-                    )
+                    .border(BorderStroke(1.dp, Color.LightGray), CircleShape)
             )
 
             Column(
@@ -130,25 +124,19 @@ fun ConversationItem(
 @Preview
 @Composable
 fun ConversationItemPreview() {
-    val user = User(
+    val user1 = UserConversation(
         id = "user1",
-        forename = "Arthur",
-        name = "Morelon",
-        image = "https://randomuser.me/api/portraits/men/1.jpg"
+        username = "azdazd",
     )
 
-    val user2 = User(
+    val user2 = UserConversation(
         id = "user2",
-        forename = "Léna",
-        name = "Mabille",
-        image = "https://randomuser.me/api/portraits/men/1.jpg"
+        username = "azdazd",
     )
 
-    val user3 = User(
+    val user3 = UserConversation(
         id = "user3",
-        forename = "Lina",
-        name = "Phe",
-        image = "https://randomuser.me/api/portraits/men/1.jpg"
+        username = "azdazd",
     )
 
     val message = Message(
@@ -159,7 +147,7 @@ fun ConversationItemPreview() {
     )
     val conversation = Conversation(
         "dkqsjdioqsjd",
-        members = mutableListOf(user, user2, user3),
+        members = mutableListOf(user1, user2, user3),
         lastMessage = message,
         createdAt = Instant.now(),
         unreadCount = 2

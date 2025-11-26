@@ -25,7 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.example.esigram.R
-import com.example.esigram.ui.components.ProfileImage
+import com.example.esigram.ui.components.conversations.ProfileImage
 import com.example.esigram.ui.components.form.EditTextField
 import com.example.esigram.ui.components.navigation.NavigationBar
 import com.example.esigram.ui.theme.LightGray

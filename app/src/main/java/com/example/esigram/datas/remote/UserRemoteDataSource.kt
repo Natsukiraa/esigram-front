@@ -1,7 +1,9 @@
 package com.example.esigram.datas.remote
 
+import com.example.esigram.datas.mappers.toDomain
 import com.example.esigram.datas.remote.services.UserApiService
 import com.example.esigram.domains.models.responses.UserResponse
+import com.example.esigram.models.UserConversation
 import com.example.esigram.networks.RetrofitInstance
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
@@ -20,6 +22,13 @@ class UserRemoteDataSource {
 
     suspend fun getMe(): Response<UserResponse> {
         return userService.getMe()
+    }
+
+    suspend fun getUserById(userId: String): UserConversation? {
+        val response = userService.getUserById(userId)
+        return if (response.isSuccessful) {
+            response.body()?.data?.toDomain()
+        } else null
     }
 
     suspend fun patchUser(

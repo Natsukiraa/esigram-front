@@ -67,20 +67,19 @@ class MainActivity : ComponentActivity() {
         getUsersUseCase = GetUsersUseCase(userRepository)
     )
 
+    private val messageRepository: MessageRepositoryImpl = MessageRepositoryImpl()
+    private val messageUseCases: MessageUseCases = MessageUseCases(
+        listenMessagesUseCase = ListenMessagesUseCase(messageRepository),
+        createMessageUseCase = CreateMessageUseCase(messageRepository),
+        deleteMessageUseCase = DeleteMessageUseCase(messageRepository)
+    )
+
     // conv repo implem
     private val conversationRepository: ConversationRepository = ConversationRepositoryImpl()
     private val conversationUseCases: ConversationUseCases = ConversationUseCases(
         getAllUseCase = GetAllUseCase(conversationRepository),
         getByIdUseCase = GetByIdUseCase(conversationRepository),
         observeConversationUseCase = ObserveConversationUseCase(conversationRepository)
-    )
-
-    // message repo implem
-    private val messageRepository: MessageRepositoryImpl = MessageRepositoryImpl()
-    private val messageUseCases: MessageUseCases = MessageUseCases(
-        listenMessagesUseCase = ListenMessagesUseCase(messageRepository),
-        createMessageUseCase = CreateMessageUseCase(messageRepository),
-        deleteMessageUseCase = DeleteMessageUseCase(messageRepository)
     )
 
     // friend repo implem

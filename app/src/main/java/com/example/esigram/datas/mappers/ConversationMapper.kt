@@ -1,54 +1,75 @@
 package com.example.esigram.datas.mappers
 
+import ConversationBasic
+import com.example.esigram.datas.remote.models.ConversationDto
+import com.example.esigram.datas.remote.models.UserConversationBasic
 import com.example.esigram.domains.models.Conversation
 import com.example.esigram.domains.models.Message
-import com.example.esigram.domains.models.User
-import java.time.Instant
+import com.example.esigram.models.UserConversation
 
-object ConversationMapper {
+fun ConversationDto.toDomain(): Conversation {
+    val map = data as Map<String, Any?>
 
-    fun fromMap(id: String, data: Map<String, Any>): Conversation {
-        val createdAt = (data["createdAt"] as? String)?.let {
-            runCatching { Instant.parse(it) }.getOrElse { Instant.now() }
-        } ?: Instant.now()
+    val membersMap = map["members"] as? Map<String, Map<String, Any?>> ?: emptyMap()
 
-        val members = listOf(
-            User(
-                id = "1",
-                forename = "Arthur",
-                name = "Morelon",
-                image = "https://randomuser.me/api/portraits/men/1.jpg",
-                isOnline = true
-            ),
-            User(
-                id = "2",
-                forename = "Lena",
-                name = "Mabille",
-                image = "https://randomuser.me/api/portraits/men/1.jpg",
-                isOnline = true
-            )
-        )
-
-        val lastMessageMap = data["lastMessage"] as? Map<String, Any>
-        val lastMessage = lastMessageMap?.let {
-            Message(
-                id = it["id"] as? String ?: "",
-                authorId = members.firstOrNull()?.id ?: "",
-                content = it["content"] as? String ?: "",
-                createdAt = (it["createdAt"] as? String)?.let { str ->
-                    runCatching { Instant.parse(str) }.getOrElse { Instant.now() }
-                } ?: Instant.now(),
-                attachments = emptyList()
-            )
-        }
-
-        return Conversation(
-            id = id,
-            members = members,
-            lastMessage = lastMessage,
-            createdAt = createdAt,
-            title = data["name"] as String?,
-            coverImageId = data["coverImageId"] as? String
+    val members = membersMap.map { (uid, userMap) ->
+        UserConversation(
+            id = uid,
+            username = userMap["username"] as? String ?: ""
         )
     }
+
+    val lastMessageMap = map["lastMessage"] as? Map<String, Any?>
+
+    val lastMessage = lastMessageMap?.let { msg ->
+        Message(
+            id = msg["id"] as? String ?: "",
+            authorId = msg["authorId"] as String,
+            content = msg["content"] as String,
+            createdAt = parseInstant(msg["createdAt"] as String?))
+    }
+
+    return Conversation(
+        id = id,
+        members = members,
+        coverImageId = map["coverImageId"] as? String,
+        lastMessage = lastMessage,
+        unreadCount = (map["unreadCount"] as? Long)?.toInt() ?: 0,
+        title = map["title"] as? String,
+        createdAt = parseInstant(data["createdAt"] as String?)
+    )
+}
+
+fun ConversationDto.toDomainBasic(): ConversationBasic {
+    val map = data as Map<String, Any?>
+
+    val membersMap = map["members"] as? Map<String, Map<String, Any?>> ?: emptyMap()
+
+    val members = membersMap.map { (uid, userMap) ->
+        UserConversationBasic(
+            id = uid,
+            username = userMap["username"] as? String ?: "",
+            profilePictureId = userMap["profilePicture"] as? String
+        )
+    }
+
+    val lastMessageMap = map["lastMessage"] as? Map<String, Any?>
+
+    val lastMessage = lastMessageMap?.let { msg ->
+        Message(
+            id = msg["id"] as? String ?: "",
+            authorId = msg["authorId"] as String,
+            content = msg["content"] as String,
+            createdAt = parseInstant(msg["createdAt"] as String?)
+        )
+    }
+
+    return ConversationBasic(
+        id = id,
+        members = members,
+        coverImageId = map["coverImageId"] as? String,
+        lastMessage = lastMessage,
+        unreadCount = (map["unreadCount"] as? Long)?.toInt() ?: 0,
+        title = map["title"] as? String,
+        createdAt = parseInstant(data["createdAt"] as String?)    )
 }

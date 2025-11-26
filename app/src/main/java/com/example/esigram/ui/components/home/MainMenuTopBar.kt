@@ -1,6 +1,5 @@
 package com.example.esigram.ui.components.home
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -20,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.example.esigram.datas.local.SessionManager
-import com.example.esigram.ui.components.ProfileImage
+import com.example.esigram.ui.components.conversations.ProfileImage
 import com.example.esigram.ui.theme.LightGray
 import com.example.esigram.viewModels.ProfileViewModel
 

@@ -21,7 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.esigram.domains.models.TmpUser
-import com.example.esigram.ui.components.ProfileImage
+import com.example.esigram.ui.components.conversations.ProfileImage
 
 @Composable
 fun AddFriendDialog(

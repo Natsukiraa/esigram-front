@@ -23,8 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esigram.R
-import com.example.esigram.ui.components.ConversationFilter
-import com.example.esigram.ui.components.ConversationSearch
+import com.example.esigram.ui.components.conversations.ConversationFilter
+import com.example.esigram.ui.components.conversations.ConversationSearch
 import com.example.esigram.viewModels.ConversationViewModel
 
 @Composable

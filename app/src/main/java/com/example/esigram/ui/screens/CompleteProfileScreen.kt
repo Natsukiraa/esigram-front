@@ -30,7 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esigram.R
-import com.example.esigram.ui.components.ProfileImage
+import com.example.esigram.ui.components.conversations.ProfileImage
 import com.example.esigram.ui.components.form.EditTextField
 import com.example.esigram.ui.theme.LightGray
 import com.example.esigram.viewModels.CompleteProfileViewModel

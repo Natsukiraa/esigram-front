@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.example.esigram.R
 import com.example.esigram.domains.models.Media
 import com.example.esigram.domains.models.TmpUser
-import com.example.esigram.ui.components.ProfileImage
+import com.example.esigram.ui.components.conversations.ProfileImage
 
 @Composable
 fun UserStoryBubble(
