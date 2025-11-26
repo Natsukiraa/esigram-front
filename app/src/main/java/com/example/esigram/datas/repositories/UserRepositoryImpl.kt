@@ -18,4 +18,7 @@ class UserRepositoryImpl(
     override suspend fun getUserById(userId: String): UserConversation? {
         return remote.getUserById(userId)
     }
+
+    override suspend fun getOnboardingStatus() = remote.getOnboardingStatus()
+    override suspend fun completeOnboarding() = remote.completeOnboarding()
 }
