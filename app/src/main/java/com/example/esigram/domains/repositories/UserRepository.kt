@@ -2,6 +2,7 @@ package com.example.esigram.domains.repositories
 
 
 import com.example.esigram.domains.models.User
+import com.example.esigram.domains.models.responses.OnboardingStatus
 import com.example.esigram.domains.models.responses.PageModel
 import com.example.esigram.domains.models.responses.UserResponse
 import com.example.esigram.models.UserConversation
@@ -18,4 +19,6 @@ interface UserRepository {
 
     suspend fun getUsers(page: Int, size: Int, username: String?): PageModel<User>
     suspend fun getUserById(userId: String): UserConversation?
+    suspend fun getOnboardingStatus(): Response<OnboardingStatus>
+    suspend fun completeOnboarding(): Response<OnboardingStatus>
 }

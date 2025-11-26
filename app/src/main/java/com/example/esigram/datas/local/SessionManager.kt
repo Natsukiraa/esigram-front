@@ -1,6 +1,7 @@
 package com.example.esigram.datas.local
 
 import android.content.Context
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -16,6 +17,7 @@ class SessionManager(private val context: Context) {
         val EMAIL = stringPreferencesKey("email")
         val DESCRIPTION = stringPreferencesKey("description")
         val PROFILE_PICTURE_URL = stringPreferencesKey("profilePictureUrl")
+        val COMPLETED_ONBOARDING = booleanPreferencesKey("completedOnboarding")
     }
 
     suspend fun saveUserSession(
@@ -23,14 +25,17 @@ class SessionManager(private val context: Context) {
         username: String,
         email: String,
         description: String?,
-        profilePictureUrl: String?
+        profilePictureUrl: String?,
+        completedOnboarding: Boolean = false
     ) {
         context.dataStore.edit { preferences ->
             preferences[USER_ID] = id
             preferences[USERNAME] = username
             preferences[EMAIL] = email
             description?.let { preferences[DESCRIPTION] = it }
-            profilePictureUrl?.let { preferences[PROFILE_PICTURE_URL] = it }
+            profilePictureUrl?.let { preferences[PROFILE_PICTURE_URL] = it
+            preferences[COMPLETED_ONBOARDING] = completedOnboarding
+            }
         }
     }
 
@@ -63,8 +68,12 @@ class SessionManager(private val context: Context) {
     }
 
     val profilePictureUrl: Flow<String?> = context.dataStore.data.map { preferences ->
-        preferences[PROFILE_PICTURE_URL]?.replace("localhost", "192.168.3.54")
+        preferences[PROFILE_PICTURE_URL]?.replace("localhost", "10.184.30.28")
             ?: "android.resource://${context.packageName}/drawable/default_picture"
+    }
+
+    val completedOnboarding: Flow<Boolean> = context.dataStore.data.map { preferences ->
+        preferences[COMPLETED_ONBOARDING] ?: false
     }
 
     suspend fun clearSession() {

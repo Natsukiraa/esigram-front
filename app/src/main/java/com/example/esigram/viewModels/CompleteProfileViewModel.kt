@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 class CompleteProfileViewModel(private val useCases: UserUseCases) : ViewModel() {
-    // TODO ici il faut régler le fait que le displayName c'est celui d'avant encore
     private val firebaseAuth = FirebaseAuth.getInstance().currentUser
 
     private val _description = MutableStateFlow<String?>("")
@@ -33,6 +32,12 @@ class CompleteProfileViewModel(private val useCases: UserUseCases) : ViewModel()
 
     fun onDescriptionChange(newDescription: String) {
         _description.value = newDescription
+    }
+
+    fun completeOnboarding() {
+        viewModelScope.launch {
+            useCases.completeOnboarding()
+        }
     }
 
     // Set a default picture at start of screen
@@ -61,6 +66,7 @@ class CompleteProfileViewModel(private val useCases: UserUseCases) : ViewModel()
             )
 
             _submitResult.value = response.isSuccess
+            completeOnboarding()
         }
     }
 }

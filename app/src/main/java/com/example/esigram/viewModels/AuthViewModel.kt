@@ -10,6 +10,7 @@ import com.example.esigram.domains.usecase.user.UserUseCases
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class AuthViewModel(
     private val authUseCases: AuthUseCases,
@@ -32,6 +33,20 @@ class AuthViewModel(
 
     private val _pageState = MutableStateFlow("Login")
     val pageState = _pageState.asStateFlow()
+
+    private val _loading = MutableStateFlow(true)
+    val loading = _loading.asStateFlow()
+
+    private val _onboardingStatus = MutableStateFlow(false)
+    val onboardingStatus = _onboardingStatus.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            val status = fetchOnboardingStatus()
+            _onboardingStatus.value = status
+            _loading.value = false
+        }
+    }
 
     fun refreshUser() {
         _user.value = authUseCases.getCurrentUserUseCase()
@@ -69,6 +84,7 @@ class AuthViewModel(
 
                 if (result.isSuccess) {
                     refreshUser()
+                    _onboardingStatus.value = fetchOnboardingStatus()
                     changeFinishedAuth(true)
                 } else {
                     Toast.makeText(
@@ -133,16 +149,19 @@ class AuthViewModel(
         _finishedAuth .value = false
     }
 
-    fun isNewUser(): Boolean {
-        val user = authUseCases.getCurrentUserUseCase() ?: return false
-        val creationTimestamp = user.metadata?.creationTimestamp ?: return false
-        val lastSignInTimestamp = user.metadata?.lastSignInTimestamp ?: return false
-        return lastSignInTimestamp == creationTimestamp
+    suspend fun fetchOnboardingStatus(): Boolean {
+        val statusResponse = userUseCases.getOnboardingStatus()
+        if (statusResponse.isSuccessful) {
+            val isCompleted = statusResponse.body()?.success == true
+            return isCompleted
+        }
+        return false
     }
 
     fun saveUserSession() {
         viewModelScope.launch {
             val userResponse = userUseCases.getMeCase()
+            val onboardingStatus = fetchOnboardingStatus()
 
             if (userResponse.isSuccessful) {
                 val userData = userResponse.body()?.data
@@ -152,7 +171,8 @@ class AuthViewModel(
                         username = userData.username,
                         email = userData.email,
                         description = userData.description,
-                        profilePictureUrl = userData.profilePicture?.signedUrl
+                        profilePictureUrl = userData.profilePicture?.signedUrl,
+                        completedOnboarding = onboardingStatus
                     )
                 }
             }

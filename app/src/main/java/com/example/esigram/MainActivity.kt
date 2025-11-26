@@ -34,7 +34,9 @@ import com.example.esigram.domains.usecase.message.CreateMessageUseCase
 import com.example.esigram.domains.usecase.message.DeleteMessageUseCase
 import com.example.esigram.domains.usecase.message.ListenMessagesUseCase
 import com.example.esigram.domains.usecase.message.MessageUseCases
+import com.example.esigram.domains.usecase.user.CompleteOnboarding
 import com.example.esigram.domains.usecase.user.GetMeCase
+import com.example.esigram.domains.usecase.user.GetOnboardingStatus
 import com.example.esigram.domains.usecase.user.GetUsersUseCase
 import com.example.esigram.domains.usecase.user.PatchUserUseCase
 import com.example.esigram.domains.usecase.user.UserUseCases
@@ -64,7 +66,9 @@ class MainActivity : ComponentActivity() {
     private val userUseCases: UserUseCases = UserUseCases(
         getMeCase = GetMeCase(userRepository),
         patchUserUseCase = PatchUserUseCase(userRepository),
-        getUsersUseCase = GetUsersUseCase(userRepository)
+        getUsersUseCase = GetUsersUseCase(userRepository),
+        getOnboardingStatus = GetOnboardingStatus(userRepository),
+        completeOnboarding = CompleteOnboarding(userRepository),
     )
 
     private val messageRepository: MessageRepositoryImpl = MessageRepositoryImpl()
