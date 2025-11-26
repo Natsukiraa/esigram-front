@@ -13,14 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.esigram.domains.models.TmpUser
+import com.example.esigram.domains.models.User
 
 @Composable
 fun FriendList(
     modifier: Modifier = Modifier,
-    friends: List<TmpUser> = emptyList(),
-    onMessageClick: (TmpUser) -> Unit = {},
-    onDeleteClick: (TmpUser) -> Unit = {}
+    friends: List<User> = emptyList(),
+    onMessageClick: (User) -> Unit = {},
+    onDeleteClick: (User) -> Unit = {}
 ) {
     Surface(
         tonalElevation = 2.dp,
@@ -54,12 +54,12 @@ fun FriendList(
 @Preview(showBackground = true)
 fun FriendListPreview() {
     val fakeFriends = listOf(
-        TmpUser("1", "Alice", "alice@test.com"),
-        TmpUser("2", "Bob", "bob@test.com"),
-        TmpUser("3", "Charlie", "charlie@test.com"),
-        TmpUser("4", "Diana", "diana@test.com"),
-        TmpUser("5", "Eve", "eve@test.com"),
-        TmpUser("6", "Frank", "frank@test.com"),
+        User("1", "Alice", "alice@test.com"),
+        User("2", "Bob", "bob@test.com"),
+        User("3", "Charlie", "charlie@test.com"),
+        User("4", "Diana", "diana@test.com"),
+        User("5", "Eve", "eve@test.com"),
+        User("6", "Frank", "frank@test.com"),
     )
     FriendList(friends = fakeFriends)
 }

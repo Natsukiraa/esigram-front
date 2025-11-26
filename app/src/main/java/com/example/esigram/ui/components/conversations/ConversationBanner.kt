@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esigram.domains.models.Message
-import com.example.esigram.domains.models.User
+import com.example.esigram.domains.models.OldUser
 import java.time.Instant
 import java.util.UUID
 
@@ -27,7 +27,7 @@ import java.util.UUID
 fun ConversationBanner(
     onClickOpen: (UUID) -> Unit,
     conversationUuid: UUID,
-    user: User
+    user: OldUser
 ) {
     val message = Message(
         id = "kdjqsoidoidjqsoidjis",
@@ -83,7 +83,7 @@ fun ConversationBannerPreview() {
     ConversationBanner(
         onClickOpen = {},
         conversationUuid = UUID.randomUUID(),
-        user = User(
+        user = OldUser(
             id = "kjqopkdqoskdpqosds",
             forename = "Léna",
             name = "Mabille",

@@ -10,14 +10,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.esigram.domains.models.TmpUser
+import com.example.esigram.domains.models.User
 
 @Composable
 fun StoryList(
-    me: TmpUser,
-    friends: List<TmpUser>,
+    me: User,
+    friends: List<User>,
     onMyStoryClick: () -> Unit = {},
-    onFriendStoryClick: (TmpUser) -> Unit = {},
+    onFriendStoryClick: (User) -> Unit = {},
 ) {
     val sortedFriends = friends
         .filter { it.hasStories }
@@ -50,35 +50,35 @@ fun StoryList(
 @Preview(showBackground = true)
 @Composable
 fun StoryListPreview() {
-    val me = TmpUser(
+    val me = User(
         id = "me",
         username = "Me",
         email = "me@mail.com"
     )
 
     val friends = listOf(
-        TmpUser(
+        User(
             "1",
             "Alice",
             "a@mail.com",
             hasStories = true,
             alreadyViewedStories = false
         ),
-        TmpUser(
+        User(
             "2",
             "Bob",
             "b@mail.com",
             hasStories = true,
             alreadyViewedStories = true
         ),
-        TmpUser(
+        User(
             "3",
             "Charlie",
             "c@mail.com",
             hasStories = true,
             alreadyViewedStories = false
         ),
-        TmpUser(
+        User(
             "4",
             "Diana",
             "d@mail.com",

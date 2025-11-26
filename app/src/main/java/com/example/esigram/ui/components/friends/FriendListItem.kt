@@ -24,12 +24,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.esigram.domains.models.TmpUser
+import com.example.esigram.domains.models.User
 import com.example.esigram.ui.components.conversations.ProfileImage
 
 @Composable
 fun FriendListItem(
-    user: TmpUser, onMessageClick: (TmpUser) -> Unit = {}, onDeleteClick: (TmpUser) -> Unit = {}
+    user: User, onMessageClick: (User) -> Unit = {}, onDeleteClick: (User) -> Unit = {}
 ) {
     Surface(
         color = MaterialTheme.colorScheme.surface,
@@ -89,7 +89,7 @@ fun FriendListItem(
 @Composable
 @Preview(showBackground = true)
 fun FriendListItemPreview() {
-    val user = TmpUser(
+    val user = User(
         id = "friend1", username = "Friend 1", email = "a@a.fr"
     )
     FriendListItem(user = user)
