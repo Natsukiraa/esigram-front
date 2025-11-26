@@ -33,10 +33,11 @@ fun AuthScreen(
     val email = authViewModel.email.collectAsState()
     val password = authViewModel.password.collectAsState()
     val pageState = authViewModel.pageState.collectAsState()
+    val onboardingStatus = authViewModel.onboardingStatus.collectAsState()
 
     LaunchedEffect(finishedAuth.value) {
         if(finishedAuth.value) {
-            if (authViewModel.isNewUser()) {
+            if (pageState.value == "Register" || !onboardingStatus.value) {
                 onSignUp()
             } else {
                 onSuccessSignIn()

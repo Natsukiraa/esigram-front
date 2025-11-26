@@ -28,14 +28,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esigram.R
-import com.example.esigram.domains.models.User
+import com.example.esigram.domains.models.OldUser
 
 @Composable
 fun ContactBanner(
     onClickCall: () -> Unit,
     onClickCallCamera: () -> Unit,
     onBackClick: () -> Unit,
-    user: User
+    user: OldUser
 ) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
@@ -136,7 +136,7 @@ fun ContactBannerPreview() {
         onClickCall = {},
         onClickCallCamera = {},
         onBackClick = {},
-        user = User(
+        user = OldUser(
             id = "kjqopkdqoskdpqosds",
             forename = "Léna",
             name = "Mabille",

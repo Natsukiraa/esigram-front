@@ -20,12 +20,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.example.esigram.domains.models.TmpUser
+import com.example.esigram.domains.models.User
 import com.example.esigram.ui.components.ProfileImage
 
 @Composable
 fun AddFriendDialog(
-    user: TmpUser, onAdd: (TmpUser) -> Unit, onCancel: () -> Unit
+    user: User, onAdd: (User) -> Unit, onCancel: () -> Unit
 ) {
     Dialog(onDismissRequest = { onCancel() }) {
         Surface(

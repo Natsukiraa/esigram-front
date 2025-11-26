@@ -1,6 +1,7 @@
 package com.example.esigram.datas.remote.services
 
-import com.example.esigram.domains.models.TmpUser
+import com.example.esigram.domains.models.User
+import com.example.esigram.domains.models.responses.OnboardingStatus
 import com.example.esigram.domains.models.responses.PageModel
 import com.example.esigram.domains.models.responses.UserResponse
 import okhttp3.MultipartBody
@@ -9,6 +10,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.PATCH
+import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Query
 
@@ -29,5 +31,12 @@ interface UserApiService {
         @Query("page") page: Int,
         @Query("limit") size: Int,
         @Query("username") username: String? = null
-    ): PageModel<TmpUser>
+    ): PageModel<User>
+
+    @GET("/users/me/onboarding-status")
+    suspend fun getOnboardingStatus(): Response<OnboardingStatus>
+
+    @POST("/users/me/complete-onboarding")
+    suspend fun completeOnboarding(): Response<OnboardingStatus>
+
 }

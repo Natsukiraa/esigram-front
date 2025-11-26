@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.example.esigram.R
 import com.example.esigram.domains.models.Conversation
 import com.example.esigram.domains.models.Message
-import com.example.esigram.domains.models.User
+import com.example.esigram.domains.models.OldUser
 import com.example.esigram.ui.utils.formatConversationDate
 import java.time.Instant
 
@@ -130,21 +130,21 @@ fun ConversationItem(
 @Preview
 @Composable
 fun ConversationItemPreview() {
-    val user = User(
+    val user = OldUser(
         id = "user1",
         forename = "Arthur",
         name = "Morelon",
         image = "https://randomuser.me/api/portraits/men/1.jpg"
     )
 
-    val user2 = User(
+    val user2 = OldUser(
         id = "user2",
         forename = "Léna",
         name = "Mabille",
         image = "https://randomuser.me/api/portraits/men/1.jpg"
     )
 
-    val user3 = User(
+    val user3 = OldUser(
         id = "user3",
         forename = "Lina",
         name = "Phe",

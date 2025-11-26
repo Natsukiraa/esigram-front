@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.esigram.domains.models.Message
-import com.example.esigram.domains.models.User
+import com.example.esigram.domains.models.OldUser
 import com.example.esigram.ui.components.ContactBanner
 import com.example.esigram.ui.components.MessageBox
 import com.example.esigram.ui.components.SendBar
@@ -38,7 +38,7 @@ fun ConversationScreen(
 
     val messageViewModel = remember { messageViewModel }
     messageViewModel.startListening(chatId)
-    val user = User(
+    val user = OldUser(
         id = "",
         forename = "John",
         name = "Doe",

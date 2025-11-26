@@ -4,7 +4,7 @@ import java.time.Instant
 
 data class Conversation(
     val id: String,
-    val members: List<User>,
+    val members: List<OldUser>,
     val coverImageId: String? = null,
     val lastMessage: Message? = null,
     val unreadCount: Int = 0,

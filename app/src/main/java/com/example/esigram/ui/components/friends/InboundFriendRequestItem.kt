@@ -25,7 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.esigram.domains.models.FriendRequest
-import com.example.esigram.domains.models.TmpUser
+import com.example.esigram.domains.models.User
 import com.example.esigram.ui.components.ProfileImage
 
 @Composable
@@ -99,10 +99,10 @@ fun InboundFriendRequestItem(
 fun FriendRequestItemPreview() {
     val fakeRequest = FriendRequest(
         id = "1",
-        userAsked = TmpUser(
+        userAsked = User(
             id = "2", username = "John Doe", email = "a@.fr"
         ),
-        userAsking = TmpUser(
+        userAsking = User(
             id = "3", username = "Jane Smith", email = "b@.fr"
         ),
         status = FriendRequest.FriendStatus.PENDING,

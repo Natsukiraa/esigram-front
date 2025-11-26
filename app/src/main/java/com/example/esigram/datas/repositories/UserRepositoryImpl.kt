@@ -13,4 +13,7 @@ class UserRepositoryImpl(
 
     override suspend fun getUsers(page: Int, size: Int, username: String?) =
         remote.getUsers(page, size, username)
+
+    override suspend fun getOnboardingStatus() = remote.getOnboardingStatus()
+    override suspend fun completeOnboarding() = remote.completeOnboarding()
 }

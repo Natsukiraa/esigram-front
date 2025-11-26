@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esigram.domains.models.Story
-import com.example.esigram.domains.models.User
+import com.example.esigram.domains.models.OldUser
 import com.example.esigram.ui.theme.EsigramExtraColors
 
 @Composable
@@ -66,7 +66,7 @@ fun StoryItem(
 fun StoryItemPreview() {
     val story = Story(
         "1",
-        User(
+        OldUser(
             id = "1",
             forename = "Arthur",
             name = "Morelon",

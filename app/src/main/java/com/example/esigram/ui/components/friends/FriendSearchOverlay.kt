@@ -21,14 +21,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.example.esigram.R
-import com.example.esigram.domains.models.TmpUser
+import com.example.esigram.domains.models.User
 
 @Composable
 fun FriendSearchOverlay(
     modifier: Modifier = Modifier,
-    allUsers: List<TmpUser>,
+    allUsers: List<User>,
     query: String,
-    onUserSelected: (TmpUser) -> Unit
+    onUserSelected: (User) -> Unit
 ) {
     if (query.isBlank()) return
 

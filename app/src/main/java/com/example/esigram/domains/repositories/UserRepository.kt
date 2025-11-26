@@ -1,6 +1,7 @@
 package com.example.esigram.domains.repositories
 
-import com.example.esigram.domains.models.TmpUser
+import com.example.esigram.domains.models.User
+import com.example.esigram.domains.models.responses.OnboardingStatus
 import com.example.esigram.domains.models.responses.PageModel
 import com.example.esigram.domains.models.responses.UserResponse
 import retrofit2.Response
@@ -14,5 +15,8 @@ interface UserRepository {
         file: File? = null
     ): Result<UserResponse>
 
-    suspend fun getUsers(page: Int, size: Int, username: String?): PageModel<TmpUser>
+    suspend fun getUsers(page: Int, size: Int, username: String?): PageModel<User>
+
+    suspend fun getOnboardingStatus(): Response<OnboardingStatus>
+    suspend fun completeOnboarding(): Response<OnboardingStatus>
 }

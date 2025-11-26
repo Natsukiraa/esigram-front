@@ -1,14 +1,14 @@
 package com.example.esigram.domains.repositories
 
 import com.example.esigram.domains.models.Story
-import com.example.esigram.domains.models.User
+import com.example.esigram.domains.models.OldUser
 
 class StoryRepository {
 
     var stories = mutableListOf<Story>(
         Story(
             "1",
-            User(
+            OldUser(
                 id = "1",
                 forename = "Arthur",
                 name = "Morelon",
@@ -18,7 +18,7 @@ class StoryRepository {
         ),
         Story(
             "1",
-            User(
+            OldUser(
                 id = "1",
                 forename = "Arthur",
                 name = "Morelon",
@@ -28,7 +28,7 @@ class StoryRepository {
         ),
         Story(
             "1",
-            User(
+            OldUser(
                 id = "1",
                 forename = "Arthur",
                 name = "Morelon",
@@ -38,7 +38,7 @@ class StoryRepository {
         ),
         Story(
             "1",
-            User(
+            OldUser(
                 id = "1",
                 forename = "Arthur",
                 name = "Morelon",
@@ -48,7 +48,7 @@ class StoryRepository {
         ),
         Story(
             "1",
-            User(
+            OldUser(
                 id = "1",
                 forename = "Arthur",
                 name = "Morelon",
@@ -58,7 +58,7 @@ class StoryRepository {
         ),
         Story(
             "1",
-            User(
+            OldUser(
                 id = "1",
                 forename = "Arthur",
                 name = "Morelon",

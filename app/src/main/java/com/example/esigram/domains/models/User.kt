@@ -2,8 +2,10 @@ package com.example.esigram.domains.models
 
 data class User(
     var id: String,
-    var forename: String,
-    var name: String,
-    var image: String? = null,
-    var isOnline: Boolean = false
+    var username: String,
+    var email: String,
+    var description: String? = null,
+    var profilePicture: Media? = null,
+    var hasStories: Boolean = false,
+    var alreadyViewedStories: Boolean = false
 )

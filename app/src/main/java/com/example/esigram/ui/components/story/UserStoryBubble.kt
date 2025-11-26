@@ -21,13 +21,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esigram.R
 import com.example.esigram.domains.models.Media
-import com.example.esigram.domains.models.TmpUser
+import com.example.esigram.domains.models.User
 import com.example.esigram.ui.components.ProfileImage
 
 @Composable
 fun UserStoryBubble(
     onClick: () -> Unit,
-    author: TmpUser,
+    author: User,
     isMe: Boolean = false
 ) {
     Box(
@@ -84,7 +84,7 @@ fun UserStoryBubble(
 @Composable
 @Preview
 fun UserStoryBubblePreview() {
-    val user = TmpUser(
+    val user = User(
         id = "1",
         username = "johndoe",
         email = "jonhdoe@test.fr",

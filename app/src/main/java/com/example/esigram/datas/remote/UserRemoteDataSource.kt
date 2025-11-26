@@ -1,6 +1,7 @@
 package com.example.esigram.datas.remote
 
 import com.example.esigram.datas.remote.services.UserApiService
+import com.example.esigram.domains.models.responses.OnboardingStatus
 import com.example.esigram.domains.models.responses.UserResponse
 import com.example.esigram.networks.RetrofitInstance
 import kotlinx.serialization.json.Json
@@ -69,4 +70,10 @@ class UserRemoteDataSource {
 
     suspend fun getUsers(page: Int, size: Int, username: String?) =
         userService.getUsers(page, size, username)
+
+    suspend fun getOnboardingStatus(): Response<OnboardingStatus> =
+        userService.getOnboardingStatus()
+
+    suspend fun completeOnboarding(): Response<OnboardingStatus> =
+        userService.completeOnboarding()
 }

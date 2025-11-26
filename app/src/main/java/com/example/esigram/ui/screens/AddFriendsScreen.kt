@@ -16,7 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
-import com.example.esigram.domains.models.TmpUser
+import com.example.esigram.domains.models.User
 import com.example.esigram.ui.components.friends.AddFriendDialog
 import com.example.esigram.ui.components.friends.FriendRequestList
 import com.example.esigram.ui.components.friends.FriendSearchField
@@ -36,7 +36,7 @@ fun AddFriendsScreen(
     val inboundRequests by friendViewModel.inboundFriendRequests.collectAsState()
     val outboundRequests by friendViewModel.outboundFriendRequests.collectAsState()
     val isRefreshing by friendViewModel.isRefreshing.collectAsState()
-    val selectedUser = remember { mutableStateOf<TmpUser?>(null) }
+    val selectedUser = remember { mutableStateOf<User?>(null) }
     val showDialog = remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
     PullToRefreshBox(

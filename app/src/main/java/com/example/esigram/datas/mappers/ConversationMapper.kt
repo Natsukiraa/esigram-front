@@ -2,7 +2,7 @@ package com.example.esigram.datas.mappers
 
 import com.example.esigram.domains.models.Conversation
 import com.example.esigram.domains.models.Message
-import com.example.esigram.domains.models.User
+import com.example.esigram.domains.models.OldUser
 import java.time.Instant
 
 object ConversationMapper {
@@ -13,14 +13,14 @@ object ConversationMapper {
         } ?: Instant.now()
 
         val members = listOf(
-            User(
+            OldUser(
                 id = "1",
                 forename = "Arthur",
                 name = "Morelon",
                 image = "https://randomuser.me/api/portraits/men/1.jpg",
                 isOnline = true
             ),
-            User(
+            OldUser(
                 id = "2",
                 forename = "Lena",
                 name = "Mabille",

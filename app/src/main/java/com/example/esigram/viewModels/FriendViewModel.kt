@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.esigram.domains.models.FriendRequest
-import com.example.esigram.domains.models.TmpUser
+import com.example.esigram.domains.models.User
 import com.example.esigram.domains.models.responses.PageModel
 import com.example.esigram.domains.models.responses.PageModel.Companion.createEmptyPageModel
 import com.example.esigram.domains.usecase.friend.FriendUseCases
@@ -23,8 +23,8 @@ class FriendViewModel(
     val isRefreshing = _isRefreshing.asStateFlow()
 
 
-    private val _friends = MutableStateFlow(createEmptyPageModel<TmpUser>())
-    val friends: StateFlow<PageModel<TmpUser>> = _friends.asStateFlow()
+    private val _friends = MutableStateFlow(createEmptyPageModel<User>())
+    val friends: StateFlow<PageModel<User>> = _friends.asStateFlow()
 
     private val _outboundFriendRequests = MutableStateFlow(createEmptyPageModel<FriendRequest>())
     val outboundFriendRequests: StateFlow<PageModel<FriendRequest>> =
@@ -34,8 +34,8 @@ class FriendViewModel(
     val inboundFriendRequests: StateFlow<PageModel<FriendRequest>> =
         _inboundFriendRequests.asStateFlow()
 
-    private val _searchedUsers = MutableStateFlow<PageModel<TmpUser>>(createEmptyPageModel())
-    val searchedUsers: StateFlow<PageModel<TmpUser>> = _searchedUsers.asStateFlow()
+    private val _searchedUsers = MutableStateFlow<PageModel<User>>(createEmptyPageModel())
+    val searchedUsers: StateFlow<PageModel<User>> = _searchedUsers.asStateFlow()
 
     private val _searchQuery = MutableStateFlow<String>("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
