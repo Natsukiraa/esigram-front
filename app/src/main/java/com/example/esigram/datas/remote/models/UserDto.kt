@@ -1,6 +1,7 @@
 package com.example.esigram.datas.remote.models
 
-import com.example.esigram.models.Media
+import com.example.esigram.domains.models.Media
+
 
 data class ResponsUserDto(
     val data: UserDto

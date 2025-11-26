@@ -1,6 +1,5 @@
 package com.example.esigram.ui.components.conversations
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable

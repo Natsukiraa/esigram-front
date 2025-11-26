@@ -1,7 +1,6 @@
 package com.example.esigram.datas.repositories
 
 import com.example.esigram.datas.remote.UserRemoteDataSource
-import com.example.esigram.datas.remote.models.ResponsUserDto
 import com.example.esigram.domains.repositories.UserRepository
 import com.example.esigram.models.UserConversation
 import java.io.File

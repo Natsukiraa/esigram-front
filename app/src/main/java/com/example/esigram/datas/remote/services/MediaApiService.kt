@@ -1,7 +1,6 @@
 package com.example.esigram.datas.remote.services
 
 import com.example.esigram.datas.remote.models.MediaResponseDto
-import com.example.esigram.datas.remote.models.UserDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

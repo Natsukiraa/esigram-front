@@ -3,16 +3,14 @@ package com.example.esigram
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.esigram.datas.repositories.AuthRepositoryImpl
 import com.example.esigram.datas.repositories.ConversationRepositoryImpl
-<<<<<<< HEAD
 import com.example.esigram.datas.repositories.FriendRepositoryImpl
-=======
->>>>>>> 65aceef (fix)
 import com.example.esigram.datas.repositories.MessageRepositoryImpl
 import com.example.esigram.datas.repositories.UserRepositoryImpl
 import com.example.esigram.domains.repositories.ConversationRepository
@@ -82,14 +80,6 @@ class MainActivity : ComponentActivity() {
         getAllUseCase = GetAllUseCase(conversationRepository),
         getByIdUseCase = GetByIdUseCase(conversationRepository),
         observeConversationUseCase = ObserveConversationUseCase(conversationRepository)
-    )
-
-    // message repo implem
-    private val messageRepository: MessageRepositoryImpl = MessageRepositoryImpl()
-    private val messageUseCases: MessageUseCases = MessageUseCases(
-        listenMessagesUseCase = ListenMessagesUseCase(messageRepository),
-        createMessageUseCase = CreateMessageUseCase(messageRepository),
-        deleteMessageUseCase = DeleteMessageUseCase(messageRepository)
     )
 
     // friend repo implem

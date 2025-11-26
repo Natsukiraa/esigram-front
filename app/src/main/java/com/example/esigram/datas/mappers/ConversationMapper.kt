@@ -1,10 +1,8 @@
 package com.example.esigram.datas.mappers
 
 import ConversationBasic
-import android.util.Log
 import com.example.esigram.datas.remote.models.ConversationDto
 import com.example.esigram.datas.remote.models.UserConversationBasic
-import com.example.esigram.datas.remote.models.UserDto
 import com.example.esigram.domains.models.Conversation
 import com.example.esigram.domains.models.Message
 import com.example.esigram.models.UserConversation
