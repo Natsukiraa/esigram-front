@@ -67,12 +67,14 @@ fun NavGraph(
         ) {
             composable(Destinations.HOME) {
                 HomeScreen(
-                    profileViewModel = profileViewModel,
                     convViewModel = convViewModel,
                     onNavigateProfile = {
                         navController.navigate(Destinations.PROFILE)
                     },
-                    sessionManager = authViewModel.sessionManager
+                    sessionManager = authViewModel.sessionManager,
+                    onNavigateFriendsList = {
+                        navController.navigate(Destinations.FRIENDS)
+                    }
                 )
             }
 
