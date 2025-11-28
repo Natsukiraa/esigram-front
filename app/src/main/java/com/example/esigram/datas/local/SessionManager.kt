@@ -17,7 +17,6 @@ class SessionManager(private val context: Context) {
         val EMAIL = stringPreferencesKey("email")
         val DESCRIPTION = stringPreferencesKey("description")
         val PROFILE_PICTURE_URL = stringPreferencesKey("profilePictureUrl")
-        val COMPLETED_ONBOARDING = booleanPreferencesKey("completedOnboarding")
     }
 
     suspend fun saveUserSession(
@@ -25,17 +24,14 @@ class SessionManager(private val context: Context) {
         username: String,
         email: String,
         description: String?,
-        profilePictureUrl: String?,
-        completedOnboarding: Boolean = false
+        profilePictureUrl: String?
     ) {
         context.dataStore.edit { preferences ->
             preferences[USER_ID] = id
             preferences[USERNAME] = username
             preferences[EMAIL] = email
             description?.let { preferences[DESCRIPTION] = it }
-            profilePictureUrl?.let { preferences[PROFILE_PICTURE_URL] = it
-            preferences[COMPLETED_ONBOARDING] = completedOnboarding
-            }
+            profilePictureUrl?.let { preferences[PROFILE_PICTURE_URL] = it }
         }
     }
 
@@ -68,12 +64,8 @@ class SessionManager(private val context: Context) {
     }
 
     val profilePictureUrl: Flow<String?> = context.dataStore.data.map { preferences ->
-        preferences[PROFILE_PICTURE_URL]?.replace("localhost", "10.184.30.28")
+        preferences[PROFILE_PICTURE_URL]
             ?: "android.resource://${context.packageName}/drawable/default_picture"
-    }
-
-    val completedOnboarding: Flow<Boolean> = context.dataStore.data.map { preferences ->
-        preferences[COMPLETED_ONBOARDING] ?: false
     }
 
     suspend fun clearSession() {

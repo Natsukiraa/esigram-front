@@ -10,7 +10,6 @@ import com.example.esigram.domains.usecase.user.UserUseCases
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class AuthViewModel(
     private val authUseCases: AuthUseCases,
@@ -146,7 +145,7 @@ class AuthViewModel(
         _email.value = ""
         _password.value = ""
         _pageState.value = "Login"
-        _finishedAuth .value = false
+        _finishedAuth.value = false
     }
 
     suspend fun fetchOnboardingStatus(): Boolean {
@@ -161,7 +160,6 @@ class AuthViewModel(
     fun saveUserSession() {
         viewModelScope.launch {
             val userResponse = userUseCases.getMeCase()
-            val onboardingStatus = fetchOnboardingStatus()
 
             if (userResponse.isSuccessful) {
                 val userData = userResponse.body()?.data
@@ -171,8 +169,7 @@ class AuthViewModel(
                         username = userData.username,
                         email = userData.email,
                         description = userData.description,
-                        profilePictureUrl = userData.profilePicture?.signedUrl,
-                        completedOnboarding = onboardingStatus
+                        profilePictureUrl = userData.profilePicture?.signedUrl
                     )
                 }
             }
