@@ -24,7 +24,7 @@ class CompleteProfileViewModel(private val useCases: UserUseCases) : ViewModel()
     private val _fileUri = MutableStateFlow<Uri?>(null)
     val fileUri = _fileUri.asStateFlow()
 
-    private val _username = MutableStateFlow(firebaseAuth?.displayName ?: "")
+    private val _username = MutableStateFlow("")
     val username = _username.asStateFlow()
 
     private val _submitResult = MutableStateFlow<Boolean?>(null)

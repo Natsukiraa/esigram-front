@@ -41,5 +41,4 @@ fun ExpandableText(
             .then(if (isClickable) Modifier.clickable { isExpanded = !isExpanded } else Modifier)
             .animateContentSize()
     )
-
 }

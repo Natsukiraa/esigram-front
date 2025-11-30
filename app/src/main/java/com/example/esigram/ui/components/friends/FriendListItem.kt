@@ -97,6 +97,7 @@ fun FriendListItem(
     if (showProfileModal) {
         FriendProfileModal (
             user = user,
+            isAlreadyFriend = true,
             onDismiss = { showProfileModal = false },
             onMessageClick = {
                 showProfileModal = false

@@ -1,5 +1,6 @@
 package com.example.esigram.ui.components.friends
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,10 +33,13 @@ import com.example.esigram.ui.components.utils.ExpandableText
 @Composable
 fun FriendProfileModal(
     user: User,
+    isAlreadyFriend: Boolean = false,
     onDismiss: () -> Unit,
     onMessageClick: () -> Unit,
     onAddFriend: () -> Unit
 ) {
+    val context = LocalContext.current
+
     Dialog(onDismissRequest = onDismiss) {
         Surface(
             shape = MaterialTheme.shapes.medium,
@@ -43,7 +48,9 @@ fun FriendProfileModal(
         ) {
 
             Column {
-                Box(modifier = Modifier.height(280.dp).fillMaxWidth()) {
+                Box(modifier = Modifier
+                    .height(280.dp)
+                    .fillMaxWidth()) {
                     ProfileImage(
                         url = user.profilePicture?.signedUrl,
                         modifier = Modifier.fillMaxWidth()
@@ -79,13 +86,30 @@ fun FriendProfileModal(
                         .padding(4.dp),
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
-                    IconButton(onClick = onAddFriend) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.person_add_24px),
-                            contentDescription = "Add Friend",
-                            tint = colorResource(R.color.primaryColor)
-                        )
+                    if(!isAlreadyFriend) {
+                        IconButton(onClick = onAddFriend) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.person_add_24px),
+                                contentDescription = "Add Friend",
+                                tint = colorResource(R.color.primaryColor)
+                            )
+                        }
+                    } else {
+                        IconButton(onClick = {
+                            Toast.makeText(
+                                context,
+                                "You are already friends with ${user.username}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.person_check_24px),
+                                contentDescription = "Already Friends",
+                                tint = colorResource(R.color.textSecondary)
+                            )
+                        }
                     }
+
                     IconButton(onClick = onMessageClick) {
                         Icon(
                             Icons.Default.Send,
