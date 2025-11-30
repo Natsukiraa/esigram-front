@@ -1,5 +1,6 @@
 package com.example.esigram.ui.components.friends
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,6 +20,10 @@ import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,6 +36,8 @@ import com.example.esigram.ui.components.conversations.ProfileImage
 fun FriendListItem(
     user: User, onMessageClick: (User) -> Unit = {}, onDeleteClick: (User) -> Unit = {}
 ) {
+    var showProfileModal by remember { mutableStateOf(false) }
+
     Surface(
         color = MaterialTheme.colorScheme.surface,
         tonalElevation = 2.dp,
@@ -50,10 +57,12 @@ fun FriendListItem(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
+                    .clickable{
+                        showProfileModal = true
+                    }
             )
 
             Spacer(modifier = Modifier.width(12.dp))
-
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(text = user.username, style = MaterialTheme.typography.bodyLarge)
@@ -83,6 +92,18 @@ fun FriendListItem(
                 }
             }
         }
+    }
+
+    if (showProfileModal) {
+        FriendProfileModal (
+            user = user,
+            onDismiss = { showProfileModal = false },
+            onMessageClick = {
+                showProfileModal = false
+                onMessageClick(user)
+            },
+            onAddFriend = { showProfileModal = false }
+        )
     }
 }
 
