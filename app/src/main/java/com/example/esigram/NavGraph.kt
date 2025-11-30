@@ -11,7 +11,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -31,7 +30,6 @@ import com.example.esigram.viewModels.ConversationViewModel
 import com.example.esigram.viewModels.FriendViewModel
 import com.example.esigram.viewModels.MessageViewModel
 import com.example.esigram.viewModels.ProfileViewModel
-import kotlin.math.log
 
 @Composable
 fun NavGraph(
@@ -67,12 +65,14 @@ fun NavGraph(
         ) {
             composable(Destinations.HOME) {
                 HomeScreen(
-                    profileViewModel = profileViewModel,
                     convViewModel = convViewModel,
                     onNavigateProfile = {
                         navController.navigate(Destinations.PROFILE)
                     },
-                    sessionManager = authViewModel.sessionManager
+                    sessionManager = authViewModel.sessionManager,
+                    onNavigateFriendsList = {
+                        navController.navigate(Destinations.FRIENDS)
+                    }
                 )
             }
 
@@ -118,7 +118,7 @@ fun NavGraph(
                     onSignOut = {
                         authViewModel.signOut()
                         navController.navigate(Destinations.AUTH) {
-                            popUpTo(0)
+                            popUpTo(0) { inclusive = true }
                         }
                     }
                 )
@@ -154,7 +154,9 @@ fun NavGraph(
                         navController.navigate(Destinations.ADD_FRIENDS)
                     },
                     onBack = {
-                        navController.popBackStack()
+                        navController.navigate(Destinations.HOME) {
+                            popUpTo(0)
+                        }
                     }
                 )
             }

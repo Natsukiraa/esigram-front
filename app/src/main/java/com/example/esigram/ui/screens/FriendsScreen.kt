@@ -67,10 +67,7 @@ fun FriendsScreen(
                     },
                     modifier = Modifier.weight(0.5f),
                     onDeleteClick = { friendViewModel.removeFriend(it.id) })
-
             }
-
-
         }
     }
 }
