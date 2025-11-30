@@ -34,9 +34,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esigram.datas.local.SessionManager
 import com.example.esigram.domains.models.OldUser
-import com.example.esigram.ui.components.ContactBanner
-import com.example.esigram.ui.components.MessageBox
-import com.example.esigram.ui.components.SendBar
+import com.example.esigram.ui.components.message.ContactBanner
+import com.example.esigram.ui.components.message.MessageBox
+import com.example.esigram.ui.components.message.SendBar
 import com.example.esigram.viewModels.MessageViewModel
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
