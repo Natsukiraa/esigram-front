@@ -1,5 +1,6 @@
 package com.example.esigram.datas.repositories
 
+import android.util.Log
 import com.example.esigram.datas.mappers.toDomain
 import com.example.esigram.datas.mappers.toDomainBasic
 import com.example.esigram.datas.remote.ConversationRemoteDataSource

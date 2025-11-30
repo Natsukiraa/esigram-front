@@ -1,11 +1,10 @@
-package com.example.esigram.ui.screens
-
-import SwipeableConversationItem
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esigram.R
+import com.example.esigram.ui.components.conversations.AddConversationButton
 import com.example.esigram.ui.components.conversations.ConversationFilter
 import com.example.esigram.ui.components.conversations.ConversationSearch
 import com.example.esigram.viewModels.ConversationViewModel
@@ -37,69 +37,66 @@ fun ConversationListScreen(
     val conversations = conversationViewModel.filteredConversations
     val searchQuery = conversationViewModel.searchQuery
 
-
     Surface {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(9.dp)
-        )
-        {
-            Text(
-                context.getString(R.string.message),
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold,
-                color = colorResource(id = R.color.textPrimary)
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(9.dp)
             ) {
-                ConversationSearch(modifier = Modifier.weight(0.8f), searchQuery) { newValue ->
-                    conversationViewModel.searchQuery = newValue
+                Text(
+                    context.getString(R.string.message),
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = colorResource(id = R.color.textPrimary)
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    ConversationSearch(modifier = Modifier.weight(0.8f), searchQuery) { newValue ->
+                        conversationViewModel.searchQuery = newValue
+                    }
+
+                    ConversationFilter(modifier = Modifier.weight(0.2f)) { selectedFilter ->
+                        conversationViewModel.selectedFilter = selectedFilter
+                    }
                 }
 
-                ConversationFilter(modifier = Modifier.weight(0.2f)) { selectedFilter ->
-                    conversationViewModel.selectedFilter = selectedFilter
+                Spacer(modifier = Modifier.height(18.dp))
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(1),
+                    modifier = Modifier.padding(horizontal = 4.dp)
+                ) {
+                    items(conversations, key = { it.id }) { conv ->
+                        SwipeableConversationItem(
+                            conversation = conv,
+                            currentUserId = "1",
+                            onOpenMessage = { onOpenMessage(conv.id) },
+                            onDelete = {
+                                Log.d("action", "onDelete")
+                            },
+                            onPin = { pinnedConv ->
+                                Log.d("action", "pinnedConv")
+                            }
+                        )
+                    }
                 }
             }
 
-            Spacer(modifier = Modifier.height(18.dp))
-
-            /*
-            LazyHorizontalGrid(
-                rows = GridCells.Fixed(1),
-                modifier = Modifier.height(80.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            AddConversationButton(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp)
             ) {
-                items(storyViewModel.stories) { story ->
-                    StoryItem(story, Modifier.size(54.dp))
-                }
-            } */
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(1),
-                modifier = Modifier.padding(horizontal = 4.dp)
-            ) {
-                items(conversations, key = { it.id }) { conv ->
-                    SwipeableConversationItem(
-                        conversation = conv,
-                        currentUserId = "1",
-                        onOpenMessage = { onOpenMessage(conv.id) },
-                        onDelete = {
-                            Log.d("action", "onDelte")
-                        },
-                        onPin = { pinnedConv ->
-                            Log.d("action", "pinnedConv")
-                        }
-                    )
-                }
+                conversationViewModel.addConversation()
             }
         }
     }

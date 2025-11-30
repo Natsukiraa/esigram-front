@@ -36,7 +36,6 @@ class ConversationViewModel(private val conversationUseCases: ConversationUseCas
                     val job = launch {
                         conversationUseCases.observeConversationUseCase(id).collectLatest { conv ->
                             if (conv == null) return@collectLatest
-
                             val existingIndex = _conversations.indexOfFirst { it.id == id }
                             if (existingIndex >= 0) {
                                 _conversations[existingIndex] = conv
@@ -74,6 +73,10 @@ class ConversationViewModel(private val conversationUseCases: ConversationUseCas
         }
 
         return result.sortedByDescending { it.createdAt }
+    }
+
+    private fun addConversation(): Unit {
+
     }
 
     override fun onCleared() {
