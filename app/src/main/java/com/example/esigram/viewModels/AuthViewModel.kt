@@ -134,10 +134,10 @@ class AuthViewModel(
 
     fun signOut() {
         viewModelScope.launch {
-            sessionManager.clearSession()
             authUseCases.signOutUseCase()
+            _user.value = null
             resetStateFlow()
-            refreshUser()
+            sessionManager.clearSession()
         }
     }
 
