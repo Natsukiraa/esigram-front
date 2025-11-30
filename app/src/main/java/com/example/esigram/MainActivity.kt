@@ -100,14 +100,14 @@ class MainActivity : ComponentActivity() {
         AuthViewModelFactory(
             authUseCases = authUseCases,
             userUseCases = userUseCases,
-            context = this
+            context = applicationContext
         )
     }
 
     private val profileViewModel: ProfileViewModel by viewModels {
         ProfileViewModelFactory(
             userUseCases = userUseCases,
-            context = this
+            context = applicationContext
         )
     }
 
