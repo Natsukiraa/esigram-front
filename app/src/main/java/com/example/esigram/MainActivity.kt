@@ -48,6 +48,7 @@ import com.example.esigram.viewModels.FriendViewModel
 import com.example.esigram.viewModels.MessageViewModel
 import com.example.esigram.viewModels.ProfileViewModel
 import com.example.esigram.viewModels.factories.AuthViewModelFactory
+import com.example.esigram.viewModels.factories.ConversationListViewModelFactory
 import com.example.esigram.viewModels.factories.ProfileViewModelFactory
 
 class MainActivity : ComponentActivity() {
@@ -113,8 +114,14 @@ class MainActivity : ComponentActivity() {
 
     private val completeProfileViewModel: CompleteProfileViewModel =
         CompleteProfileViewModel(userUseCases)
-    private val conversationViewModel: ConversationViewModel =
-        ConversationViewModel(conversationUseCases)
+    private val conversationViewModel: ConversationViewModel by viewModels {
+        ConversationListViewModelFactory(
+            conversationUseCases,
+            friendUseCases,
+            this
+        )
+    }
+
     private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases)
     private val friendViewModel: FriendViewModel = FriendViewModel(friendUseCases, userUseCases)
     override fun onCreate(savedInstanceState: Bundle?) {

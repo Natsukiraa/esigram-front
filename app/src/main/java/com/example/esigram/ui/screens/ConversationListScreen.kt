@@ -14,6 +14,10 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -22,8 +26,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esigram.R
+import com.example.esigram.domains.models.User
+import com.example.esigram.domains.models.responses.PageModel
 import com.example.esigram.ui.components.conversations.AddConversationButton
 import com.example.esigram.ui.components.conversations.ConversationFilter
+import com.example.esigram.ui.components.conversations.ConversationFriendsSelection
 import com.example.esigram.ui.components.conversations.ConversationSearch
 import com.example.esigram.viewModels.ConversationViewModel
 
@@ -36,6 +43,9 @@ fun ConversationListScreen(
 
     val conversations = conversationViewModel.filteredConversations
     val searchQuery = conversationViewModel.searchQuery
+    val friends: List<User> = conversationViewModel.friends
+
+    var showFriendDialog by remember { mutableStateOf(false) }
 
     Surface {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -96,7 +106,19 @@ fun ConversationListScreen(
                     .align(Alignment.BottomEnd)
                     .padding(16.dp)
             ) {
-                conversationViewModel.addConversation()
+                showFriendDialog = true
+            }
+
+            if (showFriendDialog) {
+                ConversationFriendsSelection(
+                    friends = friends,
+                    onCancel = { showFriendDialog = false },
+                    onValidate = { selectedIds ->
+                        showFriendDialog = false
+                        conversationViewModel.createConversation(selectedIds)
+                        Log.d("selectedFriends", "IDs sélectionnés : $selectedIds")
+                    }
+                )
             }
         }
     }

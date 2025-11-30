@@ -1,5 +1,6 @@
 package com.example.esigram.viewModels
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -7,17 +8,33 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.esigram.datas.local.SessionManager
 import com.example.esigram.domains.models.Conversation
 import com.example.esigram.domains.models.ConversationFilterType
+import com.example.esigram.domains.models.User
+import com.example.esigram.domains.models.responses.PageModel.Companion.createEmptyPageModel
 import com.example.esigram.domains.usecase.conversation.ConversationUseCases
+import com.example.esigram.domains.usecase.friend.FriendUseCases
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class ConversationViewModel(private val conversationUseCases: ConversationUseCases) : ViewModel() {
+class ConversationViewModel(
+    private val conversationUseCases: ConversationUseCases,
+    private val friendUseCases: FriendUseCases,
+    context: Context
+) : ViewModel() {
 
+    private val sessionManager = SessionManager(context)
+    private var _userId = ""
     private val _conversations = mutableStateListOf<Conversation>()
     private val conversationJobs = mutableListOf<Job>()
+
+    private val _friends = MutableStateFlow(createEmptyPageModel<User>())
+    val friends: List<User>
+        get() = _friends.value.data
 
     var searchQuery by mutableStateOf("")
     var selectedFilter by mutableStateOf(ConversationFilterType.ALL)
@@ -27,9 +44,11 @@ class ConversationViewModel(private val conversationUseCases: ConversationUseCas
 
     init {
         viewModelScope.launch {
+            _friends.value = friendUseCases.getFriendsUseCase()
+            Log.d("conversation", "${_friends.value}")
             try {
-                val userId: String = "0EVICHYX64fhkzxQ1dAPMKzpLRC2" // TODO
-                val ids = conversationUseCases.getAllUseCase(userId)
+                _userId = sessionManager.id.first()
+                val ids = conversationUseCases.getAllUseCase(_userId)
                 Log.d("Conversation", "Conversations IDs: $ids")
 
                 ids.forEach { id ->
@@ -75,8 +94,30 @@ class ConversationViewModel(private val conversationUseCases: ConversationUseCas
         return result.sortedByDescending { it.createdAt }
     }
 
-    private fun addConversation(): Unit {
+    fun createConversation(ids: List<String>): Unit {
 
+        if(ids.size > 1) {
+            createGroupConversation(ids)
+        } else {
+            createPrivateConversation(ids[0])
+        }
+    }
+
+    private fun createGroupConversation(ids: List<String>): Unit {
+
+    }
+
+    private fun createPrivateConversation(id: String): Unit {
+        val conversation = findConversationByTwoMemberIds(id, _userId)
+        Log.d("conversation", "$conversation")
+    }
+
+    fun findConversationByTwoMemberIds(id1: String, id2: String): Conversation? {
+        val targetIds = setOf(id1, id2)
+        return _conversations.find { conversation ->
+            val memberIds = conversation.members.map { it.id }.toSet()
+            memberIds.size == 2 && memberIds == targetIds
+        }
     }
 
     override fun onCleared() {
