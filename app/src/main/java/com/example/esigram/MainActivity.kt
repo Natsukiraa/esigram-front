@@ -33,6 +33,7 @@ import com.example.esigram.domains.usecase.friend.RemoveFriendUseCase
 import com.example.esigram.domains.usecase.message.CreateMessageUseCase
 import com.example.esigram.domains.usecase.message.DeleteMessageUseCase
 import com.example.esigram.domains.usecase.message.ListenMessagesUseCase
+import com.example.esigram.domains.usecase.message.LoadOlderMessageUseCase
 import com.example.esigram.domains.usecase.message.MessageUseCases
 import com.example.esigram.domains.usecase.user.CompleteOnboarding
 import com.example.esigram.domains.usecase.user.GetMeCase
@@ -75,7 +76,8 @@ class MainActivity : ComponentActivity() {
     private val messageUseCases: MessageUseCases = MessageUseCases(
         listenMessagesUseCase = ListenMessagesUseCase(messageRepository),
         createMessageUseCase = CreateMessageUseCase(messageRepository),
-        deleteMessageUseCase = DeleteMessageUseCase(messageRepository)
+        deleteMessageUseCase = DeleteMessageUseCase(messageRepository),
+        loadOlderMessageUseCase = LoadOlderMessageUseCase(messageRepository)
     )
 
     // conv repo implem

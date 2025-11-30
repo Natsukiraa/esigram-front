@@ -15,6 +15,7 @@ class UserRepositoryImpl(
 
     override suspend fun getUsers(page: Int, size: Int, username: String?) =
         remote.getUsers(page, size, username)
+
     override suspend fun getUserById(userId: String): UserConversation? {
         return remote.getUserById(userId)
     }

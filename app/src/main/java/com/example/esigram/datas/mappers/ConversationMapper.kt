@@ -26,7 +26,8 @@ fun ConversationDto.toDomain(): Conversation {
             id = msg["id"] as? String ?: "",
             authorId = msg["authorId"] as String,
             content = msg["content"] as String,
-            createdAt = parseInstant(msg["createdAt"] as String?))
+            createdAt = parseInstant(msg["createdAt"] as String?)
+        )
     }
 
     return Conversation(
@@ -71,5 +72,6 @@ fun ConversationDto.toDomainBasic(): ConversationBasic {
         lastMessage = lastMessage,
         unreadCount = (map["unreadCount"] as? Long)?.toInt() ?: 0,
         title = map["title"] as? String,
-        createdAt = parseInstant(data["createdAt"] as String?)    )
+        createdAt = parseInstant(data["createdAt"] as String?)
+    )
 }

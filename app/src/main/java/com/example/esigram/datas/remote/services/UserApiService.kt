@@ -1,8 +1,8 @@
 package com.example.esigram.datas.remote.services
 
+import com.example.esigram.datas.remote.models.ResponsUserDto
 import com.example.esigram.domains.models.User
 import com.example.esigram.domains.models.responses.OnboardingStatus
-import com.example.esigram.datas.remote.models.ResponsUserDto
 import com.example.esigram.domains.models.responses.PageModel
 import com.example.esigram.domains.models.responses.UserResponse
 import okhttp3.MultipartBody
