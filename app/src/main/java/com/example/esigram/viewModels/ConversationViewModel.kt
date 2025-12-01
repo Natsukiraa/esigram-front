@@ -111,6 +111,7 @@ class ConversationViewModel(
     }
 
     private fun createGroupConversation(ids: List<String>): Unit {
+        Log.d("conversation", "createGroupConversation call")
 
     }
 
