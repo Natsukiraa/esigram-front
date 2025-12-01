@@ -12,11 +12,13 @@ import com.example.esigram.datas.local.SessionManager
 import com.example.esigram.domains.models.Conversation
 import com.example.esigram.domains.models.ConversationFilterType
 import com.example.esigram.domains.models.User
+import com.example.esigram.domains.models.responses.PageModel
 import com.example.esigram.domains.models.responses.PageModel.Companion.createEmptyPageModel
 import com.example.esigram.domains.usecase.conversation.ConversationUseCases
 import com.example.esigram.domains.usecase.friend.FriendUseCases
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -33,8 +35,7 @@ class ConversationViewModel(
     private val conversationJobs = mutableListOf<Job>()
 
     private val _friends = MutableStateFlow(createEmptyPageModel<User>())
-    val friends: List<User>
-        get() = _friends.value.data
+    val friends: StateFlow<PageModel<User>> = _friends
 
     var searchQuery by mutableStateOf("")
     var selectedFilter by mutableStateOf(ConversationFilterType.ALL)
@@ -44,7 +45,6 @@ class ConversationViewModel(
 
     init {
         viewModelScope.launch {
-            _friends.value = friendUseCases.getFriendsUseCase()
             Log.d("conversation", "${_friends.value}")
             try {
                 _userId = sessionManager.id.first()
@@ -92,6 +92,13 @@ class ConversationViewModel(
         }
 
         return result.sortedByDescending { it.createdAt }
+    }
+
+    fun refreshFriend(): Unit {
+        viewModelScope.launch {
+            val page = friendUseCases.getFriendsUseCase()
+            _friends.value = page
+        }
     }
 
     fun createConversation(ids: List<String>): Unit {

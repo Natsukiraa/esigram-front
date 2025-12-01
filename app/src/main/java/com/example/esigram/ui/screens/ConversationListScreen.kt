@@ -11,9 +11,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,7 +45,9 @@ fun ConversationListScreen(
 
     val conversations = conversationViewModel.filteredConversations
     val searchQuery = conversationViewModel.searchQuery
-    val friends: List<User> = conversationViewModel.friends
+
+    val friendsState by conversationViewModel.friends.collectAsState()
+    val friends = friendsState.data
 
     var showFriendDialog by remember { mutableStateOf(false) }
 
@@ -107,6 +111,7 @@ fun ConversationListScreen(
                     .padding(16.dp)
             ) {
                 showFriendDialog = true
+                conversationViewModel.refreshFriend()
             }
 
             if (showFriendDialog) {
@@ -116,7 +121,6 @@ fun ConversationListScreen(
                     onValidate = { selectedIds ->
                         showFriendDialog = false
                         conversationViewModel.createConversation(selectedIds)
-                        Log.d("selectedFriends", "IDs sélectionnés : $selectedIds")
                     }
                 )
             }

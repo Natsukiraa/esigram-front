@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.esigram.domains.usecase.conversation.ConversationUseCases
 import com.example.esigram.domains.usecase.friend.FriendUseCases
 import com.example.esigram.viewModels.ConversationViewModel
-import com.example.esigram.viewModels.ProfileViewModel
 
 class ConversationListViewModelFactory(
     private val conversationUseCases: ConversationUseCases,
