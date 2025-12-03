@@ -49,4 +49,8 @@ class ConversationRepositoryImpl(
             )
         }
     }
+
+    override suspend fun createConversation(ids: List<String>) {
+        remote.createConversation(ids)
+    }
 }

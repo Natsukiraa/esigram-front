@@ -21,6 +21,7 @@ import com.example.esigram.domains.usecase.auth.LoginUseCase
 import com.example.esigram.domains.usecase.auth.RegisterUseCase
 import com.example.esigram.domains.usecase.auth.SignOutUseCase
 import com.example.esigram.domains.usecase.conversation.ConversationUseCases
+import com.example.esigram.domains.usecase.conversation.CreateGroupConversationUseCase
 import com.example.esigram.domains.usecase.conversation.GetAllUseCase
 import com.example.esigram.domains.usecase.conversation.GetByIdUseCase
 import com.example.esigram.domains.usecase.conversation.ObserveConversationUseCase
@@ -84,7 +85,8 @@ class MainActivity : ComponentActivity() {
     private val conversationUseCases: ConversationUseCases = ConversationUseCases(
         getAllUseCase = GetAllUseCase(conversationRepository),
         getByIdUseCase = GetByIdUseCase(conversationRepository),
-        observeConversationUseCase = ObserveConversationUseCase(conversationRepository)
+        observeConversationUseCase = ObserveConversationUseCase(conversationRepository),
+        createGroupConversationUseCase = CreateGroupConversationUseCase(conversationRepository)
     )
 
     // friend repo implem

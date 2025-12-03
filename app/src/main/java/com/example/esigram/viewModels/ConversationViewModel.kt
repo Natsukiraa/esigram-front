@@ -112,7 +112,9 @@ class ConversationViewModel(
 
     private fun createGroupConversation(ids: List<String>): Unit {
         Log.d("conversation", "createGroupConversation call")
-
+        viewModelScope.launch {
+            conversationUseCases.createGroupConversationUseCase(ids)
+        }
     }
 
     private fun createPrivateConversation(id: String): Unit {
