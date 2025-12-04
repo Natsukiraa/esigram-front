@@ -22,6 +22,7 @@ import com.example.esigram.domains.usecase.auth.RegisterUseCase
 import com.example.esigram.domains.usecase.auth.SignOutUseCase
 import com.example.esigram.domains.usecase.conversation.ConversationUseCases
 import com.example.esigram.domains.usecase.conversation.CreateGroupConversationUseCase
+import com.example.esigram.domains.usecase.conversation.CreatePrivateConversationUseCase
 import com.example.esigram.domains.usecase.conversation.GetAllUseCase
 import com.example.esigram.domains.usecase.conversation.GetByIdUseCase
 import com.example.esigram.domains.usecase.conversation.ObserveConversationUseCase
@@ -86,7 +87,8 @@ class MainActivity : ComponentActivity() {
         getAllUseCase = GetAllUseCase(conversationRepository),
         getByIdUseCase = GetByIdUseCase(conversationRepository),
         observeConversationUseCase = ObserveConversationUseCase(conversationRepository),
-        createGroupConversationUseCase = CreateGroupConversationUseCase(conversationRepository)
+        createGroupConversationUseCase = CreateGroupConversationUseCase(conversationRepository),
+        createPrivateConversationUseCase = CreatePrivateConversationUseCase(conversationRepository)
     )
 
     // friend repo implem
