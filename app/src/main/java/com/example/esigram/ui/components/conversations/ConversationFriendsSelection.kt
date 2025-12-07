@@ -5,17 +5,23 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -42,38 +48,40 @@ fun ConversationFriendsSelection(
 ) {
     var selectedFriends by remember { mutableStateOf(setOf<String>()) }
     var groupName by remember { mutableStateOf("") }
+    val isGroupCreation = selectedFriends.size > 1
 
     Dialog(onDismissRequest = onCancel) {
         Surface(
-            shape = RoundedCornerShape(20.dp),
-            color = MaterialTheme.colorScheme.surface,
-            tonalElevation = 6.dp,
-            shadowElevation = 8.dp,
+            shape = RoundedCornerShape(28.dp),
+            color = MaterialTheme.colorScheme.surfaceContainerHigh,
+            shadowElevation = 16.dp,
             modifier = Modifier
-                .width(340.dp)
-                .height(560.dp)
+                .fillMaxWidth(0.9f)
+                .heightIn(min = 400.dp, max = 640.dp)
         ) {
             Column(
                 modifier = Modifier.padding(24.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.select_friends_title),
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onSurface
+                    text = if (isGroupCreation) stringResource(R.string.create_group_title) else stringResource(R.string.select_friends_title),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.padding(bottom = 8.dp)
                 )
 
-                if (selectedFriends.isNotEmpty()) {
-                    Text(
-                        text = stringResource(
-                            R.string.selected_friends_count, selectedFriends.size
-                        ),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(top = 4.dp)
-                    )
-                }
+                Divider(
+                    color = MaterialTheme.colorScheme.outlineVariant,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
 
-                Spacer(Modifier.height(16.dp))
+                Text(
+                    text = stringResource(
+                        R.string.selected_friends_count, selectedFriends.size
+                    ),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
 
                 Box(
                     modifier = Modifier
@@ -81,28 +89,25 @@ fun ConversationFriendsSelection(
                         .fillMaxWidth()
                 ) {
                     if (friends.isEmpty()) {
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
                         ) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.spacedBy(12.dp)
-                            ) {
-                                CircularProgressIndicator(
-                                    color = MaterialTheme.colorScheme.primary
-                                )
-                                Text(
-                                    text = stringResource(R.string.loading_friends),
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
+                            CircularProgressIndicator(
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            Spacer(Modifier.height(12.dp))
+                            Text(
+                                text = stringResource(R.string.loading_friends),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
                         }
                     } else {
                         LazyColumn(
                             modifier = Modifier.fillMaxWidth(),
-                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             items(friends) { friend ->
                                 FriendItem(
@@ -121,17 +126,13 @@ fun ConversationFriendsSelection(
                     }
                 }
 
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(24.dp))
 
-                if (selectedFriends.size > 1) {
-                    androidx.compose.material3.OutlinedTextField(
-                        value = groupName,
-                        onValueChange = { groupName = it },
-                        label = { Text(stringResource(R.string.group_name_label)) },
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp)
+                if (isGroupCreation) {
+                    GroupCreationInput(
+                        groupName = groupName,
+                        onGroupNameChange = { groupName = it }
                     )
-
                     Spacer(Modifier.height(16.dp))
                 }
 
@@ -151,14 +152,16 @@ fun ConversationFriendsSelection(
 
                     Button(
                         onClick = {
-                            onValidate(selectedFriends.toList(),
-                                if (selectedFriends.size > 2) groupName else null
+                            onValidate(
+                                selectedFriends.toList(),
+                                if (isGroupCreation && groupName.isNotBlank()) groupName else null
                             )
                         },
                         enabled = selectedFriends.isNotEmpty()
-                                && (selectedFriends.size <= 2 || groupName.isNotBlank()),
+                                && (!isGroupCreation || groupName.isNotBlank()),
                         modifier = Modifier.height(48.dp),
-                        shape = RoundedCornerShape(12.dp)
+                        shape = RoundedCornerShape(12.dp),
+                        elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp)
                     ) {
                         Text(
                             text = stringResource(R.string.validate),
@@ -169,6 +172,29 @@ fun ConversationFriendsSelection(
             }
         }
     }
+}
+
+@Composable
+fun GroupCreationInput(
+    groupName: String,
+    onGroupNameChange: (String) -> Unit
+) {
+    OutlinedTextField(
+        value = groupName,
+        onValueChange = onGroupNameChange,
+        label = { Text(stringResource(R.string.group_name_label)) },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary
+            )
+        },
+        placeholder = { Text("azd")},
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        singleLine = true
+    )
 }
 
 @Preview(showBackground = true)

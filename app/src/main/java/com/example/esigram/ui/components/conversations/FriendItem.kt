@@ -1,19 +1,23 @@
 package com.example.esigram.ui.components.conversations
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -36,11 +40,17 @@ fun FriendItem(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
+    val backgroundColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f) else Color.Transparent
+    val borderStroke = if (isSelected) BorderStroke(1.dp, MaterialTheme.colorScheme.primary) else null
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(backgroundColor)
+            .then(if (borderStroke != null) Modifier.border(borderStroke, RoundedCornerShape(12.dp)) else Modifier)
             .clickable { onClick() }
-            .padding(12.dp),
+            .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         ProfileImage(
@@ -48,21 +58,25 @@ fun FriendItem(
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape)
-                .border(BorderStroke(1.dp, Color.LightGray), CircleShape)
         )
 
-        Spacer(modifier = Modifier.width(12.dp))
+        Spacer(modifier = Modifier.width(16.dp))
 
         Text(
             text = friend.username,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Medium,
+            fontSize = 17.sp,
+            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+            color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.weight(1f)
         )
 
         Checkbox(
             checked = isSelected,
-            onCheckedChange = { onClick() }
+            onCheckedChange = { onClick() },
+            colors = CheckboxDefaults.colors(
+                checkedColor = MaterialTheme.colorScheme.primary,
+                uncheckedColor = MaterialTheme.colorScheme.outline
+            )
         )
     }
 }
@@ -70,18 +84,30 @@ fun FriendItem(
 @Preview(showBackground = true)
 @Composable
 fun FriendItemPreview() {
-    val user = User(
-        id = "1",
-        username = "Arthur",
-        email = "arthur@example.com",
-        profilePicture = null
-    )
+    MaterialTheme {
+        Column(Modifier.padding(16.dp)) {
+            val user = User(
+                id = "1",
+                username = "Arthur",
+                email = "arthur@example.com",
+                profilePicture = null
+            )
 
-    var selected by remember { mutableStateOf(false) }
+            var selected by remember { mutableStateOf(false) }
 
-    FriendItem(
-        friend = user,
-        isSelected = selected,
-        onClick = { selected = !selected }
-    )
+            FriendItem(
+                friend = user,
+                isSelected = selected,
+                onClick = { selected = !selected }
+            )
+
+            Spacer(Modifier.height(8.dp))
+
+            FriendItem(
+                friend = User(id = "2", username = "Léna", email = "lena@example.com", profilePicture = null),
+                isSelected = true,
+                onClick = { }
+            )
+        }
+    }
 }
