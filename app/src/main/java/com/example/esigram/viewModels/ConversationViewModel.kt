@@ -52,20 +52,24 @@ class ConversationViewModel(
             Log.d("conversation", "${_friends.value}")
             try {
                 _userId = sessionManager.id.first()
-                val ids = conversationUseCases.getAllUseCase(_userId)
-                Log.d("Conversation", "Conversations IDs: $ids")
 
-                ids.forEach { id ->
+                val userConvs = conversationUseCases.getAllUseCase(_userId)
+                userConvs.forEach { userConv ->
                     val job = launch {
-                        conversationUseCases.observeConversationUseCase(id).collectLatest { conv ->
-                            if (conv == null) return@collectLatest
-                            val existingIndex = _conversations.indexOfFirst { it.id == id }
-                            if (existingIndex >= 0) {
-                                _conversations[existingIndex] = conv
-                            } else {
-                                _conversations.add(conv)
-                            }
+                        conversationUseCases.observeConversationUseCase(userConv.id).collectLatest { conv ->
 
+                            if (conv == null) return@collectLatest
+                            val updatedConv = conv.copy(
+                                unreadCount = userConv.unReadMessageCount
+                            )
+                            Log.d("conv", userConv.unReadMessageCount.toString())
+                            val existingIndex = _conversations.indexOfFirst { it.id == updatedConv.id }
+
+                            if (existingIndex >= 0) {
+                                _conversations[existingIndex] = updatedConv
+                            } else {
+                                _conversations.add(updatedConv)
+                            }
                         }
                     }
                     conversationJobs.add(job)

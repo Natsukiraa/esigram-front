@@ -5,6 +5,7 @@ import com.example.esigram.datas.remote.models.ConversationDto
 import com.example.esigram.datas.remote.models.ConversationIdResponse
 import com.example.esigram.datas.remote.models.CreateConversation
 import com.example.esigram.datas.remote.models.CreateConversationRequest
+import com.example.esigram.datas.remote.models.UserConversation
 import com.example.esigram.datas.remote.services.ConversationApiService
 import com.example.esigram.datas.remote.services.FriendApiService
 import com.example.esigram.networks.RetrofitInstance
@@ -30,10 +31,18 @@ class ConversationRemoteDataSource(
     private val api = RetrofitInstance.api
     private val conversationService = api.create(ConversationApiService::class.java)
 
-    suspend fun getAll(userId: String): List<String> {
+    suspend fun getAll(userId: String): List<UserConversation> {
         val ref = database.getReference("user_chats").child(userId)
         val snapshot = ref.get().await()
-        return snapshot.children.mapNotNull { it.key }
+
+        return snapshot.children.mapNotNull { childSnapshot ->
+            val conversationId = childSnapshot.key ?: return@mapNotNull null
+            val unreadCount = childSnapshot.child("unreadMessageCount").getValue(Int::class.java) ?: 0
+            UserConversation(
+                id = conversationId,
+                unReadMessageCount = unreadCount
+            )
+        }
     }
 
     suspend fun getById(id: String): ConversationDto? {
