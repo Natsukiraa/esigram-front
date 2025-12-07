@@ -32,7 +32,9 @@ class ConversationViewModel(
 ) : ViewModel() {
 
     private val sessionManager = SessionManager(context)
-    private var _userId = ""
+    private var _userId by mutableStateOf("")
+    val userId: String
+        get() = _userId
     private val _conversations = mutableStateListOf<Conversation>()
     private val conversationJobs = mutableListOf<Job>()
     private val _friends = MutableStateFlow(createEmptyPageModel<User>())

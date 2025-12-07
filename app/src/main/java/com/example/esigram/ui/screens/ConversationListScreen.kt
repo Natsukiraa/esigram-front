@@ -50,7 +50,7 @@ fun ConversationListScreen(
 
     val friendsState by conversationViewModel.friends.collectAsState()
     val friends = friendsState.data
-
+    val userId = conversationViewModel.userId
     var showFriendDialog by remember { mutableStateOf(false) }
 
     Surface {
@@ -94,7 +94,7 @@ fun ConversationListScreen(
                     items(conversations, key = { it.id }) { conv ->
                         SwipeableConversationItem(
                             conversation = conv,
-                            currentUserId = "1",
+                            currentUserId = userId,
                             onOpenMessage = { onOpenMessage(conv.id) },
                             onDelete = {
                                 Log.d("action", "onDelete")
