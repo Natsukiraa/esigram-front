@@ -6,11 +6,15 @@ import com.example.esigram.datas.mappers.toDomainBasic
 import com.example.esigram.datas.remote.ConversationRemoteDataSource
 import com.example.esigram.datas.remote.MediaRemoteDataSource
 import com.example.esigram.datas.remote.UserRemoteDataSource
+import com.example.esigram.datas.remote.models.CreateConversation
 import com.example.esigram.domains.models.Conversation
 import com.example.esigram.domains.repositories.ConversationRepository
 import com.example.esigram.models.UserConversation
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 
 class ConversationRepositoryImpl(
     val remote: ConversationRemoteDataSource = ConversationRemoteDataSource(),
@@ -50,7 +54,13 @@ class ConversationRepositoryImpl(
         }
     }
 
-    override suspend fun createConversation(ids: List<String>) {
-        remote.createConversation(ids)
+    override suspend fun createConversation(ids: List<String>): String? {
+        return try {
+            val res = remote.createConversation(ids)
+            res?.data?.id
+        } catch (e: Exception) {
+            Log.e("conversation", "Error: ${e.message}")
+            null
+        }
     }
 }

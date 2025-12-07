@@ -1,6 +1,8 @@
 package com.example.esigram.datas.remote
 
+import android.util.Log
 import com.example.esigram.datas.remote.models.ConversationDto
+import com.example.esigram.datas.remote.models.ConversationIdResponse
 import com.example.esigram.datas.remote.models.CreateConversation
 import com.example.esigram.datas.remote.models.CreateConversationRequest
 import com.example.esigram.datas.remote.services.ConversationApiService
@@ -15,8 +17,11 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.HttpException
+import java.io.IOException
 
 class ConversationRemoteDataSource(
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
@@ -56,16 +61,31 @@ class ConversationRemoteDataSource(
         awaitClose { ref.removeEventListener(listener) }
     }
 
-    suspend fun createConversation(ids: List<String>) {
+    suspend fun createConversation(ids: List<String>): ConversationIdResponse? {
+        return try {
+            Log.d("conversation", "create")
 
-        val data = CreateConversation(
-            memberIds = ids
-        )
+            val data = CreateConversation(memberIds = ids)
+            val json = Gson().toJson(data)
+            val body = json.toRequestBody("application/json".toMediaType())
 
-        val gson = Gson()
-        val jsonData = gson.toJson(data)
-        val dataBody = jsonData.toRequestBody("application/json".toMediaTypeOrNull())
+            val res = conversationService.createConversation(body, null)
 
-        val res = conversationService.createConversation(data = dataBody, null)
+            Log.d("conversation", "Success: $res")
+
+            res
+        } catch (e: HttpException) {
+            Log.e(
+                "conversation",
+                "HTTP error: ${e.code()} ${e.response()?.errorBody()?.string()}"
+            )
+            null
+        } catch (e: IOException) {
+            Log.e("conversation", "Network error: ${e.message}")
+            null
+        } catch (e: Exception) {
+            Log.e("conversation", "Unknown error: ${e.stackTraceToString()}")
+            null
+        }
     }
 }

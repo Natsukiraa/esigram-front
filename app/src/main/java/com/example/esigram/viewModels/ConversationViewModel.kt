@@ -17,10 +17,12 @@ import com.example.esigram.domains.models.responses.PageModel.Companion.createEm
 import com.example.esigram.domains.usecase.conversation.ConversationUseCases
 import com.example.esigram.domains.usecase.friend.FriendUseCases
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class ConversationViewModel(
@@ -33,7 +35,6 @@ class ConversationViewModel(
     private var _userId = ""
     private val _conversations = mutableStateListOf<Conversation>()
     private val conversationJobs = mutableListOf<Job>()
-
     private val _friends = MutableStateFlow(createEmptyPageModel<User>())
     val friends: StateFlow<PageModel<User>> = _friends
 
@@ -42,6 +43,16 @@ class ConversationViewModel(
 
     val filteredConversations: List<Conversation>
         get() = filterConversations()
+
+
+
+    // ---- Navigation Events ----
+    private val _navigationEvents = Channel<ConversationNavigationEvent>()
+    val navigationEvents = _navigationEvents.receiveAsFlow()
+
+    sealed class ConversationNavigationEvent {
+        data class OpenConversation(val conversationId: String) : ConversationNavigationEvent()
+    }
 
     init {
         viewModelScope.launch {
@@ -101,25 +112,46 @@ class ConversationViewModel(
         }
     }
 
-    fun createConversation(ids: List<String>): Unit {
-
-        if(ids.size > 1) {
-            createGroupConversation(ids)
+    fun createConversation(
+        ids: List<String>,
+        onOpenMessage: (String) -> Unit
+    ) {
+        if (ids.size > 1) {
+            createGroupConversation(ids, onOpenMessage)
         } else {
-            createPrivateConversation(ids[0])
+            createPrivateConversation(ids[0], onOpenMessage)
         }
     }
 
-    private fun createGroupConversation(ids: List<String>): Unit {
-        Log.d("conversation", "createGroupConversation call")
+    private fun createGroupConversation(
+        ids: List<String>,
+        onOpenMessage: (String) -> Unit
+    ) {
         viewModelScope.launch {
-            conversationUseCases.createGroupConversationUseCase(ids)
+            val finalIds = ids + _userId
+            val id = conversationUseCases.createGroupConversationUseCase(finalIds)
+            if(id != null) {
+                onOpenMessage(id)
+            }
         }
     }
 
-    private fun createPrivateConversation(id: String): Unit {
-        val conversation = findConversationByTwoMemberIds(id, _userId)
-        Log.d("conversation", "$conversation")
+    private fun createPrivateConversation(
+        otherId: String,
+        onOpenMessage: (String) -> Unit
+    ) {
+        viewModelScope.launch {
+            val existing = findConversationByTwoMemberIds(otherId, _userId)
+
+            if (existing != null) {
+                onOpenMessage(existing.id)
+                return@launch
+            }
+            val id = conversationUseCases.createPrivateConversationUseCase(_userId, otherId)
+            if(id != null) {
+                onOpenMessage(id)
+            }
+        }
     }
 
     fun findConversationByTwoMemberIds(id1: String, id2: String): Conversation? {
