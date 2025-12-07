@@ -27,10 +27,8 @@ class UserRemoteDataSource {
     }
 
     suspend fun getUserById(userId: String): UserConversation? {
-        Log.d("Conversation", "azd")
 
         val response = userService.getUserById(userId)
-        Log.d("Conversation", "$response")
 
         return if (response.isSuccessful) {
             response.body()?.data?.toDomain()

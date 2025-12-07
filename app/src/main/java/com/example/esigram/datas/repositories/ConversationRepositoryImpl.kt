@@ -42,6 +42,7 @@ class ConversationRepositoryImpl(
                 )
             }
 
+            Log.d("conversation", membersWithMedia.toString())
             return@map Conversation(
                 id = basic.id,
                 members = membersWithMedia,

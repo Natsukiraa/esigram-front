@@ -1,6 +1,9 @@
 package com.example.esigram.ui.components.conversations
 
+import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -40,20 +43,16 @@ fun FriendItem(
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Avatar
-        Box(
+        ProfileImage(
+            url = friend.profilePicture?.signedUrl,
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape)
-                .background(Color.LightGray)
-        ) {
-            // Tu mets Coil ici si tu as une URL d’image
-            // Image(painter = rememberAsyncImagePainter(friend.avatarUrl), ...)
-        }
+                .border(BorderStroke(1.dp, Color.LightGray), CircleShape)
+        )
 
         Spacer(modifier = Modifier.width(12.dp))
 
-        // Nom
         Text(
             text = friend.username,
             fontSize = 18.sp,
@@ -61,7 +60,6 @@ fun FriendItem(
             modifier = Modifier.weight(1f)
         )
 
-        // Checkbox de sélection
         Checkbox(
             checked = isSelected,
             onCheckedChange = { onClick() }
@@ -72,15 +70,13 @@ fun FriendItem(
 @Preview(showBackground = true)
 @Composable
 fun FriendItemPreview() {
-    // Fake user
     val user = User(
         id = "1",
         username = "Arthur",
         email = "arthur@example.com",
-        profilePicture = null // si tu en as une
+        profilePicture = null
     )
 
-    // État local pour simuler la sélection
     var selected by remember { mutableStateOf(false) }
 
     FriendItem(

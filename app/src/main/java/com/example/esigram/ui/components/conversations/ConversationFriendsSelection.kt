@@ -55,7 +55,6 @@ fun ConversationFriendsSelection(
             Column(
                 modifier = Modifier.padding(24.dp)
             ) {
-                // En-tête
                 Text(
                     text = stringResource(R.string.select_friends_title),
                     style = MaterialTheme.typography.headlineSmall,
@@ -76,7 +75,6 @@ fun ConversationFriendsSelection(
 
                 Spacer(Modifier.height(16.dp))
 
-                // Liste des amis
                 Box(
                     modifier = Modifier
                         .weight(1f)
@@ -125,7 +123,6 @@ fun ConversationFriendsSelection(
 
                 Spacer(Modifier.height(24.dp))
 
-                // Boutons d'action
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.End)
