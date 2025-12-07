@@ -61,12 +61,11 @@ class ConversationRemoteDataSource(
         awaitClose { ref.removeEventListener(listener) }
     }
 
-    suspend fun createConversation(ids: List<String>): ConversationIdResponse? {
+    suspend fun createConversation(conversation: CreateConversation): ConversationIdResponse? {
         return try {
             Log.d("conversation", "create")
 
-            val data = CreateConversation(memberIds = ids)
-            val json = Gson().toJson(data)
+            val json = Gson().toJson(conversation)
             val body = json.toRequestBody("application/json".toMediaType())
 
             val res = conversationService.createConversation(body, null)

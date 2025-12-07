@@ -5,5 +5,6 @@ data class CreateConversationRequest(
 )
 
 data class CreateConversation(
-    val memberIds: List<String>
+    val memberIds: List<String>,
+    val name: String?
 )

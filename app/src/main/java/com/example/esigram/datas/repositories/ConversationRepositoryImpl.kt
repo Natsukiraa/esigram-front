@@ -55,9 +55,10 @@ class ConversationRepositoryImpl(
         }
     }
 
-    override suspend fun createConversation(ids: List<String>): String? {
+    override suspend fun createConversation(ids: List<String>, groupName: String?): String? {
         return try {
-            val res = remote.createConversation(ids)
+            val conv = CreateConversation(ids, groupName)
+            val res = remote.createConversation(conv)
             res?.data?.id
         } catch (e: Exception) {
             Log.e("conversation", "Error: ${e.message}")

@@ -38,9 +38,10 @@ import com.example.esigram.domains.models.User
 fun ConversationFriendsSelection(
     friends: List<User>,
     onCancel: () -> Unit,
-    onValidate: (List<String>) -> Unit
+    onValidate: (selectedFriends: List<String>, groupName: String?) -> Unit
 ) {
     var selectedFriends by remember { mutableStateOf(setOf<String>()) }
+    var groupName by remember { mutableStateOf("") }
 
     Dialog(onDismissRequest = onCancel) {
         Surface(
@@ -50,7 +51,7 @@ fun ConversationFriendsSelection(
             shadowElevation = 8.dp,
             modifier = Modifier
                 .width(340.dp)
-                .height(500.dp)
+                .height(560.dp)
         ) {
             Column(
                 modifier = Modifier.padding(24.dp)
@@ -64,8 +65,7 @@ fun ConversationFriendsSelection(
                 if (selectedFriends.isNotEmpty()) {
                     Text(
                         text = stringResource(
-                            R.string.selected_friends_count,
-                            selectedFriends.size
+                            R.string.selected_friends_count, selectedFriends.size
                         ),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -121,7 +121,19 @@ fun ConversationFriendsSelection(
                     }
                 }
 
-                Spacer(Modifier.height(24.dp))
+                Spacer(Modifier.height(16.dp))
+
+                if (selectedFriends.size > 1) {
+                    androidx.compose.material3.OutlinedTextField(
+                        value = groupName,
+                        onValueChange = { groupName = it },
+                        label = { Text(stringResource(R.string.group_name_label)) },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp)
+                    )
+
+                    Spacer(Modifier.height(16.dp))
+                }
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -136,15 +148,17 @@ fun ConversationFriendsSelection(
                             style = MaterialTheme.typography.labelLarge
                         )
                     }
+
                     Button(
-                        onClick = { onValidate(selectedFriends.toList()) },
-                        enabled = selectedFriends.isNotEmpty(),
+                        onClick = {
+                            onValidate(selectedFriends.toList(),
+                                if (selectedFriends.size > 2) groupName else null
+                            )
+                        },
+                        enabled = selectedFriends.isNotEmpty()
+                                && (selectedFriends.size <= 2 || groupName.isNotBlank()),
                         modifier = Modifier.height(48.dp),
-                        shape = RoundedCornerShape(12.dp),
-                        elevation = ButtonDefaults.buttonElevation(
-                            defaultElevation = 2.dp,
-                            pressedElevation = 4.dp
-                        )
+                        shape = RoundedCornerShape(12.dp)
                     ) {
                         Text(
                             text = stringResource(R.string.validate),
@@ -170,8 +184,8 @@ fun ConversationFriendsSelectionPreview() {
         ConversationFriendsSelection(
             friends = friends,
             onCancel = {},
-            onValidate = { selectedIds ->
-                println("Sélectionnés: $selectedIds")
+            onValidate = { selectedIds, groupName ->
+                println("Sélectionnés: $selectedIds, Nom du groupe: $groupName")
             }
         )
     }

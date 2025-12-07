@@ -37,6 +37,7 @@ import com.example.esigram.ui.components.conversations.ConversationFilter
 import com.example.esigram.ui.components.conversations.ConversationFriendsSelection
 import com.example.esigram.ui.components.conversations.ConversationSearch
 import com.example.esigram.viewModels.ConversationViewModel
+import com.google.android.recaptcha.internal.zzgo
 
 @Composable
 fun ConversationListScreen(
@@ -120,9 +121,9 @@ fun ConversationListScreen(
                 ConversationFriendsSelection(
                     friends = friends,
                     onCancel = { showFriendDialog = false },
-                    onValidate = { selectedIds ->
+                    onValidate = { selectedIds, groupName ->
                         showFriendDialog = false
-                        conversationViewModel.createConversation(selectedIds) { convId ->
+                        conversationViewModel.createConversation(selectedIds, groupName) { convId ->
                             onOpenMessage(convId)
                         }
                     }

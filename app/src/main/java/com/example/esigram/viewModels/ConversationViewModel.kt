@@ -107,10 +107,11 @@ class ConversationViewModel(
 
     fun createConversation(
         ids: List<String>,
+        groupName: String?,
         onOpenMessage: (String) -> Unit
     ) {
         if (ids.size > 1) {
-            createGroupConversation(ids, onOpenMessage)
+            createGroupConversation(ids, groupName, onOpenMessage)
         } else {
             createPrivateConversation(ids[0], onOpenMessage)
         }
@@ -118,11 +119,12 @@ class ConversationViewModel(
 
     private fun createGroupConversation(
         ids: List<String>,
+        groupName: String?,
         onOpenMessage: (String) -> Unit
     ) {
         viewModelScope.launch {
             val finalIds = ids + _userId
-            val id = conversationUseCases.createGroupConversationUseCase(finalIds)
+            val id = conversationUseCases.createGroupConversationUseCase(finalIds, groupName)
             if(id != null) {
                 onOpenMessage(id)
             }
