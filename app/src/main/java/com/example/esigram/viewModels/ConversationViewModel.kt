@@ -45,15 +45,6 @@ class ConversationViewModel(
         get() = filterConversations()
 
 
-
-    // ---- Navigation Events ----
-    private val _navigationEvents = Channel<ConversationNavigationEvent>()
-    val navigationEvents = _navigationEvents.receiveAsFlow()
-
-    sealed class ConversationNavigationEvent {
-        data class OpenConversation(val conversationId: String) : ConversationNavigationEvent()
-    }
-
     init {
         viewModelScope.launch {
             Log.d("conversation", "${_friends.value}")
