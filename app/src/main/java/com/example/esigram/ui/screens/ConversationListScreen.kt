@@ -35,6 +35,7 @@ import com.example.esigram.domains.models.responses.PageModel
 import com.example.esigram.ui.components.conversations.AddConversationButton
 import com.example.esigram.ui.components.conversations.ConversationFilter
 import com.example.esigram.ui.components.conversations.ConversationFriendsSelection
+import com.example.esigram.ui.components.conversations.ConversationItem
 import com.example.esigram.ui.components.conversations.ConversationSearch
 import com.example.esigram.viewModels.ConversationViewModel
 import com.google.android.recaptcha.internal.zzgo
@@ -93,16 +94,11 @@ fun ConversationListScreen(
                     modifier = Modifier.padding(horizontal = 4.dp)
                 ) {
                     items(conversations, key = { it.id }) { conv ->
-                        SwipeableConversationItem(
+                        ConversationItem(
                             conversation = conv,
                             currentUserId = userId,
-                            onOpenMessage = { onOpenMessage(conv.id) },
-                            onDelete = {
-                                Log.d("action", "onDelete")
-                            },
-                            onPin = { pinnedConv ->
-                                Log.d("action", "pinnedConv")
-                            }
+                            modifier = Modifier.fillMaxWidth(),
+                            onClick = { onOpenMessage(conv.id) }
                         )
                     }
                 }
