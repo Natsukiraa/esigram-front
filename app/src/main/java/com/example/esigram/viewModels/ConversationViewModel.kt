@@ -52,35 +52,41 @@ class ConversationViewModel(
             Log.d("conversation", "${_friends.value}")
             try {
                 _userId = sessionManager.id.first()
+                conversationUseCases.getAllUseCase(_userId)
+                    .collectLatest { userConvs ->
 
-                val userConvs = conversationUseCases.getAllUseCase(_userId)
-                userConvs.forEach { userConv ->
-                    val job = launch {
-                        conversationUseCases.observeConversationUseCase(userConv.id).collectLatest { conv ->
+                        conversationJobs.forEach { it.cancel() }
+                        conversationJobs.clear()
+                        userConvs.forEach { userConv ->
 
-                            if (conv == null) return@collectLatest
-                            val updatedConv = conv.copy(
-                                unreadCount = userConv.unReadMessageCount
-                            )
-                            Log.d("conv", userConv.unReadMessageCount.toString())
-                            val existingIndex = _conversations.indexOfFirst { it.id == updatedConv.id }
+                            val job = launch {
+                                conversationUseCases.observeConversationUseCase(userConv.id)
+                                    .collectLatest { conv ->
+                                        if (conv == null) return@collectLatest
 
-                            if (existingIndex >= 0) {
-                                _conversations[existingIndex] = updatedConv
-                            } else {
-                                _conversations.add(updatedConv)
+                                        val updatedConv = conv.copy(
+                                            unreadCount = userConv.unReadMessageCount
+                                        )
+                                        Log.d("conv", "Conversation ID: ${updatedConv.id}, Unread Count: ${userConv.unReadMessageCount}")
+
+                                        val existingIndex = _conversations.indexOfFirst { it.id == updatedConv.id }
+
+                                        if (existingIndex >= 0) {
+                                            _conversations[existingIndex] = updatedConv
+                                        } else {
+                                            _conversations.add(updatedConv)
+                                        }
+                                    }
                             }
+                            conversationJobs.add(job)
                         }
                     }
-                    conversationJobs.add(job)
-                }
 
             } catch (e: Exception) {
-                Log.e("Conversation", "Error loading conversations", e)
+                Log.e("Conversation", "Error loading conversations or collecting flow", e)
             }
         }
     }
-
     private fun filterConversations(): List<Conversation> {
         val normalizedQuery = searchQuery.trim().lowercase()
 

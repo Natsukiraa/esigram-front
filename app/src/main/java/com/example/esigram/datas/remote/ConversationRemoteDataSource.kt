@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -31,17 +32,33 @@ class ConversationRemoteDataSource(
     private val api = RetrofitInstance.api
     private val conversationService = api.create(ConversationApiService::class.java)
 
-    suspend fun getAll(userId: String): List<UserConversation> {
+    suspend fun getAll(userId: String): Flow<List<UserConversation>> = callbackFlow {
         val ref = database.getReference("user_chats").child(userId)
-        val snapshot = ref.get().await()
 
-        return snapshot.children.mapNotNull { childSnapshot ->
-            val conversationId = childSnapshot.key ?: return@mapNotNull null
-            val unreadCount = childSnapshot.child("unreadMessageCount").getValue(Int::class.java) ?: 0
-            UserConversation(
-                id = conversationId,
-                unReadMessageCount = unreadCount
-            )
+        val listener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val result = snapshot.children.mapNotNull { child ->
+                    val conversationId = child.key ?: return@mapNotNull null
+                    val unread = child.child("unreadMessageCount").getValue(Int::class.java) ?: 0
+
+                    UserConversation(
+                        id = conversationId,
+                        unReadMessageCount = unread
+                    )
+                }
+
+                trySend(result)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                cancel("Firebase error", error.toException())
+            }
+        }
+
+        ref.addValueEventListener(listener)
+
+        awaitClose {
+            ref.removeEventListener(listener)
         }
     }
 
