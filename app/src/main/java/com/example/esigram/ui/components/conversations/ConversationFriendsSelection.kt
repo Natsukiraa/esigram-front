@@ -174,29 +174,6 @@ fun ConversationFriendsSelection(
     }
 }
 
-@Composable
-fun GroupCreationInput(
-    groupName: String,
-    onGroupNameChange: (String) -> Unit
-) {
-    OutlinedTextField(
-        value = groupName,
-        onValueChange = onGroupNameChange,
-        label = { Text(stringResource(R.string.group_name_label)) },
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
-            )
-        },
-        placeholder = { Text("azd")},
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
-        singleLine = true
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
 fun ConversationFriendsSelectionPreview() {

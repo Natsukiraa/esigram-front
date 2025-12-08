@@ -1,7 +1,9 @@
 package com.example.esigram.ui.components.conversations
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
@@ -25,7 +27,7 @@ fun AddConversationButton(
         modifier = modifier
     ) {
         Icon(
-            imageVector = Icons.Default.AccountBox,
+            imageVector = Icons.AutoMirrored.Filled.Send,
             contentDescription = "Nouvelle conversation"
         )
     }
