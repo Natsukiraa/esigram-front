@@ -1,11 +1,15 @@
 package com.example.esigram.viewModels
 
+import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.esigram.datas.remote.MessageRemoteDataSource
 import com.example.esigram.domains.models.Message
 import com.example.esigram.domains.usecase.message.MessageUseCases
+import com.example.esigram.viewModels.utils.uriToFile
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -92,9 +96,19 @@ class MessageViewModel(private val messageUseCases: MessageUseCases) : ViewModel
         }
     }
 
-    fun createMessage(chatId: String, content: String, files: List<File>? = null) {
-        viewModelScope.launch {
-            messageUseCases.createMessageUseCase(chatId = chatId, content = content, files = files)
+    fun createMessage(context: Context, chatId: String, content: String, files: List<Uri>? = null, file: File? = null) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val filesFromUri = mutableListOf<File>()
+            if (files != null) {
+                filesFromUri.addAll(files.mapNotNull { uriToFile(context, it) })
+            }
+            if (file != null) {
+                filesFromUri.add(file)
+            }
+
+
+            Log.d("MessageViewModel", "Files: $filesFromUri")
+            messageUseCases.createMessageUseCase(chatId = chatId, content = content, files = filesFromUri)
         }
     }
 

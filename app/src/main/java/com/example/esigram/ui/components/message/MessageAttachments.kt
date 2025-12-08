@@ -3,15 +3,18 @@ package com.example.esigram.ui.components.message
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -42,24 +45,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import androidx.core.net.toUri
 
-enum class MediaType { LOADING, IMAGE, VIDEO, DOCUMENT, UNKNOWN }
+enum class MediaType { LOADING, IMAGE, VIDEO, AUDIO, DOCUMENT, UNKNOWN }
 
 fun getMediaType(filename: String): MediaType {
     val lower = filename.lowercase()
     return when {
-        lower.endsWith(".jpg") || lower.endsWith(".png") || lower.endsWith(".jpeg") || lower.endsWith(
-            ".webp"
-        ) -> MediaType.IMAGE
-
+        lower.endsWith(".jpg") || lower.endsWith(".png") || lower.endsWith(".jpeg") || lower.endsWith(".webp") -> MediaType.IMAGE
         lower.endsWith(".mp4") || lower.endsWith(".mov") || lower.endsWith(".mkv") -> MediaType.VIDEO
-        lower.endsWith(".pdf") || lower.endsWith(".doc") || lower.endsWith(".docx") || lower.endsWith(
-            ".xls"
-        ) -> MediaType.DOCUMENT
-
+        lower.endsWith(".mp3") || lower.endsWith(".wav") || lower.endsWith(".ogg") || lower.endsWith(".m4a") -> MediaType.AUDIO // AJOUT
+        lower.endsWith(".pdf") || lower.endsWith(".doc") || lower.endsWith(".docx") || lower.endsWith(".xls") -> MediaType.DOCUMENT
         else -> MediaType.UNKNOWN
     }
 }
+
 
 suspend fun fetchMediaType(url: String): MediaType {
     return withContext(Dispatchers.IO) {
@@ -98,52 +98,62 @@ fun AttachmentItem(
         mediaType = fetchMediaType(fullUrl)
     }
 
-    val onClick = {
-        when (mediaType) {
-            MediaType.IMAGE -> showFullscreen = true
-            MediaType.VIDEO, MediaType.DOCUMENT, MediaType.UNKNOWN -> {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(fullUrl))
-                try {
-                    context.startActivity(intent)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-
-            else -> {}
-        }
-    }
+    val baseModifier = Modifier
+        .clip(RoundedCornerShape(12.dp))
+        .background(Color.LightGray.copy(alpha = 0.2f))
 
     Box(
-        modifier = Modifier
-            .height(160.dp)
-            .widthIn(min = 100.dp, max = 240.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .background(Color.LightGray.copy(alpha = 0.2f))
-            .clickable(enabled = mediaType != MediaType.LOADING) { onClick() }) {
+        modifier = Modifier.animateContentSize()
+    ) {
         when (mediaType) {
             MediaType.LOADING -> {
-                Box(modifier = Modifier.matchParentSize(), contentAlignment = Alignment.Center) {
+                Box(
+                    modifier = baseModifier
+                        .height(160.dp)
+                        .width(200.dp),
+                    contentAlignment = Alignment.Center
+                ) {
                     CircularProgressIndicator(modifier = Modifier.size(24.dp), strokeWidth = 2.dp)
                 }
             }
 
+            MediaType.AUDIO -> {
+                Box(modifier = baseModifier.fillMaxWidth()) {
+                    AudioPlayerBlock(url = fullUrl)
+                }
+            }
+
             MediaType.IMAGE -> {
-                AsyncImage(
-                    model = ImageRequest.Builder(context).data(fullUrl).crossfade(true).build(),
-                    contentDescription = "Image",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.matchParentSize()
-                )
+                Box(
+                    modifier = baseModifier
+                        .height(160.dp)
+                        .widthIn(min = 100.dp, max = 240.dp)
+                        .clickable { showFullscreen = true }
+                ) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(context).data(fullUrl).crossfade(true).build(),
+                        contentDescription = "Image",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.matchParentSize()
+                    )
+                }
             }
 
             MediaType.VIDEO -> {
                 Box(
-                    modifier = Modifier
-                        .matchParentSize()
-                        .background(Color.Black),
+                    modifier = baseModifier
+                        .height(160.dp)
+                        .widthIn(min = 100.dp, max = 240.dp)
+                        .clickable {
+                            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(fullUrl)))
+                        },
                     contentAlignment = Alignment.Center
                 ) {
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .background(Color.Black)
+                    )
                     Icon(
                         imageVector = Icons.Default.PlayArrow,
                         contentDescription = "Play",
@@ -155,8 +165,14 @@ fun AttachmentItem(
 
             MediaType.DOCUMENT, MediaType.UNKNOWN -> {
                 Column(
-                    modifier = Modifier
-                        .matchParentSize()
+                    modifier = baseModifier
+                        .height(160.dp)
+                        .widthIn(min = 100.dp, max = 240.dp)
+                        .clickable {
+                            try {
+                                context.startActivity(Intent(Intent.ACTION_VIEW, fullUrl.toUri()))
+                            } catch(e: Exception) { e.printStackTrace() }
+                        }
                         .padding(8.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally

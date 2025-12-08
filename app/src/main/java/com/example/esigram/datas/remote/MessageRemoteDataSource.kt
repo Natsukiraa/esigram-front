@@ -124,9 +124,9 @@ class MessageRemoteDataSource {
             val requestBody = jsonData.toRequestBody("application/json".toMediaType())
 
             val filesPart = files?.map { file ->
-                val fileReq = file.asRequestBody("image/*".toMediaType())
+                val fileReq = file.asRequestBody("*/*".toMediaType())
                 MultipartBody.Part.createFormData(
-                    "files", file.name, fileReq
+                    "attachments", file.name, fileReq
                 )
             }
 

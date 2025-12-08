@@ -13,14 +13,12 @@ fun onFileChange(
     _fileUri: MutableStateFlow<Uri?>,
     _file: MutableStateFlow<File?>
 ) {
-    // Used to get mime type from URI
     val contentResolver: ContentResolver = context.contentResolver
     val mime: MimeTypeMap = MimeTypeMap.getSingleton()
     val mimeType = mime.getExtensionFromMimeType(contentResolver.getType(newFile))
 
     _fileUri.value = newFile
 
-    // Copy URI content into temporary file
     val inputStream = context.contentResolver.openInputStream(newFile)
 
     inputStream?.let {
@@ -29,5 +27,29 @@ fun onFileChange(
             it.copyTo(outputStream)
         }
         _file.value = tmpFile
+    }
+}
+
+fun uriToFile(context: Context, uri: Uri): File? {
+    try {
+        val contentResolver = context.contentResolver
+
+        val mimeType = contentResolver.getType(uri)
+        val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType) ?: "jpg"
+
+         val inputStream = contentResolver.openInputStream(uri) ?: return null
+
+        val tempFile = File.createTempFile("media_upload", ".$extension", context.cacheDir)
+
+        inputStream.use { input ->
+            tempFile.outputStream().use { output ->
+                input.copyTo(output)
+            }
+        }
+
+        return tempFile
+    } catch (e: Exception) {
+        e.printStackTrace()
+        return null
     }
 }
