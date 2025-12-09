@@ -30,6 +30,7 @@ import com.example.esigram.viewModels.ConversationViewModel
 import com.example.esigram.viewModels.FriendViewModel
 import com.example.esigram.viewModels.MessageViewModel
 import com.example.esigram.viewModels.ProfileViewModel
+import com.example.esigram.viewModels.ThemeViewModel
 
 @Composable
 fun NavGraph(
@@ -38,7 +39,8 @@ fun NavGraph(
     convViewModel: ConversationViewModel,
     messageViewModel: MessageViewModel,
     friendViewModel: FriendViewModel,
-    profileViewModel: ProfileViewModel
+    profileViewModel: ProfileViewModel,
+    themeViewModel: ThemeViewModel
 ) {
     val navController = rememberNavController()
     val onboardingStatus by authViewModel.onboardingStatus.collectAsState()
@@ -56,7 +58,7 @@ fun NavGraph(
         val startDestination = when {
             !authViewModel.isUserLoggedIn() -> Destinations.AUTH
             authViewModel.isUserLoggedIn() && !onboardingStatus -> Destinations.COMPLETE_PROFILE
-            else -> Destinations.HOME
+            else -> Destinations.PROFILE
         }
 
         NavHost(
@@ -108,6 +110,7 @@ fun NavGraph(
             }
 
             composable(route = Destinations.PROFILE) {
+                val selectedTheme by themeViewModel.currentTheme.collectAsState()
                 ProfileScreen(
                     profileViewModel = profileViewModel,
                     onBackClick = {
@@ -120,6 +123,10 @@ fun NavGraph(
                         navController.navigate(Destinations.AUTH) {
                             popUpTo(0) { inclusive = true }
                         }
+                    },
+                    selectedTheme = selectedTheme,
+                    onThemeSelected = { newTheme ->
+                        themeViewModel.saveTheme(newTheme)
                     }
                 )
             }

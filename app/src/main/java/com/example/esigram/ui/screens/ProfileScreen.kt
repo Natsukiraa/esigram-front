@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -25,6 +26,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.example.esigram.R
+import com.example.esigram.domains.models.ThemeMode
+import com.example.esigram.ui.components.ThemeSelector
 import com.example.esigram.ui.components.conversations.ProfileImage
 import com.example.esigram.ui.components.form.EditTextField
 import com.example.esigram.ui.components.navigation.NavigationBar
@@ -35,10 +38,13 @@ import com.example.esigram.viewModels.ProfileViewModel
 fun ProfileScreen(
     profileViewModel: ProfileViewModel,
     onBackClick: () -> Unit,
-    onSignOut: () -> Unit
+    onSignOut: () -> Unit,
+
+    selectedTheme: ThemeMode,
+    onThemeSelected: (ThemeMode) -> Unit
 ) {
     val context = LocalContext.current
-
+    val colorScheme = MaterialTheme.colorScheme
     val username = profileViewModel.username.collectAsState()
     val email = profileViewModel.email.collectAsState()
     val description = profileViewModel.description.collectAsState()
@@ -109,6 +115,13 @@ fun ProfileScreen(
                 },
                 label = context.getString(R.string.description),
                 maxLines = 3
+            )
+
+            Spacer(Modifier.height(24.dp))
+
+            ThemeSelector(
+                selectedTheme = selectedTheme,
+                onThemeSelected = onThemeSelected
             )
 
             Spacer(Modifier.height(24.dp))

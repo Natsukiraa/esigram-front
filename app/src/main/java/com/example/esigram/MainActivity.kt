@@ -47,6 +47,7 @@ import com.example.esigram.viewModels.ConversationViewModel
 import com.example.esigram.viewModels.FriendViewModel
 import com.example.esigram.viewModels.MessageViewModel
 import com.example.esigram.viewModels.ProfileViewModel
+import com.example.esigram.viewModels.ThemeViewModel
 import com.example.esigram.viewModels.factories.AuthViewModelFactory
 import com.example.esigram.viewModels.factories.ProfileViewModelFactory
 
@@ -117,6 +118,9 @@ class MainActivity : ComponentActivity() {
         ConversationViewModel(conversationUseCases)
     private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases)
     private val friendViewModel: FriendViewModel = FriendViewModel(friendUseCases, userUseCases)
+
+    private val themeViewModel: ThemeViewModel = ThemeViewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -131,7 +135,8 @@ class MainActivity : ComponentActivity() {
                             completeProfileViewModel = completeProfileViewModel,
                             messageViewModel = messageViewModel,
                             friendViewModel = friendViewModel,
-                            profileViewModel = profileViewModel
+                            profileViewModel = profileViewModel,
+                            themeViewModel = themeViewModel
                         )
                     }
                 }
