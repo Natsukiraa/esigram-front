@@ -1,4 +1,3 @@
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,11 +10,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,30 +21,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.esigram.R
-import com.example.esigram.domains.models.User
-import com.example.esigram.domains.models.responses.PageModel
 import com.example.esigram.ui.components.conversations.AddConversationButton
+import com.example.esigram.viewModels.ConversationViewModel
+import androidx.compose.ui.res.stringResource
+import com.example.esigram.R
 import com.example.esigram.ui.components.conversations.ConversationFilter
 import com.example.esigram.ui.components.conversations.ConversationFriendsSelection
 import com.example.esigram.ui.components.conversations.ConversationItem
 import com.example.esigram.ui.components.conversations.ConversationSearch
-import com.example.esigram.viewModels.ConversationViewModel
-import com.google.android.recaptcha.internal.zzgo
 
 @Composable
 fun ConversationListScreen(
     conversationViewModel: ConversationViewModel,
     onOpenMessage: (String) -> Unit
 ) {
-    val context = LocalContext.current
-
     val conversations = conversationViewModel.filteredConversations
     val searchQuery = conversationViewModel.searchQuery
 
@@ -55,7 +46,9 @@ fun ConversationListScreen(
     val userId = conversationViewModel.userId
     var showFriendDialog by remember { mutableStateOf(false) }
 
-    Surface {
+    Surface(
+        color = MaterialTheme.colorScheme.background
+    ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Column(
                 modifier = Modifier
@@ -63,10 +56,10 @@ fun ConversationListScreen(
                     .padding(9.dp)
             ) {
                 Text(
-                    context.getString(R.string.message),
+                    stringResource(R.string.message),
                     fontSize = 32.sp,
                     fontWeight = FontWeight.Bold,
-                    color = colorResource(id = R.color.textPrimary)
+                    color = MaterialTheme.colorScheme.onBackground
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
@@ -80,7 +73,7 @@ fun ConversationListScreen(
                         conversationViewModel.searchQuery = newValue
                     }
 
-                    ConversationFilter(modifier = Modifier.weight(0.2f)) { selectedFilter ->
+                    ConversationFilter { selectedFilter ->
                         conversationViewModel.selectedFilter = selectedFilter
                     }
                 }
