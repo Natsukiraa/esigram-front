@@ -15,7 +15,6 @@ import com.example.esigram.ui.screens.CompleteProfileScreen
 import com.example.esigram.ui.screens.ConversationListScreen
 import com.example.esigram.ui.screens.ConversationScreen
 import com.example.esigram.ui.screens.FriendsScreen
-import com.example.esigram.ui.screens.HomeScreen
 import com.example.esigram.ui.screens.ProfileScreen
 import com.example.esigram.viewModels.AuthViewModel
 import com.example.esigram.viewModels.CompleteProfileViewModel
@@ -45,24 +44,11 @@ fun NavGraph(
         navController = navController,
         startDestination = startDestination
     ) {
-        composable(Destinations.HOME) {
-            HomeScreen(
-                convViewModel = convViewModel,
-                onNavigateProfile = {
-                    navController.navigate(Destinations.PROFILE)
-                },
-                sessionManager = authViewModel.sessionManager,
-                onNavigateFriendsList = {
-                    navController.navigate(Destinations.FRIENDS)
-                }
-            )
-        }
-
         composable(Destinations.COMPLETE_PROFILE) {
             CompleteProfileScreen(
                 completeProfileViewModel = completeProfileViewModel,
                 onSuccessSignUp = {
-                    navController.navigate(Destinations.HOME) {
+                    navController.navigate(Destinations.CONVERSATION) {
                         popUpTo(0)
                     }
                 },
@@ -77,7 +63,7 @@ fun NavGraph(
                 authViewModel = authViewModel,
                 onSuccessSignIn = {
                     authViewModel.saveUserSession()
-                    navController.navigate(Destinations.HOME) {
+                    navController.navigate(Destinations.CONVERSATION) {
                         popUpTo(0)
                     }
                 },
@@ -93,7 +79,7 @@ fun NavGraph(
             ProfileScreen(
                 profileViewModel = profileViewModel,
                 onBackClick = {
-                    navController.navigate(Destinations.HOME) {
+                    navController.navigate(Destinations.CONVERSATION) {
                         popUpTo(0)
                     }
                 },
@@ -113,6 +99,13 @@ fun NavGraph(
                     Log.d("ConversationList", "Opening conversation with ID: $convId")
                     navController.navigate("${Destinations.MESSAGE}/$convId")
                 },
+                onNavigateProfile = {
+                    navController.navigate(Destinations.PROFILE)
+                },
+                sessionManager = authViewModel.sessionManager,
+                onNavigateFriendsList = {
+                    navController.navigate(Destinations.FRIENDS)
+                }
             )
         }
 
@@ -137,7 +130,7 @@ fun NavGraph(
                     navController.navigate(Destinations.ADD_FRIENDS)
                 },
                 onBack = {
-                    navController.navigate(Destinations.HOME) {
+                    navController.navigate(Destinations.CONVERSATION) {
                         popUpTo(0)
                     }
                 }

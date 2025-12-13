@@ -30,15 +30,20 @@ import com.example.esigram.ui.components.conversations.AddConversationButton
 import com.example.esigram.viewModels.ConversationViewModel
 import androidx.compose.ui.res.stringResource
 import com.example.esigram.R
+import com.example.esigram.datas.local.SessionManager
 import com.example.esigram.ui.components.conversations.ConversationFilter
 import com.example.esigram.ui.components.conversations.ConversationFriendsSelection
 import com.example.esigram.ui.components.conversations.ConversationItem
 import com.example.esigram.ui.components.conversations.ConversationSearch
+import com.example.esigram.ui.components.home.MainMenuTopBar
 
 @Composable
 fun ConversationListScreen(
     conversationViewModel: ConversationViewModel,
-    onOpenMessage: (String) -> Unit
+    onOpenMessage: (String) -> Unit,
+    sessionManager: SessionManager,
+    onNavigateProfile: () -> Unit,
+    onNavigateFriendsList: () -> Unit
 ) {
     val conversations = conversationViewModel.filteredConversations
     val searchQuery = conversationViewModel.searchQuery
@@ -57,11 +62,10 @@ fun ConversationListScreen(
                     .fillMaxWidth()
                     .padding(9.dp)
             ) {
-                Text(
-                    stringResource(R.string.message),
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onBackground
+                MainMenuTopBar(
+                    onNavigateProfile = onNavigateProfile,
+                    sessionManager = sessionManager,
+                    onNavigateFriendsList = onNavigateFriendsList,
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))

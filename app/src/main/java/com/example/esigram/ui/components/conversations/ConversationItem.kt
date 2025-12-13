@@ -49,8 +49,11 @@ fun ConversationItem(
 
     Log.d("la", currentUserId)
 
-    val displayImage =
+    val displayImage = if (conversation.isGroup) {
         conversation.members[0].profilePicture?.signedUrl
+    } else {
+        otherUsers.firstOrNull()?.profilePicture?.signedUrl
+    }
 
     Surface(
         modifier = modifier.clickable { onClick() }
