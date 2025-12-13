@@ -140,7 +140,7 @@ class MessageViewModel(
 
     fun loadUserInformations(userId: String) {
         viewModelScope.launch {
-            if(_allAuthors.value.any { it.id == userId }) return@launch
+            if (_allAuthors.value.any { it.id == userId }) return@launch
             Log.d("MessageViewModel", "Loading user $userId")
             val author = userUseCases.getUserByIdCase(userId)
             if (author != null) {

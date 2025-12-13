@@ -19,6 +19,7 @@ class ThemeViewModel(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = ThemeMode.System
         )
+
     fun saveTheme(newTheme: ThemeMode) {
         viewModelScope.launch {
             // Appel du Use Case pour la persistance

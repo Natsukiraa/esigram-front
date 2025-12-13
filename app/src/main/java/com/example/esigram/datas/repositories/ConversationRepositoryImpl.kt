@@ -9,7 +9,7 @@ import com.example.esigram.datas.remote.UserRemoteDataSource
 import com.example.esigram.datas.remote.models.CreateConversation
 import com.example.esigram.domains.models.Conversation
 import com.example.esigram.domains.repositories.ConversationRepository
-import com.example.esigram.models.UserConversation
+import com.example.esigram.domains.models.UserConversation
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

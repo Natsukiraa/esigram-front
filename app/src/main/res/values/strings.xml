@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Esigram</string>
     <string name="yesterday">Yesterday</string>
-    <string name="message">Message</string>
     <string name="search">Search here…</string>
     <string name="filter_all">All</string>
     <string name="filter_unread">Unread</string>
@@ -13,12 +12,10 @@
     <string name="login">Login</string>
     <string name="username">Username</string>
     <string name="description">Description</string>
-    <string name="profile_picture">Profile picture</string>
     <string name="email">Email</string>
     <string name="profile">Profile</string>
     <string name="back">Back</string>
     <string name="sign_out">Sign out</string>
-    <string name="personal_info">Personal informations</string>
     <string name="save_changes">Save changes</string>
     <string name="app_logo_desc">Esigram App Logo</string>
     <string name="register">Sign up</string>
@@ -26,7 +23,6 @@
     <string name="not_registered_yet">Not registered yet? Sign up</string>
     <string name="already_registered">Already registered? Login</string>
     <string name="theme_setting_title">App Theme</string>
-    <string name="select_theme">Select theme</string>
     <string name="theme_system">System Default</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>

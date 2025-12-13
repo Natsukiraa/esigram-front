@@ -48,9 +48,11 @@ fun FriendProfileModal(
         ) {
 
             Column {
-                Box(modifier = Modifier
-                    .height(280.dp)
-                    .fillMaxWidth()) {
+                Box(
+                    modifier = Modifier
+                        .height(280.dp)
+                        .fillMaxWidth()
+                ) {
                     ProfileImage(
                         url = user.profilePicture?.signedUrl,
                         modifier = Modifier.fillMaxWidth()
@@ -86,7 +88,7 @@ fun FriendProfileModal(
                         .padding(4.dp),
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
-                    if(!isAlreadyFriend) {
+                    if (!isAlreadyFriend) {
                         IconButton(onClick = onAddFriend) {
                             Icon(
                                 painter = painterResource(id = R.drawable.person_add_24px),

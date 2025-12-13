@@ -26,7 +26,7 @@ fun MessageBubble(
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
     ) {
         Column {
-            if(message.content.isNotBlank()) {
+            if (message.content.isNotBlank()) {
                 Text(
                     text = message.content,
                     fontSize = 16.sp,

@@ -5,7 +5,7 @@ import com.example.esigram.datas.remote.models.ConversationDto
 import com.example.esigram.datas.remote.models.UserConversationBasic
 import com.example.esigram.domains.models.Conversation
 import com.example.esigram.domains.models.Message
-import com.example.esigram.models.UserConversation
+import com.example.esigram.domains.models.UserConversation
 
 fun ConversationDto.toDomain(): Conversation {
     val map = data as Map<String, Any?>
@@ -72,5 +72,6 @@ fun ConversationDto.toDomainBasic(): ConversationBasic {
         lastMessage = lastMessage,
         unreadCount = (map["unreadCount"] as? Long)?.toInt() ?: 0,
         title = map["name"] as? String,
-        createdAt = parseInstant(data["createdAt"] as String?)    )
+        createdAt = parseInstant(data["createdAt"] as String?)
+    )
 }

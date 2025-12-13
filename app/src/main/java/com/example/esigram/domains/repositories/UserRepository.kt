@@ -5,7 +5,7 @@ import com.example.esigram.domains.models.User
 import com.example.esigram.domains.models.responses.OnboardingStatus
 import com.example.esigram.domains.models.responses.PageModel
 import com.example.esigram.domains.models.responses.UserResponse
-import com.example.esigram.models.UserConversation
+import com.example.esigram.domains.models.UserConversation
 import retrofit2.Response
 import java.io.File
 

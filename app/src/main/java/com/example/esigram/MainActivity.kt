@@ -131,7 +131,7 @@ class MainActivity : ComponentActivity() {
 
     private val themeManager: ThemeManager by lazy { ThemeManager(applicationContext) }
 
-    private val themeRepository : ThemeRepository by lazy { ThemeRepositoryImpl(themeManager) }
+    private val themeRepository: ThemeRepository by lazy { ThemeRepositoryImpl(themeManager) }
 
     private val localeManager: LocaleManager by lazy { LocaleManager(applicationContext) }
     private val localeRepository: LocaleRepository by lazy { LocaleRepositoryImpl(localeManager) }

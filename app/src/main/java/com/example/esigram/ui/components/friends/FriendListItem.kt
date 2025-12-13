@@ -57,7 +57,7 @@ fun FriendListItem(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
-                    .clickable{
+                    .clickable {
                         showProfileModal = true
                     }
             )
@@ -95,7 +95,7 @@ fun FriendListItem(
     }
 
     if (showProfileModal) {
-        FriendProfileModal (
+        FriendProfileModal(
             user = user,
             isAlreadyFriend = true,
             onDismiss = { showProfileModal = false },

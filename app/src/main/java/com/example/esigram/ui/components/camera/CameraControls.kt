@@ -101,7 +101,7 @@ private fun ShutterButton(
                 coroutineScope {
                     awaitPointerEventScope {
                         while (true) {
-                            val down = awaitFirstDown(requireUnconsumed = false)
+                            awaitFirstDown(requireUnconsumed = false)
                             var longPressJob: Job? = null
                             var longPressed = false
 
@@ -111,7 +111,7 @@ private fun ShutterButton(
                                 toggleRecord()
                             }
 
-                            val up = waitForUpOrCancellation()
+                            waitForUpOrCancellation()
 
                             longPressJob.cancel()
 

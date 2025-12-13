@@ -31,9 +31,8 @@ fun ExpandableText(
         textAlign = TextAlign.Start,
         maxLines = if (isExpanded) Int.MAX_VALUE else minimizedMaxLines,
         overflow = TextOverflow.Ellipsis,
-        onTextLayout = {
-            textLayoutResult ->
-            if((!isExpanded && textLayoutResult.hasVisualOverflow) || (isExpanded && textLayoutResult.lineCount > minimizedMaxLines)) {
+        onTextLayout = { textLayoutResult ->
+            if ((!isExpanded && textLayoutResult.hasVisualOverflow) || (isExpanded && textLayoutResult.lineCount > minimizedMaxLines)) {
                 isClickable = true
             }
         },

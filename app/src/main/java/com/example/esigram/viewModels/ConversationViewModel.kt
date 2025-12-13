@@ -67,9 +67,13 @@ class ConversationViewModel(
                                         val updatedConv = conv.copy(
                                             unreadCount = userConv.unReadMessageCount
                                         )
-                                        Log.d("conv", "Conversation ID: ${updatedConv.id}, Unread Count: ${userConv.unReadMessageCount}")
+                                        Log.d(
+                                            "conv",
+                                            "Conversation ID: ${updatedConv.id}, Unread Count: ${userConv.unReadMessageCount}"
+                                        )
 
-                                        val existingIndex = _conversations.indexOfFirst { it.id == updatedConv.id }
+                                        val existingIndex =
+                                            _conversations.indexOfFirst { it.id == updatedConv.id }
 
                                         if (existingIndex >= 0) {
                                             _conversations[existingIndex] = updatedConv
@@ -87,6 +91,7 @@ class ConversationViewModel(
             }
         }
     }
+
     private fun filterConversations(): List<Conversation> {
         val normalizedQuery = searchQuery.trim().lowercase()
 
@@ -108,7 +113,7 @@ class ConversationViewModel(
         return result.sortedByDescending { it.createdAt }
     }
 
-    fun refreshFriend(): Unit {
+    fun refreshFriend() {
         viewModelScope.launch {
             val page = friendUseCases.getFriendsUseCase()
             _friends.value = page
@@ -135,7 +140,7 @@ class ConversationViewModel(
         viewModelScope.launch {
             val finalIds = ids + _userId
             val id = conversationUseCases.createGroupConversationUseCase(finalIds, groupName)
-            if(id != null) {
+            if (id != null) {
                 onOpenMessage(id)
             }
         }
@@ -153,7 +158,7 @@ class ConversationViewModel(
                 return@launch
             }
             val id = conversationUseCases.createPrivateConversationUseCase(_userId, otherId)
-            if(id != null) {
+            if (id != null) {
                 onOpenMessage(id)
             }
         }

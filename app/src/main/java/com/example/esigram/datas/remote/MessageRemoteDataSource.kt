@@ -95,7 +95,7 @@ class MessageRemoteDataSource {
             return emptyList()
         }
 
-        val keys = snapshot.children.map { it.key }
+        snapshot.children.map { it.key }
 
         val result = snapshot.children.mapNotNull { child ->
             val data = child.value as? Map<String, Any> ?: return@mapNotNull null

@@ -3,7 +3,7 @@ package com.example.esigram.datas.repositories
 import com.example.esigram.datas.remote.UserRemoteDataSource
 import com.example.esigram.domains.models.User
 import com.example.esigram.domains.repositories.UserRepository
-import com.example.esigram.models.UserConversation
+import com.example.esigram.domains.models.UserConversation
 import java.io.File
 
 class UserRepositoryImpl(

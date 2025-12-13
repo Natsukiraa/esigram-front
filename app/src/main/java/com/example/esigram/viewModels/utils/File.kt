@@ -37,7 +37,7 @@ fun uriToFile(context: Context, uri: Uri): File? {
         val mimeType = contentResolver.getType(uri)
         val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType) ?: "jpg"
 
-         val inputStream = contentResolver.openInputStream(uri) ?: return null
+        val inputStream = contentResolver.openInputStream(uri) ?: return null
 
         val tempFile = File.createTempFile("media_upload", ".$extension", context.cacheDir)
 

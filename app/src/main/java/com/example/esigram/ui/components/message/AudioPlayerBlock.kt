@@ -76,7 +76,9 @@ fun AudioPlayerBlock(url: String) {
             try {
                 if (mediaPlayer.isPlaying) mediaPlayer.stop()
                 mediaPlayer.release()
-            } catch (e: Exception) { e.printStackTrace() }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 

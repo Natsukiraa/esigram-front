@@ -58,12 +58,12 @@ fun CameraScreen(
                 }
             )
         } else {
-            val mediaToPreview = uiState.capturedMedia!!;
+            val mediaToPreview = uiState.capturedMedia!!
             MediaPreviewScreen(
                 media = mediaToPreview,
                 onCancel = viewModel::onCancelMedia,
                 onSend = {
-                    onSend(mediaToPreview);
+                    onSend(mediaToPreview)
                     viewModel.onSendHandled()
                 }
             )

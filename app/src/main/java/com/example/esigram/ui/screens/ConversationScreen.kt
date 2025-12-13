@@ -208,7 +208,11 @@ fun ConversationScreen(
                     onValueChanged = { messageText = it },
                     onMicroPhoneActivate = {
                         if (!isRecording) {
-                            if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+                            if (ContextCompat.checkSelfPermission(
+                                    context,
+                                    Manifest.permission.RECORD_AUDIO
+                                ) == PackageManager.PERMISSION_GRANTED
+                            ) {
                                 val fileName = "audio_${System.currentTimeMillis()}.mp3"
                                 val file = File(context.cacheDir, fileName)
 
@@ -236,7 +240,12 @@ fun ConversationScreen(
                     },
                     onSendClick = {
                         if (messageText.isNotBlank() || selectedMedias.isNotEmpty()) {
-                            messageViewModel.createMessage(context, chatId, messageText, selectedMedias.toList())
+                            messageViewModel.createMessage(
+                                context,
+                                chatId,
+                                messageText,
+                                selectedMedias.toList()
+                            )
                             messageText = ""
                             selectedMedias.clear()
                         }

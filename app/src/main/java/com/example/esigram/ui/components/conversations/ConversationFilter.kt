@@ -67,5 +67,5 @@ fun ConversationFilter(
 @Preview
 @Composable
 fun ConversationFilterPreview() {
-    ConversationFilter( {})
+    ConversationFilter({})
 }

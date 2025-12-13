@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 internal val Context.ThemeDataStore: DataStore<Preferences> by preferencesDataStore(name = "app_settings")
+
 class ThemeManager(private val context: Context) {
 
     private val THEME_KEY = stringPreferencesKey("theme_mode")

@@ -6,7 +6,7 @@ import com.example.esigram.datas.remote.services.UserApiService
 import com.example.esigram.domains.models.User
 import com.example.esigram.domains.models.responses.OnboardingStatus
 import com.example.esigram.domains.models.responses.UserResponse
-import com.example.esigram.models.UserConversation
+import com.example.esigram.domains.models.UserConversation
 import com.example.esigram.networks.RetrofitInstance
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject

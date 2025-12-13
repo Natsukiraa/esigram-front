@@ -43,7 +43,7 @@ fun MainMenuTopBar(viewModel: AuthViewModel, onSignOut: () -> Unit = {}) {
             color = Color.Black
         )
 
-        Box() {
+        Box {
             SettingsButton(onCLick = { expanded = !expanded })
         }
     }

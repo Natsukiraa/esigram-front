@@ -3,14 +3,5 @@
 
     <style name="Theme.Esigram" parent="android:Theme.Material.Light.NoActionBar" />
 
-    <style name="FirebaseLoginTheme" parent="FirebaseUI">
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryDark">@color/purple_700</item>
-        <item name="colorAccent">@color/teal_200</item>
-    </style>
 </resources>
 

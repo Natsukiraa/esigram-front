@@ -52,10 +52,18 @@ enum class MediaType { LOADING, IMAGE, VIDEO, AUDIO, DOCUMENT, UNKNOWN }
 fun getMediaType(filename: String): MediaType {
     val lower = filename.lowercase()
     return when {
-        lower.endsWith(".jpg") || lower.endsWith(".png") || lower.endsWith(".jpeg") || lower.endsWith(".webp") -> MediaType.IMAGE
+        lower.endsWith(".jpg") || lower.endsWith(".png") || lower.endsWith(".jpeg") || lower.endsWith(
+            ".webp"
+        ) -> MediaType.IMAGE
+
         lower.endsWith(".mp4") || lower.endsWith(".mov") || lower.endsWith(".mkv") -> MediaType.VIDEO
-        lower.endsWith(".mp3") || lower.endsWith(".wav") || lower.endsWith(".ogg") || lower.endsWith(".m4a") -> MediaType.AUDIO // AJOUT
-        lower.endsWith(".pdf") || lower.endsWith(".doc") || lower.endsWith(".docx") || lower.endsWith(".xls") -> MediaType.DOCUMENT
+        lower.endsWith(".mp3") || lower.endsWith(".wav") || lower.endsWith(".ogg") || lower.endsWith(
+            ".m4a"
+        ) -> MediaType.AUDIO // AJOUT
+        lower.endsWith(".pdf") || lower.endsWith(".doc") || lower.endsWith(".docx") || lower.endsWith(
+            ".xls"
+        ) -> MediaType.DOCUMENT
+
         else -> MediaType.UNKNOWN
     }
 }
@@ -171,7 +179,9 @@ fun AttachmentItem(
                         .clickable {
                             try {
                                 context.startActivity(Intent(Intent.ACTION_VIEW, fullUrl.toUri()))
-                            } catch(e: Exception) { e.printStackTrace() }
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
                         }
                         .padding(8.dp),
                     verticalArrangement = Arrangement.Center,

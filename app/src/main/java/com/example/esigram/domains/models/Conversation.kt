@@ -1,6 +1,6 @@
 package com.example.esigram.domains.models
 
-import com.example.esigram.models.UserConversation
+import com.example.esigram.domains.models.UserConversation
 import java.time.Instant
 
 data class Conversation(

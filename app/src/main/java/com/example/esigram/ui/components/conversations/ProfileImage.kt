@@ -14,7 +14,7 @@ fun ProfileImage(
     modifier: Modifier = Modifier
 ) {
 
-    Log.d("profile",url ?: "on")
+    Log.d("profile", url ?: "on")
     AsyncImage(
         model = url,
         contentDescription = "Profile picture",

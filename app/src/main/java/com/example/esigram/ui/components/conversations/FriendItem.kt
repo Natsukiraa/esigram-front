@@ -40,15 +40,22 @@ fun FriendItem(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    val backgroundColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f) else Color.Transparent
-    val borderStroke = if (isSelected) BorderStroke(1.dp, MaterialTheme.colorScheme.primary) else null
+    val backgroundColor =
+        if (isSelected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f) else Color.Transparent
+    val borderStroke =
+        if (isSelected) BorderStroke(1.dp, MaterialTheme.colorScheme.primary) else null
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
             .background(backgroundColor)
-            .then(if (borderStroke != null) Modifier.border(borderStroke, RoundedCornerShape(12.dp)) else Modifier)
+            .then(
+                if (borderStroke != null) Modifier.border(
+                    borderStroke,
+                    RoundedCornerShape(12.dp)
+                ) else Modifier
+            )
             .clickable { onClick() }
             .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -104,7 +111,12 @@ fun FriendItemPreview() {
             Spacer(Modifier.height(8.dp))
 
             FriendItem(
-                friend = User(id = "2", username = "Léna", email = "lena@example.com", profilePicture = null),
+                friend = User(
+                    id = "2",
+                    username = "Léna",
+                    email = "lena@example.com",
+                    profilePicture = null
+                ),
                 isSelected = true,
                 onClick = { }
             )

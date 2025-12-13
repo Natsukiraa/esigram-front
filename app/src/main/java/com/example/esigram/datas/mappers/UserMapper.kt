@@ -1,7 +1,7 @@
 package com.example.esigram.datas.mappers
 
 import com.example.esigram.datas.remote.models.UserDto
-import com.example.esigram.models.UserConversation
+import com.example.esigram.domains.models.UserConversation
 
 fun UserDto.toDomain(): UserConversation {
     return UserConversation(

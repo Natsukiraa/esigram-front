@@ -63,7 +63,9 @@ fun ConversationFriendsSelection(
                 modifier = Modifier.padding(24.dp)
             ) {
                 Text(
-                    text = if (isGroupCreation) stringResource(R.string.create_group_title) else stringResource(R.string.select_friends_title),
+                    text = if (isGroupCreation) stringResource(R.string.create_group_title) else stringResource(
+                        R.string.select_friends_title
+                    ),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(bottom = 8.dp)

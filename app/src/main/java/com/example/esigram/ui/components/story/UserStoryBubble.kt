@@ -45,7 +45,10 @@ fun UserStoryBubble(
                         width = 3.dp,
                         brush = if (!it) {
                             Brush.linearGradient(
-                                colors = listOf(colorResource(id = R.color.primaryColor), Color.Cyan),
+                                colors = listOf(
+                                    colorResource(id = R.color.primaryColor),
+                                    Color.Cyan
+                                ),
                                 start = androidx.compose.ui.geometry.Offset(50f, 50f),
                                 end = androidx.compose.ui.geometry.Offset(300f, 300f)
                             )
