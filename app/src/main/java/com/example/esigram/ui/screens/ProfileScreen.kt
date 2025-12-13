@@ -39,8 +39,6 @@ fun ProfileScreen(
     profileViewModel: ProfileViewModel,
     onBackClick: () -> Unit,
     onSignOut: () -> Unit,
-    selectedTheme: ThemeMode,
-    onThemeSelected: (ThemeMode) -> Unit
 ) {
     val context = LocalContext.current
     val colorScheme = MaterialTheme.colorScheme
@@ -134,8 +132,10 @@ fun ProfileScreen(
             Spacer(Modifier.height(24.dp))
 
             ThemeSelector(
-                selectedTheme = selectedTheme,
-                onThemeSelected = onThemeSelected
+                selectedTheme = profileViewModel.selectedTheme(),
+                onThemeSelected = { themeMode ->
+                    profileViewModel.onThemeSelected(themeMode)
+                }
             )
 
             Spacer(Modifier.height(12.dp))

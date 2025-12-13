@@ -6,6 +6,8 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.esigram.datas.local.SessionManager
+import com.example.esigram.domains.models.ThemeMode
+import com.example.esigram.domains.usecase.setting.SettingUseCases
 import com.example.esigram.domains.usecase.user.UserUseCases
 import com.example.esigram.viewModels.utils.onFileChange
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,6 +19,7 @@ import java.io.File
 
 class ProfileViewModel(
     private val useCases: UserUseCases,
+    private val settingUseCase: SettingUseCases,
     private val context: Context
 ) : ViewModel() {
     private val sessionManager = SessionManager(context)
@@ -104,6 +107,14 @@ class ProfileViewModel(
     fun clearProfilePictureData() {
         _file.value = null
         _fileUri.value = null
+    }
+
+    fun selectedTheme(): ThemeMode {
+
+        return ThemeMode.System
+    }
+    fun onThemeSelected(themeMode: ThemeMode) {
+
     }
 }
 

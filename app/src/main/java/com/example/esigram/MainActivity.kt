@@ -8,12 +8,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.example.esigram.datas.local.ThemeManager
 import com.example.esigram.datas.repositories.AuthRepositoryImpl
 import com.example.esigram.datas.repositories.ConversationRepositoryImpl
 import com.example.esigram.datas.repositories.FriendRepositoryImpl
 import com.example.esigram.datas.repositories.MessageRepositoryImpl
+import com.example.esigram.datas.repositories.ThemeRepositoryImpl
 import com.example.esigram.datas.repositories.UserRepositoryImpl
 import com.example.esigram.domains.repositories.ConversationRepository
+import com.example.esigram.domains.repositories.ThemeRepository
 import com.example.esigram.domains.usecase.auth.AuthUseCases
 import com.example.esigram.domains.usecase.auth.GetCurrentUserUseCase
 import com.example.esigram.domains.usecase.auth.GetUserIdTokenUseCase
@@ -34,6 +37,9 @@ import com.example.esigram.domains.usecase.message.CreateMessageUseCase
 import com.example.esigram.domains.usecase.message.DeleteMessageUseCase
 import com.example.esigram.domains.usecase.message.ListenMessagesUseCase
 import com.example.esigram.domains.usecase.message.MessageUseCases
+import com.example.esigram.domains.usecase.setting.GetThemeUseCase
+import com.example.esigram.domains.usecase.setting.SetThemeUseCase
+import com.example.esigram.domains.usecase.setting.SettingUseCases
 import com.example.esigram.domains.usecase.user.CompleteOnboarding
 import com.example.esigram.domains.usecase.user.GetMeCase
 import com.example.esigram.domains.usecase.user.GetOnboardingStatus
@@ -47,7 +53,6 @@ import com.example.esigram.viewModels.ConversationViewModel
 import com.example.esigram.viewModels.FriendViewModel
 import com.example.esigram.viewModels.MessageViewModel
 import com.example.esigram.viewModels.ProfileViewModel
-import com.example.esigram.viewModels.ThemeViewModel
 import com.example.esigram.viewModels.factories.AuthViewModelFactory
 import com.example.esigram.viewModels.factories.ProfileViewModelFactory
 
@@ -97,6 +102,17 @@ class MainActivity : ComponentActivity() {
         getFriendRequestsUseCase = GetFriendRequestsUseCase(friendRepository)
     )
 
+    private val themeManager: ThemeManager by lazy { ThemeManager(applicationContext) }
+
+    private val themeRepository : ThemeRepository by lazy { ThemeRepositoryImpl(themeManager) }
+
+    private val settingUseCases: SettingUseCases by lazy {
+        SettingUseCases(
+            getThemeMode = GetThemeUseCase(themeRepository),
+            setThemeMode = SetThemeUseCase(themeRepository)
+        )
+    }
+
     private val authViewModel: AuthViewModel by viewModels {
         AuthViewModelFactory(
             authUseCases = authUseCases,
@@ -108,6 +124,7 @@ class MainActivity : ComponentActivity() {
     private val profileViewModel: ProfileViewModel by viewModels {
         ProfileViewModelFactory(
             userUseCases = userUseCases,
+            settingUseCases = settingUseCases,
             context = applicationContext
         )
     }
@@ -118,8 +135,6 @@ class MainActivity : ComponentActivity() {
         ConversationViewModel(conversationUseCases)
     private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases)
     private val friendViewModel: FriendViewModel = FriendViewModel(friendUseCases, userUseCases)
-
-    private val themeViewModel: ThemeViewModel = ThemeViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,7 +151,6 @@ class MainActivity : ComponentActivity() {
                             messageViewModel = messageViewModel,
                             friendViewModel = friendViewModel,
                             profileViewModel = profileViewModel,
-                            themeViewModel = themeViewModel
                         )
                     }
                 }
