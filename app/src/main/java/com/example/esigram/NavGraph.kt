@@ -4,10 +4,6 @@ import android.util.Log
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -44,55 +40,37 @@ fun NavGraph(
         else -> Destinations.CONVERSATION
     }
 
+
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
         composable(Destinations.HOME) {
             HomeScreen(
-                profileViewModel = profileViewModel,
                 convViewModel = convViewModel,
                 onNavigateProfile = {
                     navController.navigate(Destinations.PROFILE)
                 },
-                sessionManager = authViewModel.sessionManager
+                sessionManager = authViewModel.sessionManager,
+                onNavigateFriendsList = {
+                    navController.navigate(Destinations.FRIENDS)
+                }
             )
         }
 
-        NavHost(
-            navController = navController,
-            startDestination = startDestination
-        ) {
-            composable(Destinations.HOME) {
-                HomeScreen(
-                    convViewModel = convViewModel,
-                    onNavigateProfile = {
-                        navController.navigate(Destinations.PROFILE)
-                    },
-                    sessionManager = authViewModel.sessionManager,
-                    onNavigateFriendsList = {
-                        navController.navigate(Destinations.FRIENDS)
-                    }
-                )
-            }
-
-            composable(Destinations.COMPLETE_PROFILE) {
-                CompleteProfileScreen(
-                    completeProfileViewModel = completeProfileViewModel,
-                    onSuccessSignUp = {
-                        navController.navigate(Destinations.HOME) {
-                            popUpTo(0)
-                        }
-                    },
-                    saveUser = {
-                        authViewModel.saveUserSession()
+        composable(Destinations.COMPLETE_PROFILE) {
+            CompleteProfileScreen(
+                completeProfileViewModel = completeProfileViewModel,
+                onSuccessSignUp = {
+                    navController.navigate(Destinations.HOME) {
+                        popUpTo(0)
                     }
                 },
                 saveUser = {
                     authViewModel.saveUserSession()
-                }
-            )
+                })
         }
+
 
         composable(Destinations.AUTH) {
             AuthScreen(
@@ -111,29 +89,22 @@ fun NavGraph(
             )
         }
 
-            composable(route = Destinations.PROFILE) {
-                ProfileScreen(
-                    profileViewModel = profileViewModel,
-                    onBackClick = {
-                        navController.navigate(Destinations.HOME) {
-                            popUpTo(0)
-                        }
-                    },
-                    onSignOut = {
-                        authViewModel.signOut()
-                        navController.navigate(Destinations.AUTH) {
-                            popUpTo(0) { inclusive = true }
-                        }
+        composable(route = Destinations.PROFILE) {
+            ProfileScreen(
+                profileViewModel = profileViewModel,
+                onBackClick = {
+                    navController.navigate(Destinations.HOME) {
+                        popUpTo(0)
                     }
                 },
                 onSignOut = {
                     authViewModel.signOut()
                     navController.navigate(Destinations.AUTH) {
-                        popUpTo(0)
+                        popUpTo(0) { inclusive = true }
                     }
-                }
-            )
+                })
         }
+
 
         composable(route = Destinations.CONVERSATION) {
             ConversationListScreen(
@@ -157,21 +128,21 @@ fun NavGraph(
             )
         }
 
-            composable(
-                route = Destinations.FRIENDS
-            ) {
-                FriendsScreen(
-                    friendViewModel = friendViewModel,
-                    onAddFriend = {
-                        navController.navigate(Destinations.ADD_FRIENDS)
-                    },
-                    onBack = {
-                        navController.navigate(Destinations.HOME) {
-                            popUpTo(0)
-                        }
+        composable(
+            route = Destinations.FRIENDS
+        ) {
+            FriendsScreen(
+                friendViewModel = friendViewModel,
+                onAddFriend = {
+                    navController.navigate(Destinations.ADD_FRIENDS)
+                },
+                onBack = {
+                    navController.navigate(Destinations.HOME) {
+                        popUpTo(0)
                     }
-                )
-            }
+                }
+            )
+        }
 
         composable(
             route = Destinations.ADD_FRIENDS,
