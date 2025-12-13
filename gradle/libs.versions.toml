@@ -26,6 +26,8 @@ cameraView = "1.5.1"
 viewfinderCompose = "1.5.1"
 cameraLifecycle = "1.5.1"
 ui = "1.9.4"
+runtime = "1.9.5"
+foundation = "1.9.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -63,6 +65,8 @@ androidx-camera-view = { group = "androidx.camera", name = "camera-view", versio
 androidx-viewfinder-compose = { group = "androidx.camera.viewfinder", name = "viewfinder-compose", version.ref = "viewfinderCompose" }
 androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraLifecycle" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
