@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,33 +18,32 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.esigram.R
 import com.example.esigram.domains.models.ConversationFilterType
-import com.example.esigram.ui.theme.EsigramExtraColors
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun ConversationFilter(
-    modifier: Modifier = Modifier,
     onFilterSelected: (ConversationFilterType) -> Unit
 ) {
-    var expanded by remember { mutableStateOf(false) }
-    val context = LocalContext.current
+    val colorScheme = MaterialTheme.colorScheme
 
+    var expanded by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
             .size(48.dp)
             .clip(CircleShape)
-            .background(EsigramExtraColors.chatBubble)
+            .background(colorScheme.surfaceVariant)
             .clickable { expanded = true },
         contentAlignment = Alignment.Center,
     ) {
         Icon(
             painter = painterResource(R.drawable.outline_filter_list_24),
-            contentDescription = "Filter"
+            contentDescription = "Filter",
+            tint = colorScheme.onSurfaceVariant
         )
 
         DropdownMenu(
@@ -52,7 +52,7 @@ fun ConversationFilter(
         ) {
             ConversationFilterType.entries.forEach { filterType ->
                 DropdownMenuItem(
-                    text = { Text(context.getString(filterType.resId)) },
+                    text = { Text(stringResource(filterType.resId)) },
                     onClick = {
                         onFilterSelected(filterType)
                         expanded = false
@@ -61,12 +61,11 @@ fun ConversationFilter(
             }
         }
     }
-
 }
 
 
 @Preview
 @Composable
 fun ConversationFilterPreview() {
-    ConversationFilter(Modifier, {})
+    ConversationFilter( {})
 }

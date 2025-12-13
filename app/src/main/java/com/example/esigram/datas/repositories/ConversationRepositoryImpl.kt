@@ -1,15 +1,20 @@
 package com.example.esigram.datas.repositories
 
+import android.util.Log
 import com.example.esigram.datas.mappers.toDomain
 import com.example.esigram.datas.mappers.toDomainBasic
 import com.example.esigram.datas.remote.ConversationRemoteDataSource
 import com.example.esigram.datas.remote.MediaRemoteDataSource
 import com.example.esigram.datas.remote.UserRemoteDataSource
+import com.example.esigram.datas.remote.models.CreateConversation
 import com.example.esigram.domains.models.Conversation
 import com.example.esigram.domains.repositories.ConversationRepository
 import com.example.esigram.models.UserConversation
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 
 class ConversationRepositoryImpl(
     val remote: ConversationRemoteDataSource = ConversationRemoteDataSource(),
@@ -37,6 +42,7 @@ class ConversationRepositoryImpl(
                 )
             }
 
+            Log.d("conversation", basic.toString())
             return@map Conversation(
                 id = basic.id,
                 members = membersWithMedia,
@@ -46,6 +52,17 @@ class ConversationRepositoryImpl(
                 title = basic.title,
                 createdAt = basic.createdAt
             )
+        }
+    }
+
+    override suspend fun createConversation(ids: List<String>, groupName: String?): String? {
+        return try {
+            val conv = CreateConversation(ids, groupName)
+            val res = remote.createConversation(conv)
+            res?.data?.id
+        } catch (e: Exception) {
+            Log.e("conversation", "Error: ${e.message}")
+            null
         }
     }
 }

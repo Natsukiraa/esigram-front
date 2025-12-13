@@ -21,6 +21,8 @@ import com.example.esigram.domains.usecase.auth.LoginUseCase
 import com.example.esigram.domains.usecase.auth.RegisterUseCase
 import com.example.esigram.domains.usecase.auth.SignOutUseCase
 import com.example.esigram.domains.usecase.conversation.ConversationUseCases
+import com.example.esigram.domains.usecase.conversation.CreateGroupConversationUseCase
+import com.example.esigram.domains.usecase.conversation.CreatePrivateConversationUseCase
 import com.example.esigram.domains.usecase.conversation.GetAllUseCase
 import com.example.esigram.domains.usecase.conversation.GetByIdUseCase
 import com.example.esigram.domains.usecase.conversation.ObserveConversationUseCase
@@ -48,6 +50,7 @@ import com.example.esigram.viewModels.FriendViewModel
 import com.example.esigram.viewModels.MessageViewModel
 import com.example.esigram.viewModels.ProfileViewModel
 import com.example.esigram.viewModels.factories.AuthViewModelFactory
+import com.example.esigram.viewModels.factories.ConversationListViewModelFactory
 import com.example.esigram.viewModels.factories.ProfileViewModelFactory
 
 class MainActivity : ComponentActivity() {
@@ -83,7 +86,9 @@ class MainActivity : ComponentActivity() {
     private val conversationUseCases: ConversationUseCases = ConversationUseCases(
         getAllUseCase = GetAllUseCase(conversationRepository),
         getByIdUseCase = GetByIdUseCase(conversationRepository),
-        observeConversationUseCase = ObserveConversationUseCase(conversationRepository)
+        observeConversationUseCase = ObserveConversationUseCase(conversationRepository),
+        createGroupConversationUseCase = CreateGroupConversationUseCase(conversationRepository),
+        createPrivateConversationUseCase = CreatePrivateConversationUseCase(conversationRepository)
     )
 
     // friend repo implem
@@ -113,8 +118,14 @@ class MainActivity : ComponentActivity() {
 
     private val completeProfileViewModel: CompleteProfileViewModel =
         CompleteProfileViewModel(userUseCases)
-    private val conversationViewModel: ConversationViewModel =
-        ConversationViewModel(conversationUseCases)
+    private val conversationViewModel: ConversationViewModel by viewModels {
+        ConversationListViewModelFactory(
+            conversationUseCases,
+            friendUseCases,
+            this
+        )
+    }
+
     private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases)
     private val friendViewModel: FriendViewModel = FriendViewModel(friendUseCases, userUseCases)
     override fun onCreate(savedInstanceState: Bundle?) {

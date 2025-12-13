@@ -35,7 +35,7 @@ fun ConversationDto.toDomain(): Conversation {
         coverImageId = map["coverImageId"] as? String,
         lastMessage = lastMessage,
         unreadCount = (map["unreadCount"] as? Long)?.toInt() ?: 0,
-        title = map["title"] as? String,
+        title = map["name"] as? String,
         createdAt = parseInstant(data["createdAt"] as String?)
     )
 }
@@ -70,6 +70,6 @@ fun ConversationDto.toDomainBasic(): ConversationBasic {
         coverImageId = map["coverImageId"] as? String,
         lastMessage = lastMessage,
         unreadCount = (map["unreadCount"] as? Long)?.toInt() ?: 0,
-        title = map["title"] as? String,
+        title = map["name"] as? String,
         createdAt = parseInstant(data["createdAt"] as String?)    )
 }

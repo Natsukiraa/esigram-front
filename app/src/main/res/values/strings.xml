@@ -25,4 +25,11 @@
     <string name="password">Password</string>
     <string name="not_registered_yet">Not registered yet? Sign up</string>
     <string name="already_registered">Already registered? Login</string>
+    <string name="select_friends_title">Select friends</string>
+    <string name="selected_friends_count">%1$d selected</string>
+    <string name="loading_friends">Loading friends…</string>
+    <string name="cancel">Cancel</string>
+    <string name="validate">Validate</string>
+    <string name="group_name_label">Group name</string>
+    <string name="create_group_title">Create a New Group</string>
 </resources>
