@@ -34,8 +34,6 @@ fun ThemeSelector(
     selectedTheme: ThemeMode,
     onThemeSelected: (ThemeMode) -> Unit
 ) {
-    // ⚠️ On retire l'usage de R.drawable.outline_filter_list_24 pour utiliser Icons.Default.Palette
-    // pour plus de cohérence Material 3 et de pertinence graphique.
 
     var expanded by remember { mutableStateOf(false) }
 
@@ -43,16 +41,9 @@ fun ThemeSelector(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { expanded = true }
-            .padding(vertical = 12.dp), // ⬅️ Légère réduction du padding vertical pour mieux s'intégrer
+            .padding(vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            imageVector = Icons.Default.Add, // Icône de palette pour le thème
-            contentDescription = stringResource(R.string.select_theme),
-            tint = MaterialTheme.colorScheme.onSurface
-        )
-
-        Spacer(Modifier.width(16.dp))
 
         Text(
             text = stringResource(R.string.theme_setting_title),
@@ -93,7 +84,7 @@ fun ThemeSelector(
 fun ThemeSelectorSystemPreview() {
     MaterialTheme {
         ThemeSelector(
-            selectedTheme = ThemeMode.System, // Prévisualisation du thème 'System' sélectionné
+            selectedTheme = ThemeMode.System,
             onThemeSelected = {}
         )
     }
