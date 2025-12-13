@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">Esigram</string>
+
+    <string name="yesterday">Hier</string>
+
+    <string name="message">Message</string>
+    <string name="search">Rechercher ici…</string>
+    <string name="filter_all">Tous</string>
+    <string name="filter_unread">Non lus</string>
+    <string name="profile">Profil</string>
+    <string name="back">Retour</string>
+
+    <string name="welcome">Bienvenue sur Esigram</string>
+    <string name="welcome_desc">Connectez-vous avec vos amis et le monde qui vous entoure sur Esigram.</string>
+    <string name="app_logo_desc">Logo de l\'application Esigram</string>
+
+    <string name="login">Se connecter</string>
+    <string name="sign_up">S\'inscrire</string>
+    <string name="register">S\'inscrire</string>
+    <string name="email">E-mail</string>
+    <string name="password">Mot de passe</string>
+    <string name="not_registered_yet">Pas encore inscrit ? S\'inscrire</string>
+    <string name="already_registered">Déjà inscrit ? Se connecter</string>
+    <string name="sign_out">Se déconnecter</string>
+
+    <string name="complete_profile">Compléter votre profil</string>
+    <string name="profile_desc">Ajoutez une photo de profil et une biographie pour que les autres en sachent plus sur vous.</string>
+    <string name="username">Nom d\'utilisateur</string>
+    <string name="description">Description (Bio)</string>
+    <string name="profile_picture">Photo de profil</string>
+    <string name="personal_info">Informations personnelles</string>
+    <string name="save_changes">Enregistrer les modifications</string>
+
+    <string name="theme_setting_title">Thème de l\'application</string>
+    <string name="select_theme">Sélectionner un thème</string>
+    <string name="theme_system">Système (par défaut)</string>
+    <string name="theme_light">Clair</string>
+    <string name="theme_dark">Sombre</string>
+
+    <string name="language_setting_title">Langue de l\'application</string>
+    <string name="language_system">Système (par défaut)</string>
+    <string name="language_french">Français</string>
+    <string name="language_english">Anglais</string>
+</resources>

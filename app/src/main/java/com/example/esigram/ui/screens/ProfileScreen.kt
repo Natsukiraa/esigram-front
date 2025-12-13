@@ -27,8 +27,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.esigram.R
-import com.example.esigram.domains.models.ThemeMode
-import com.example.esigram.ui.components.ThemeSelector
+import com.example.esigram.ui.components.LanguageSelector
+import com.example.esigram.ui.components.settings.ThemeSelector
 import com.example.esigram.ui.components.conversations.ProfileImage
 import com.example.esigram.ui.components.form.EditTextField
 import com.example.esigram.ui.components.navigation.NavigationBar
@@ -50,6 +50,7 @@ fun ProfileScreen(
     val isEditing by profileViewModel.isEditing.collectAsState()
     val fileUri by profileViewModel.fileUri.collectAsState()
     val selectedTheme by profileViewModel.selectedTheme.collectAsState()
+    val selectedLanguageCode by profileViewModel.selectedLanguageCode.collectAsState()
 
     val getContent =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -140,6 +141,13 @@ fun ProfileScreen(
             )
 
             Spacer(Modifier.height(12.dp))
+
+            LanguageSelector(
+                selectedLanguageCode = selectedLanguageCode,
+                onLanguageSelected = { langue ->
+                    profileViewModel.onLanguageSelected(langue)
+                }
+            )
 
             Spacer(Modifier.weight(1f))
         }

@@ -1,6 +1,9 @@
 package com.example.esigram
 
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -68,6 +71,7 @@ import com.example.esigram.viewModels.ThemeViewModelFactory
 import com.example.esigram.viewModels.factories.AuthViewModelFactory
 import com.example.esigram.viewModels.factories.ProfileViewModelFactory
 import kotlinx.coroutines.launch
+import java.util.Locale
 import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
@@ -161,17 +165,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        lifecycleScope.launch {
-            profileViewModel.selectedLanguageCode.collect { code ->
-                val localeList = if (code == "system") {
-                    LocaleListCompat.getEmptyLocaleList()
-                } else {
-                    LocaleListCompat.forLanguageTags(code)
-                }
-                AppCompatDelegate.setApplicationLocales(localeList)
-            }
-        }
 
         setContent {
             val userSelectedTheme by themeViewModel.currentTheme.collectAsState()
