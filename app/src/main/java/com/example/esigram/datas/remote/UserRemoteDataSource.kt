@@ -3,6 +3,7 @@ package com.example.esigram.datas.remote
 import android.util.Log
 import com.example.esigram.datas.mappers.toDomain
 import com.example.esigram.datas.remote.services.UserApiService
+import com.example.esigram.domains.models.User
 import com.example.esigram.domains.models.responses.OnboardingStatus
 import com.example.esigram.domains.models.responses.UserResponse
 import com.example.esigram.models.UserConversation
@@ -32,6 +33,13 @@ class UserRemoteDataSource {
 
         return if (response.isSuccessful) {
             response.body()?.data?.toDomain()
+        } else null
+    }
+
+    suspend fun getUserByIdReal(userId: String): User? {
+        val response = userService.getUserByIdReal(userId)
+        return if (response.isSuccessful) {
+            response.body()?.data
         } else null
     }
 

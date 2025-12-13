@@ -37,33 +37,35 @@ fun UserStoryBubble(
             .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
-        Surface(
-            modifier = Modifier
-                .matchParentSize()
-                .border(
-                    width = 3.dp,
-                    brush = if (!author.alreadyViewedStories) {
-                        Brush.linearGradient(
-                            colors = listOf(colorResource(id = R.color.primaryColor), Color.Cyan),
-                            start = androidx.compose.ui.geometry.Offset(50f, 50f),
-                            end = androidx.compose.ui.geometry.Offset(300f, 300f)
-                        )
-                    } else {
-                        Brush.linearGradient(
-                            colors = listOf(Color.Gray, Color.LightGray)
-                        )
-                    },
-                    shape = CircleShape
-                ),
-            shape = CircleShape,
-            color = Color.Transparent
-        ) {
-            ProfileImage(
-                url = author.profilePicture?.signedUrl,
+        author.alreadyViewedStories?.let {
+            Surface(
                 modifier = Modifier
-                    .padding(6.dp)
-                    .clip(CircleShape)
-            )
+                    .matchParentSize()
+                    .border(
+                        width = 3.dp,
+                        brush = if (!it) {
+                            Brush.linearGradient(
+                                colors = listOf(colorResource(id = R.color.primaryColor), Color.Cyan),
+                                start = androidx.compose.ui.geometry.Offset(50f, 50f),
+                                end = androidx.compose.ui.geometry.Offset(300f, 300f)
+                            )
+                        } else {
+                            Brush.linearGradient(
+                                colors = listOf(Color.Gray, Color.LightGray)
+                            )
+                        },
+                        shape = CircleShape
+                    ),
+                shape = CircleShape,
+                color = Color.Transparent
+            ) {
+                ProfileImage(
+                    url = author.profilePicture?.signedUrl,
+                    modifier = Modifier
+                        .padding(6.dp)
+                        .clip(CircleShape)
+                )
+            }
         }
 
         if (isMe) {

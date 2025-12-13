@@ -26,7 +26,8 @@ fun ConversationDto.toDomain(): Conversation {
             id = msg["id"] as? String ?: "",
             authorId = msg["authorId"] as String,
             content = msg["content"] as String,
-            createdAt = parseInstant(msg["createdAt"] as String?))
+            createdAt = parseInstant(msg["createdAt"] as String?)
+        )
     }
 
     return Conversation(

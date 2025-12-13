@@ -40,7 +40,8 @@ fun MainMenuTopBar(viewModel: AuthViewModel, onSignOut: () -> Unit = {}) {
             "Esigram",
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.Black)
+            color = Color.Black
+        )
 
         Box() {
             SettingsButton(onCLick = { expanded = !expanded })

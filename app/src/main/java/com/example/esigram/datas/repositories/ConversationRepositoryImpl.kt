@@ -20,13 +20,14 @@ class ConversationRepositoryImpl(
     val remote: ConversationRemoteDataSource = ConversationRemoteDataSource(),
     val userRemote: UserRemoteDataSource = UserRemoteDataSource(),
     val mediaRemote: MediaRemoteDataSource = MediaRemoteDataSource(),
-): ConversationRepository {
+) : ConversationRepository {
     override suspend fun getAll(userId: String) = remote.getAll(userId)
     override suspend fun getById(id: String): Conversation? {
         val conversationData = remote.getById(id)
         val conversation = conversationData?.toDomain()
         return conversation
     }
+
     override fun observeConversation(id: String): Flow<Conversation?> {
         return remote.observeConversation(id).map { dto ->
             if (dto == null) return@map null

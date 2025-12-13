@@ -3,9 +3,6 @@ package com.example.esigram
 import android.util.Log
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -41,22 +38,25 @@ fun NavGraph(
     profileViewModel: ProfileViewModel
 ) {
     val navController = rememberNavController()
-    val onboardingStatus by authViewModel.onboardingStatus.collectAsState()
-    val loading by authViewModel.loading.collectAsState()
 
-    if (loading) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
-        }
-    } else {
+    val startDestination = when {
+        !authViewModel.isUserLoggedIn() -> Destinations.AUTH
+        else -> Destinations.CONVERSATION
+    }
 
-        val startDestination = when {
-            !authViewModel.isUserLoggedIn() -> Destinations.AUTH
-            authViewModel.isUserLoggedIn() && !onboardingStatus -> Destinations.COMPLETE_PROFILE
-            else -> Destinations.HOME
+    NavHost(
+        navController = navController,
+        startDestination = startDestination
+    ) {
+        composable(Destinations.HOME) {
+            HomeScreen(
+                profileViewModel = profileViewModel,
+                convViewModel = convViewModel,
+                onNavigateProfile = {
+                    navController.navigate(Destinations.PROFILE)
+                },
+                sessionManager = authViewModel.sessionManager
+            )
         }
 
         NavHost(
@@ -87,25 +87,29 @@ fun NavGraph(
                     saveUser = {
                         authViewModel.saveUserSession()
                     }
-                )
-            }
+                },
+                saveUser = {
+                    authViewModel.saveUserSession()
+                }
+            )
+        }
 
-            composable(Destinations.AUTH) {
-                AuthScreen(
-                    authViewModel = authViewModel,
-                    onSuccessSignIn = {
-                        authViewModel.saveUserSession()
-                        navController.navigate(Destinations.HOME) {
-                            popUpTo(0)
-                        }
-                    },
-                    onSignUp = {
-                        navController.navigate(Destinations.COMPLETE_PROFILE) {
-                            popUpTo(0)
-                        }
+        composable(Destinations.AUTH) {
+            AuthScreen(
+                authViewModel = authViewModel,
+                onSuccessSignIn = {
+                    authViewModel.saveUserSession()
+                    navController.navigate(Destinations.HOME) {
+                        popUpTo(0)
                     }
-                )
-            }
+                },
+                onSignUp = {
+                    navController.navigate(Destinations.COMPLETE_PROFILE) {
+                        popUpTo(0)
+                    }
+                }
+            )
+        }
 
             composable(route = Destinations.PROFILE) {
                 ProfileScreen(
@@ -121,29 +125,37 @@ fun NavGraph(
                             popUpTo(0) { inclusive = true }
                         }
                     }
-                )
-            }
+                },
+                onSignOut = {
+                    authViewModel.signOut()
+                    navController.navigate(Destinations.AUTH) {
+                        popUpTo(0)
+                    }
+                }
+            )
+        }
 
-            composable(route = Destinations.CONVERSATION) {
-                ConversationListScreen(
-                    conversationViewModel = convViewModel,
-                    onOpenMessage = { convId ->
-                        Log.d("ConversationList", "Opening conversation with ID: $convId")
-                        navController.navigate("${Destinations.MESSAGE}/$convId")
-                    },
-                )
-            }
+        composable(route = Destinations.CONVERSATION) {
+            ConversationListScreen(
+                conversationViewModel = convViewModel,
+                onOpenMessage = { convId ->
+                    Log.d("ConversationList", "Opening conversation with ID: $convId")
+                    navController.navigate("${Destinations.MESSAGE}/$convId")
+                },
+            )
+        }
 
-            composable(
-                route = "${Destinations.MESSAGE}/{ConvId}",
-                arguments = listOf(navArgument("ConvId") { type = NavType.StringType })
-            ) { backStackEntry ->
-                val convId = backStackEntry.arguments?.getString("ConvId") ?: ""
-                ConversationScreen(
-                    messageViewModel = messageViewModel,
-                    chatId = convId
-                )
-            }
+        composable(
+            route = "${Destinations.MESSAGE}/{ConvId}",
+            arguments = listOf(navArgument("ConvId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val convId = backStackEntry.arguments?.getString("ConvId") ?: ""
+            ConversationScreen(
+                messageViewModel = messageViewModel,
+                chatId = convId,
+                sessionManager = authViewModel.sessionManager
+            )
+        }
 
             composable(
                 route = Destinations.FRIENDS
@@ -161,13 +173,12 @@ fun NavGraph(
                 )
             }
 
-            composable(
-                route = Destinations.ADD_FRIENDS,
-                enterTransition = { slideInHorizontally { it } },
-                exitTransition = { slideOutHorizontally { it } }) {
-                AddFriendsScreen(
-                    friendViewModel = friendViewModel, onBack = { navController.popBackStack() })
-            }
+        composable(
+            route = Destinations.ADD_FRIENDS,
+            enterTransition = { slideInHorizontally { it } },
+            exitTransition = { slideOutHorizontally { it } }) {
+            AddFriendsScreen(
+                friendViewModel = friendViewModel, onBack = { navController.popBackStack() })
         }
     }
 }

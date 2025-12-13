@@ -48,7 +48,7 @@ fun AuthScreen(
     val onboardingStatus = authViewModel.onboardingStatus.collectAsState()
 
     LaunchedEffect(finishedAuth.value) {
-        if(finishedAuth.value) {
+        if (finishedAuth.value) {
             if (pageState.value == "Register" || !onboardingStatus.value) {
                 onSignUp()
             } else {
@@ -78,7 +78,9 @@ fun AuthScreen(
 
                 Column(modifier = Modifier.padding(vertical = 16.dp)) {
                     Text(
-                        text = if (pageState.value == "Login") context.getString(R.string.welcome) else context.getString(R.string.register),
+                        text = if (pageState.value == "Login") context.getString(R.string.welcome) else context.getString(
+                            R.string.register
+                        ),
                         style = MaterialTheme.typography.headlineMedium,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
@@ -129,14 +131,18 @@ fun AuthScreen(
                         .height(50.dp)
                 ) {
                     Text(
-                        text = if (pageState.value =="Login") context.getString(R.string.login) else context.getString(R.string.sign_up)
+                        text = if (pageState.value == "Login") context.getString(R.string.login) else context.getString(
+                            R.string.sign_up
+                        )
                     )
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = if (pageState.value == "Login") context.getString(R.string.not_registered_yet) else context.getString(R.string.already_registered),
+                    text = if (pageState.value == "Login") context.getString(R.string.not_registered_yet) else context.getString(
+                        R.string.already_registered
+                    ),
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                         .clickable {

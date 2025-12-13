@@ -35,10 +35,12 @@ import com.example.esigram.domains.usecase.friend.RemoveFriendUseCase
 import com.example.esigram.domains.usecase.message.CreateMessageUseCase
 import com.example.esigram.domains.usecase.message.DeleteMessageUseCase
 import com.example.esigram.domains.usecase.message.ListenMessagesUseCase
+import com.example.esigram.domains.usecase.message.LoadOlderMessageUseCase
 import com.example.esigram.domains.usecase.message.MessageUseCases
 import com.example.esigram.domains.usecase.user.CompleteOnboarding
 import com.example.esigram.domains.usecase.user.GetMeCase
 import com.example.esigram.domains.usecase.user.GetOnboardingStatus
+import com.example.esigram.domains.usecase.user.GetUserByIdCase
 import com.example.esigram.domains.usecase.user.GetUsersUseCase
 import com.example.esigram.domains.usecase.user.PatchUserUseCase
 import com.example.esigram.domains.usecase.user.UserUseCases
@@ -72,13 +74,15 @@ class MainActivity : ComponentActivity() {
         getUsersUseCase = GetUsersUseCase(userRepository),
         getOnboardingStatus = GetOnboardingStatus(userRepository),
         completeOnboarding = CompleteOnboarding(userRepository),
+        getUserByIdCase = GetUserByIdCase(userRepository)
     )
 
     private val messageRepository: MessageRepositoryImpl = MessageRepositoryImpl()
     private val messageUseCases: MessageUseCases = MessageUseCases(
         listenMessagesUseCase = ListenMessagesUseCase(messageRepository),
         createMessageUseCase = CreateMessageUseCase(messageRepository),
-        deleteMessageUseCase = DeleteMessageUseCase(messageRepository)
+        deleteMessageUseCase = DeleteMessageUseCase(messageRepository),
+        loadOlderMessageUseCase = LoadOlderMessageUseCase(messageRepository)
     )
 
     // conv repo implem
@@ -126,7 +130,7 @@ class MainActivity : ComponentActivity() {
         )
     }
 
-    private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases)
+    private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases, userUseCases)
     private val friendViewModel: FriendViewModel = FriendViewModel(friendUseCases, userUseCases)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,7 +1,7 @@
 package com.example.esigram.domains.repositories
 
-import com.example.esigram.domains.models.Story
 import com.example.esigram.domains.models.OldUser
+import com.example.esigram.domains.models.Story
 
 class StoryRepository {
 
