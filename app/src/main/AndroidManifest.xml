@@ -24,7 +24,8 @@
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:exported="true"
-            android:theme="@style/Theme.Esigram">
+            android:theme="@style/Theme.Esigram"
+            android:configChanges="locale|layoutDirection|screenSize|keyboardHidden|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

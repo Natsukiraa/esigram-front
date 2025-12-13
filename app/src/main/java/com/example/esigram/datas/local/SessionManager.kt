@@ -7,7 +7,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-val Context.dataStore by preferencesDataStore(name = "user_session")
+val Context.sessionDataStore by preferencesDataStore(name = "user_session")
 
 class SessionManager(private val context: Context) {
     companion object {
@@ -25,7 +25,7 @@ class SessionManager(private val context: Context) {
         description: String?,
         profilePictureUrl: String?
     ) {
-        context.dataStore.edit { preferences ->
+        context.sessionDataStore.edit { preferences ->
             preferences[USER_ID] = id
             preferences[USERNAME] = username
             preferences[EMAIL] = email
@@ -39,36 +39,36 @@ class SessionManager(private val context: Context) {
         description: String?,
         profilePictureUrl: String?
     ) {
-        context.dataStore.edit { preferences ->
+        context.sessionDataStore.edit { preferences ->
             preferences[USERNAME] = username
             description?.let { preferences[DESCRIPTION] = it }
             profilePictureUrl?.let { preferences[PROFILE_PICTURE_URL] = it }
         }
     }
 
-    val id: Flow<String> = context.dataStore.data.map { preferences ->
+    val id: Flow<String> = context.sessionDataStore.data.map { preferences ->
         preferences[USER_ID] ?: ""
     }
 
-    val username: Flow<String> = context.dataStore.data.map { preferences ->
+    val username: Flow<String> = context.sessionDataStore.data.map { preferences ->
         preferences[USERNAME] ?: ""
     }
 
-    val email: Flow<String> = context.dataStore.data.map { preferences ->
+    val email: Flow<String> = context.sessionDataStore.data.map { preferences ->
         preferences[EMAIL] ?: ""
     }
 
-    val description: Flow<String?> = context.dataStore.data.map { preferences ->
+    val description: Flow<String?> = context.sessionDataStore.data.map { preferences ->
         preferences[DESCRIPTION]
     }
 
-    val profilePictureUrl: Flow<String?> = context.dataStore.data.map { preferences ->
+    val profilePictureUrl: Flow<String?> = context.sessionDataStore.data.map { preferences ->
         preferences[PROFILE_PICTURE_URL]
             ?: "android.resource://${context.packageName}/drawable/default_picture"
     }
 
     suspend fun clearSession() {
-        context.dataStore.edit { preferences ->
+        context.sessionDataStore.edit { preferences ->
             preferences.clear()
         }
     }

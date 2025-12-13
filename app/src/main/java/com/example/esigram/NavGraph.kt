@@ -31,7 +31,7 @@ fun NavGraph(
     convViewModel: ConversationViewModel,
     messageViewModel: MessageViewModel,
     friendViewModel: FriendViewModel,
-    profileViewModel: ProfileViewModel
+    profileViewModel: ProfileViewModel,
 ) {
     val navController = rememberNavController()
 

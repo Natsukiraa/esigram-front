@@ -15,7 +15,6 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -37,6 +36,10 @@ android {
     }
     buildFeatures {
         compose = true
+    }
+
+    androidResources {
+        generateLocaleConfig = true
     }
 }
 
@@ -60,6 +63,7 @@ dependencies {
     implementation(libs.androidx.camera.lifecycle)
 
     implementation(libs.androidx.ui)
+    implementation(libs.androidx.palette.ktx)
     implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.compose.foundation)
     testImplementation(libs.junit)

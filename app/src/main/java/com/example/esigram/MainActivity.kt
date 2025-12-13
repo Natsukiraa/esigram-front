@@ -1,19 +1,33 @@
 package com.example.esigram
 
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.core.os.LocaleListCompat
+import androidx.lifecycle.lifecycleScope
+import com.example.esigram.datas.local.LocaleManager
+import com.example.esigram.datas.local.ThemeManager
 import com.example.esigram.datas.repositories.AuthRepositoryImpl
 import com.example.esigram.datas.repositories.ConversationRepositoryImpl
 import com.example.esigram.datas.repositories.FriendRepositoryImpl
+import com.example.esigram.datas.repositories.LocaleRepositoryImpl
 import com.example.esigram.datas.repositories.MessageRepositoryImpl
+import com.example.esigram.datas.repositories.ThemeRepositoryImpl
 import com.example.esigram.datas.repositories.UserRepositoryImpl
 import com.example.esigram.domains.repositories.ConversationRepository
+import com.example.esigram.domains.repositories.LocaleRepository
+import com.example.esigram.domains.repositories.ThemeRepository
 import com.example.esigram.domains.usecase.auth.AuthUseCases
 import com.example.esigram.domains.usecase.auth.GetCurrentUserUseCase
 import com.example.esigram.domains.usecase.auth.GetUserIdTokenUseCase
@@ -37,6 +51,11 @@ import com.example.esigram.domains.usecase.message.DeleteMessageUseCase
 import com.example.esigram.domains.usecase.message.ListenMessagesUseCase
 import com.example.esigram.domains.usecase.message.LoadOlderMessageUseCase
 import com.example.esigram.domains.usecase.message.MessageUseCases
+import com.example.esigram.domains.usecase.setting.GetLocaleUseCase
+import com.example.esigram.domains.usecase.setting.GetThemeUseCase
+import com.example.esigram.domains.usecase.setting.SetLocaleUseCase
+import com.example.esigram.domains.usecase.setting.SetThemeUseCase
+import com.example.esigram.domains.usecase.setting.SettingUseCases
 import com.example.esigram.domains.usecase.user.CompleteOnboarding
 import com.example.esigram.domains.usecase.user.GetMeCase
 import com.example.esigram.domains.usecase.user.GetOnboardingStatus
@@ -51,9 +70,14 @@ import com.example.esigram.viewModels.ConversationViewModel
 import com.example.esigram.viewModels.FriendViewModel
 import com.example.esigram.viewModels.MessageViewModel
 import com.example.esigram.viewModels.ProfileViewModel
+import com.example.esigram.viewModels.ThemeViewModel
+import com.example.esigram.viewModels.ThemeViewModelFactory
 import com.example.esigram.viewModels.factories.AuthViewModelFactory
 import com.example.esigram.viewModels.factories.ConversationListViewModelFactory
 import com.example.esigram.viewModels.factories.ProfileViewModelFactory
+import kotlinx.coroutines.launch
+import java.util.Locale
+import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
     // auth repo implem
@@ -105,6 +129,22 @@ class MainActivity : ComponentActivity() {
         getFriendRequestsUseCase = GetFriendRequestsUseCase(friendRepository)
     )
 
+    private val themeManager: ThemeManager by lazy { ThemeManager(applicationContext) }
+
+    private val themeRepository : ThemeRepository by lazy { ThemeRepositoryImpl(themeManager) }
+
+    private val localeManager: LocaleManager by lazy { LocaleManager(applicationContext) }
+    private val localeRepository: LocaleRepository by lazy { LocaleRepositoryImpl(localeManager) }
+
+    private val settingUseCases: SettingUseCases by lazy {
+        SettingUseCases(
+            getThemeMode = GetThemeUseCase(themeRepository),
+            setThemeMode = SetThemeUseCase(themeRepository),
+            getLocale = GetLocaleUseCase(localeRepository),
+            setLocale = SetLocaleUseCase(localeRepository)
+        )
+    }
+
     private val authViewModel: AuthViewModel by viewModels {
         AuthViewModelFactory(
             authUseCases = authUseCases,
@@ -116,6 +156,7 @@ class MainActivity : ComponentActivity() {
     private val profileViewModel: ProfileViewModel by viewModels {
         ProfileViewModelFactory(
             userUseCases = userUseCases,
+            settingUseCases = settingUseCases,
             context = applicationContext
         )
     }
@@ -132,10 +173,18 @@ class MainActivity : ComponentActivity() {
 
     private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases, userUseCases)
     private val friendViewModel: FriendViewModel = FriendViewModel(friendUseCases, userUseCases)
+
+    private val themeViewModel: ThemeViewModel by viewModels {
+        ThemeViewModelFactory(settingUseCases = settingUseCases)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
-            EsigramTheme {
+            val userSelectedTheme by themeViewModel.currentTheme.collectAsState()
+
+            EsigramTheme(userSelectedTheme = userSelectedTheme) {
                 Scaffold { innerPadding ->
                     Surface(
                         modifier = Modifier.padding(innerPadding)
@@ -146,7 +195,7 @@ class MainActivity : ComponentActivity() {
                             completeProfileViewModel = completeProfileViewModel,
                             messageViewModel = messageViewModel,
                             friendViewModel = friendViewModel,
-                            profileViewModel = profileViewModel
+                            profileViewModel = profileViewModel,
                         )
                     }
                 }
