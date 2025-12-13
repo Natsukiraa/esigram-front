@@ -12,8 +12,8 @@ class MediaRemoteDataSource {
     suspend fun getMedia(id: String): Media? {
         val response = mediaService.getMediaById(id)
 
-        if(response.isSuccessful) {
-           return response.body()?.data?.toDomain()
+        if (response.isSuccessful) {
+            return response.body()?.data?.toDomain()
         }
         return null
     }

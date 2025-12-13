@@ -1,5 +1,6 @@
 package com.example.esigram.ui.components.conversations
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -12,6 +13,8 @@ fun ProfileImage(
     url: String?,
     modifier: Modifier = Modifier
 ) {
+
+    Log.d("profile",url ?: "on")
     AsyncImage(
         model = url,
         contentDescription = "Profile picture",

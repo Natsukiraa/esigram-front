@@ -6,6 +6,6 @@ data class User(
     var email: String,
     var description: String? = null,
     var profilePicture: Media? = null,
-    var hasStories: Boolean = false,
-    var alreadyViewedStories: Boolean = false
+    var hasStories: Boolean? = false,
+    var alreadyViewedStories: Boolean? = false
 )

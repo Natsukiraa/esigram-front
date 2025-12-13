@@ -1,5 +1,6 @@
 package com.example.esigram.ui.components.conversations
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,19 +13,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.esigram.R
 import com.example.esigram.domains.models.Conversation
 import com.example.esigram.domains.models.Message
 import com.example.esigram.models.UserConversation
@@ -38,6 +37,7 @@ fun ConversationItem(
     currentUserId: String,
     onClick: () -> Unit
 ) {
+    val colorScheme = MaterialTheme.colorScheme
 
     val otherUsers = conversation.members.filter { it.id != currentUserId }
 
@@ -47,8 +47,11 @@ fun ConversationItem(
         otherUsers.firstOrNull()?.username ?: ""
     }
 
+    Log.d("la", currentUserId)
+
     val displayImage =
         conversation.members[0].profilePicture?.signedUrl
+
     Surface(
         modifier = modifier.clickable { onClick() }
     ) {
@@ -64,7 +67,7 @@ fun ConversationItem(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
-                    .border(BorderStroke(1.dp, Color.LightGray), CircleShape)
+                    .border(BorderStroke(1.dp, colorScheme.outline), CircleShape)
             )
 
             Column(
@@ -73,22 +76,20 @@ fun ConversationItem(
                 Text(
                     displayName,
                     fontSize = 18.sp, fontWeight = FontWeight.SemiBold,
-                    color = colorResource(
-                        id = R.color.textPrimary
-                    )
+                    color = colorScheme.onSurface
                 )
 
                 conversation.lastMessage?.let { message ->
-
-                    val color = if (conversation.unreadCount > 0) {
-                        R.color.primaryColor
+                    val messagePreviewColor = if (conversation.unreadCount > 0) {
+                        colorScheme.primary
                     } else {
-                        R.color.textSecondary
+                        colorScheme.onSurfaceVariant
                     }
+
                     Text(
                         message.content,
                         fontSize = 12.sp,
-                        color = colorResource(id = color)
+                        color = messagePreviewColor
                     )
                 }
             }
@@ -101,7 +102,7 @@ fun ConversationItem(
                     Text(
                         text = formatConversationDate(message.createdAt),
                         fontSize = 12.sp,
-                        color = colorResource(id = R.color.textSecondary)
+                        color = colorScheme.onSurfaceVariant
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))

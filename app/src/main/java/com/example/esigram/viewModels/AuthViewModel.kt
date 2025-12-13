@@ -88,7 +88,8 @@ class AuthViewModel(
                 } else {
                     Toast.makeText(
                         context,
-                        result.exceptionOrNull()?.message ?: "An error has occurred, please try again",
+                        result.exceptionOrNull()?.message
+                            ?: "An error has occurred, please try again",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -118,7 +119,8 @@ class AuthViewModel(
                 } else {
                     Toast.makeText(
                         context,
-                        result.exceptionOrNull()?.message ?: "An error has occurred, please try again",
+                        result.exceptionOrNull()?.message
+                            ?: "An error has occurred, please try again",
                         Toast.LENGTH_SHORT
                     ).show()
                 }

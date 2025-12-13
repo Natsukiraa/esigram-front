@@ -35,6 +35,8 @@ import com.example.esigram.domains.usecase.auth.LoginUseCase
 import com.example.esigram.domains.usecase.auth.RegisterUseCase
 import com.example.esigram.domains.usecase.auth.SignOutUseCase
 import com.example.esigram.domains.usecase.conversation.ConversationUseCases
+import com.example.esigram.domains.usecase.conversation.CreateGroupConversationUseCase
+import com.example.esigram.domains.usecase.conversation.CreatePrivateConversationUseCase
 import com.example.esigram.domains.usecase.conversation.GetAllUseCase
 import com.example.esigram.domains.usecase.conversation.GetByIdUseCase
 import com.example.esigram.domains.usecase.conversation.ObserveConversationUseCase
@@ -47,6 +49,7 @@ import com.example.esigram.domains.usecase.friend.RemoveFriendUseCase
 import com.example.esigram.domains.usecase.message.CreateMessageUseCase
 import com.example.esigram.domains.usecase.message.DeleteMessageUseCase
 import com.example.esigram.domains.usecase.message.ListenMessagesUseCase
+import com.example.esigram.domains.usecase.message.LoadOlderMessageUseCase
 import com.example.esigram.domains.usecase.message.MessageUseCases
 import com.example.esigram.domains.usecase.setting.GetLocaleUseCase
 import com.example.esigram.domains.usecase.setting.GetThemeUseCase
@@ -56,6 +59,7 @@ import com.example.esigram.domains.usecase.setting.SettingUseCases
 import com.example.esigram.domains.usecase.user.CompleteOnboarding
 import com.example.esigram.domains.usecase.user.GetMeCase
 import com.example.esigram.domains.usecase.user.GetOnboardingStatus
+import com.example.esigram.domains.usecase.user.GetUserByIdCase
 import com.example.esigram.domains.usecase.user.GetUsersUseCase
 import com.example.esigram.domains.usecase.user.PatchUserUseCase
 import com.example.esigram.domains.usecase.user.UserUseCases
@@ -69,6 +73,7 @@ import com.example.esigram.viewModels.ProfileViewModel
 import com.example.esigram.viewModels.ThemeViewModel
 import com.example.esigram.viewModels.ThemeViewModelFactory
 import com.example.esigram.viewModels.factories.AuthViewModelFactory
+import com.example.esigram.viewModels.factories.ConversationListViewModelFactory
 import com.example.esigram.viewModels.factories.ProfileViewModelFactory
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -93,13 +98,15 @@ class MainActivity : ComponentActivity() {
         getUsersUseCase = GetUsersUseCase(userRepository),
         getOnboardingStatus = GetOnboardingStatus(userRepository),
         completeOnboarding = CompleteOnboarding(userRepository),
+        getUserByIdCase = GetUserByIdCase(userRepository)
     )
 
     private val messageRepository: MessageRepositoryImpl = MessageRepositoryImpl()
     private val messageUseCases: MessageUseCases = MessageUseCases(
         listenMessagesUseCase = ListenMessagesUseCase(messageRepository),
         createMessageUseCase = CreateMessageUseCase(messageRepository),
-        deleteMessageUseCase = DeleteMessageUseCase(messageRepository)
+        deleteMessageUseCase = DeleteMessageUseCase(messageRepository),
+        loadOlderMessageUseCase = LoadOlderMessageUseCase(messageRepository)
     )
 
     // conv repo implem
@@ -107,7 +114,9 @@ class MainActivity : ComponentActivity() {
     private val conversationUseCases: ConversationUseCases = ConversationUseCases(
         getAllUseCase = GetAllUseCase(conversationRepository),
         getByIdUseCase = GetByIdUseCase(conversationRepository),
-        observeConversationUseCase = ObserveConversationUseCase(conversationRepository)
+        observeConversationUseCase = ObserveConversationUseCase(conversationRepository),
+        createGroupConversationUseCase = CreateGroupConversationUseCase(conversationRepository),
+        createPrivateConversationUseCase = CreatePrivateConversationUseCase(conversationRepository)
     )
 
     // friend repo implem
@@ -154,9 +163,15 @@ class MainActivity : ComponentActivity() {
 
     private val completeProfileViewModel: CompleteProfileViewModel =
         CompleteProfileViewModel(userUseCases)
-    private val conversationViewModel: ConversationViewModel =
-        ConversationViewModel(conversationUseCases)
-    private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases)
+    private val conversationViewModel: ConversationViewModel by viewModels {
+        ConversationListViewModelFactory(
+            conversationUseCases,
+            friendUseCases,
+            this
+        )
+    }
+
+    private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases, userUseCases)
     private val friendViewModel: FriendViewModel = FriendViewModel(friendUseCases, userUseCases)
 
     private val themeViewModel: ThemeViewModel by viewModels {

@@ -20,7 +20,7 @@ fun StoryList(
     onFriendStoryClick: (User) -> Unit = {},
 ) {
     val sortedFriends = friends
-        .filter { it.hasStories }
+        .filter { it.hasStories ?: false }
         .sortedBy { it.alreadyViewedStories }
 
     LazyRow(
