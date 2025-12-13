@@ -38,6 +38,7 @@ import com.example.esigram.domains.usecase.message.MessageUseCases
 import com.example.esigram.domains.usecase.user.CompleteOnboarding
 import com.example.esigram.domains.usecase.user.GetMeCase
 import com.example.esigram.domains.usecase.user.GetOnboardingStatus
+import com.example.esigram.domains.usecase.user.GetUserByIdCase
 import com.example.esigram.domains.usecase.user.GetUsersUseCase
 import com.example.esigram.domains.usecase.user.PatchUserUseCase
 import com.example.esigram.domains.usecase.user.UserUseCases
@@ -70,6 +71,7 @@ class MainActivity : ComponentActivity() {
         getUsersUseCase = GetUsersUseCase(userRepository),
         getOnboardingStatus = GetOnboardingStatus(userRepository),
         completeOnboarding = CompleteOnboarding(userRepository),
+        getUserByIdCase = GetUserByIdCase(userRepository)
     )
 
     private val messageRepository: MessageRepositoryImpl = MessageRepositoryImpl()
@@ -117,7 +119,7 @@ class MainActivity : ComponentActivity() {
         CompleteProfileViewModel(userUseCases)
     private val conversationViewModel: ConversationViewModel =
         ConversationViewModel(conversationUseCases)
-    private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases)
+    private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases, userUseCases)
     private val friendViewModel: FriendViewModel = FriendViewModel(friendUseCases, userUseCases)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

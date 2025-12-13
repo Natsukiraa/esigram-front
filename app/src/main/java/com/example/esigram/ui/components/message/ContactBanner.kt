@@ -29,11 +29,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esigram.R
 import com.example.esigram.domains.models.OldUser
+import com.example.esigram.domains.models.User
 
 @Composable
 fun ContactBanner(
-    onClickCall: () -> Unit,
-    onClickCallCamera: () -> Unit,
     onBackClick: () -> Unit,
     user: OldUser
 ) {
@@ -78,51 +77,6 @@ fun ContactBanner(
                     fontSize = 18.sp,
                     color = Color.Black
                 )
-                if (user.isOnline) {
-                    Text(
-                        text = "Online",
-                        fontSize = 14.sp,
-                        color = Color(0xFF4CAF50)
-                    )
-                } else {
-                    Text(
-                        text = "Offline",
-                        fontSize = 14.sp,
-                        color = Color.Gray
-                    )
-                }
-            }
-
-            IconButton(
-                onClick = onClickCall,
-                modifier = Modifier
-                    .size(44.dp)
-                    .clip(CircleShape)
-                    .background(Color(0xFFEAEAEA))
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Call,
-                    contentDescription = "Call",
-                    tint = Color.Black,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-
-            Spacer(modifier = Modifier.width(8.dp))
-
-            IconButton(
-                onClick = onClickCallCamera,
-                modifier = Modifier
-                    .size(44.dp)
-                    .clip(CircleShape)
-                    .background(Color(0xFFEAEAEA))
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.outline_videocam_24),
-                    contentDescription = "Camera call",
-                    tint = Color.Black,
-                    modifier = Modifier.size(24.dp)
-                )
             }
 
         }
@@ -133,8 +87,6 @@ fun ContactBanner(
 @Preview
 fun ContactBannerPreview() {
     ContactBanner(
-        onClickCall = {},
-        onClickCallCamera = {},
         onBackClick = {},
         user = OldUser(
             id = "kjqopkdqoskdpqosds",

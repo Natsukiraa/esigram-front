@@ -81,6 +81,7 @@ fun ConversationScreen(
 
     val userId by sessionManager.id.collectAsState(initial = "")
     val messages by messageViewModel.allMessages.collectAsState()
+    val authors by messageViewModel.allAuthors.collectAsState()
 
     val fileLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetMultipleContents()
@@ -184,9 +185,7 @@ fun ConversationScreen(
         containerColor = Color(0xFFEEEEEE),
         topBar = {
             ContactBanner(
-                onClickCall = {},
                 onBackClick = {},
-                onClickCallCamera = {},
                 user = user
             )
         },
@@ -264,6 +263,10 @@ fun ConversationScreen(
                     horizontalArrangement = if (message.authorId == userId) Arrangement.End else Arrangement.Start
                 ) {
                     MessageBox(
+                        loadAuthorInformations = { userId ->
+                            messageViewModel.loadUserInformations(userId)
+                        },
+                        authors = authors,
                         message = message,
                         onHold = { id ->
                             if (message.authorId == userId) {

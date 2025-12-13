@@ -28,7 +28,7 @@ class ConversationViewModel(private val conversationUseCases: ConversationUseCas
     init {
         viewModelScope.launch {
             try {
-                val userId: String = "XP5XNryHKdhJvyvXFmf10dI4NKN2" // TODO
+                val userId: String = "rgln48UHiEVRFAtOmcm4qkX33wt2" // TODO
                 val ids = conversationUseCases.getAllUseCase(userId)
                 Log.d("Conversation", "Conversations IDs: $ids")
 

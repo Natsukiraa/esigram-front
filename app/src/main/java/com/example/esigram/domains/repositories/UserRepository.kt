@@ -21,4 +21,6 @@ interface UserRepository {
     suspend fun getUserById(userId: String): UserConversation?
     suspend fun getOnboardingStatus(): Response<OnboardingStatus>
     suspend fun completeOnboarding(): Response<OnboardingStatus>
+
+    suspend fun getUserByIdReal(userId: String): User?
 }

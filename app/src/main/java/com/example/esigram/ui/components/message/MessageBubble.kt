@@ -26,11 +26,13 @@ fun MessageBubble(
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
     ) {
         Column {
-            Text(
-                text = message.content,
-                fontSize = 16.sp,
-                color = contentColor
-            )
+            if(message.content.isNotBlank()) {
+                Text(
+                    text = message.content,
+                    fontSize = 16.sp,
+                    color = contentColor
+                )
+            }
 
             if (message.attachments?.isNotEmpty() == true) {
                 Spacer(modifier = Modifier.height(8.dp))

@@ -1,6 +1,7 @@
 package com.example.esigram.datas.repositories
 
 import com.example.esigram.datas.remote.UserRemoteDataSource
+import com.example.esigram.domains.models.User
 import com.example.esigram.domains.repositories.UserRepository
 import com.example.esigram.models.UserConversation
 import java.io.File
@@ -18,6 +19,10 @@ class UserRepositoryImpl(
 
     override suspend fun getUserById(userId: String): UserConversation? {
         return remote.getUserById(userId)
+    }
+
+    override suspend fun getUserByIdReal(userId: String): User? {
+        return remote.getUserByIdReal(userId)
     }
 
     override suspend fun getOnboardingStatus() = remote.getOnboardingStatus()

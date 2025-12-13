@@ -5,5 +5,6 @@ data class UserUseCases(
     val getMeCase: GetMeCase,
     val getUsersUseCase: GetUsersUseCase,
     val getOnboardingStatus: GetOnboardingStatus,
-    val completeOnboarding: CompleteOnboarding
+    val completeOnboarding: CompleteOnboarding,
+    val getUserByIdCase: GetUserByIdCase
 )

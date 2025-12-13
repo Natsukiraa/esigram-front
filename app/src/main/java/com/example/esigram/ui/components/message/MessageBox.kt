@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -15,9 +17,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalConfiguration
@@ -25,7 +29,9 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.esigram.domains.models.Message
+import com.example.esigram.domains.models.User
 import com.example.esigram.networks.RetrofitInstance
+import com.example.esigram.ui.components.conversations.ProfileImage
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -33,6 +39,8 @@ import java.util.Locale
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MessageBox(
+    loadAuthorInformations: (String) -> Unit,
+    authors: Set<User>,
     message: Message,
     onHold: (String) -> Unit,
 ) {
@@ -40,6 +48,16 @@ fun MessageBox(
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
     val isUserMe = message.colorIndex % 2 == 0
+
+    val author = remember(authors, message.authorId) {
+        authors.find { it.id == message.authorId }
+    }
+
+    LaunchedEffect(author, message.authorId) {
+        if (author == null) {
+            loadAuthorInformations(message.authorId)
+        }
+    }
 
     val bg = if (isUserMe) Color(0xff5167f1) else Color(0xFFFFFFFF)
     val contentColor = if (isUserMe) Color.White else Color.Black
@@ -65,6 +83,28 @@ fun MessageBox(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = if (isUserMe) Alignment.End else Alignment.Start
     ) {
+        if (author != null && !isUserMe) {
+            Row(
+                modifier = Modifier
+                    .padding(start = 4.dp, bottom = 4.dp)
+                    .widthIn(max = screenWidth * 0.75f)
+            ) {
+                ProfileImage(
+                    url = author.profilePicture?.signedUrl,
+                    modifier = Modifier
+                        .padding(end = 4.dp)
+                        .clip(CircleShape)
+                        .height(24.dp)
+                        .widthIn(max = 24.dp)
+                )
+                Text(
+                    text = author.username,
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+            }
+        }
+
         Surface(
             shape = shape,
             color = bg,
@@ -97,15 +137,6 @@ fun MessageBox(
                 color = Color.Gray,
                 modifier = Modifier.padding(end = 4.dp)
             )
-
-            if (isUserMe) {
-                Icon(
-                    imageVector = Icons.Default.Check,
-                    contentDescription = "Seen status",
-                    tint = if (message.seen) Color(0xff5167f1) else Color.Gray,
-                    modifier = Modifier.padding(start = 2.dp)
-                )
-            }
         }
     }
 }

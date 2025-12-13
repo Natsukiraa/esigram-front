@@ -25,6 +25,11 @@ interface UserApiService {
         @Path("id") id: String
     ): Response<ResponsUserDto>
 
+    @GET("/users/{id}")
+    suspend fun getUserByIdReal(
+        @Path("id") id: String
+    ):  Response<UserResponse>
+
     @Multipart
     @PATCH("/users/me")
     suspend fun patchUser(

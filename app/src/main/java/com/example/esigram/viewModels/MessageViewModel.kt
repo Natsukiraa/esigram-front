@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.esigram.datas.remote.MessageRemoteDataSource
 import com.example.esigram.domains.models.Message
+import com.example.esigram.domains.models.User
 import com.example.esigram.domains.usecase.message.MessageUseCases
+import com.example.esigram.domains.usecase.user.UserUseCases
 import com.example.esigram.viewModels.utils.uriToFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,10 +17,17 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.io.File
 
-class MessageViewModel(private val messageUseCases: MessageUseCases) : ViewModel() {
+class MessageViewModel(
+    private val messageUseCases: MessageUseCases,
+    private val userUseCases: UserUseCases
+) : ViewModel() {
 
     private val _allMessages = MutableStateFlow<List<Message>>(emptyList())
     val allMessages = _allMessages.asStateFlow()
+
+    private val _allAuthors = MutableStateFlow<Set<User>>(emptySet())
+    val allAuthors = _allAuthors.asStateFlow()
+
 
     private var isLoadingMore = false
 
@@ -96,7 +105,13 @@ class MessageViewModel(private val messageUseCases: MessageUseCases) : ViewModel
         }
     }
 
-    fun createMessage(context: Context, chatId: String, content: String, files: List<Uri>? = null, file: File? = null) {
+    fun createMessage(
+        context: Context,
+        chatId: String,
+        content: String,
+        files: List<Uri>? = null,
+        file: File? = null
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             val filesFromUri = mutableListOf<File>()
             if (files != null) {
@@ -108,13 +123,29 @@ class MessageViewModel(private val messageUseCases: MessageUseCases) : ViewModel
 
 
             Log.d("MessageViewModel", "Files: $filesFromUri")
-            messageUseCases.createMessageUseCase(chatId = chatId, content = content, files = filesFromUri)
+            messageUseCases.createMessageUseCase(
+                chatId = chatId,
+                content = content,
+                files = filesFromUri
+            )
         }
     }
 
     fun deleteMessage(chatId: String, messageId: String) {
         viewModelScope.launch {
             messageUseCases.deleteMessageUseCase(chatId, messageId)
+            _allMessages.value = _allMessages.value.filter { it.id != messageId }
+        }
+    }
+
+    fun loadUserInformations(userId: String) {
+        viewModelScope.launch {
+            if(_allAuthors.value.any { it.id == userId }) return@launch
+            Log.d("MessageViewModel", "Loading user $userId")
+            val author = userUseCases.getUserByIdCase(userId)
+            if (author != null) {
+                _allAuthors.value = (_allAuthors.value + author)
+            }
         }
     }
 }
