@@ -11,15 +11,18 @@ import com.example.esigram.domains.usecase.setting.SettingUseCases
 import com.example.esigram.domains.usecase.user.UserUseCases
 import com.example.esigram.viewModels.utils.onFileChange
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.io.File
 
 class ProfileViewModel(
     private val useCases: UserUseCases,
-    private val settingUseCase: SettingUseCases,
+    private val settingUseCases: SettingUseCases,
     private val context: Context
 ) : ViewModel() {
     private val sessionManager = SessionManager(context)
@@ -44,6 +47,13 @@ class ProfileViewModel(
 
     private val _isEditing = MutableStateFlow(false)
     val isEditing = _isEditing.asStateFlow()
+
+    val selectedTheme: StateFlow<ThemeMode> = settingUseCases.getThemeMode()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = ThemeMode.System
+        )
 
     init {
         combine(
@@ -109,12 +119,10 @@ class ProfileViewModel(
         _fileUri.value = null
     }
 
-    fun selectedTheme(): ThemeMode {
-
-        return ThemeMode.System
-    }
     fun onThemeSelected(themeMode: ThemeMode) {
-
+        viewModelScope.launch {
+            settingUseCases.setThemeMode(themeMode)
+        }
     }
 }
 

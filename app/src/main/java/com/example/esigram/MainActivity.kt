@@ -7,6 +7,8 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.example.esigram.datas.local.ThemeManager
 import com.example.esigram.datas.repositories.AuthRepositoryImpl
@@ -53,8 +55,11 @@ import com.example.esigram.viewModels.ConversationViewModel
 import com.example.esigram.viewModels.FriendViewModel
 import com.example.esigram.viewModels.MessageViewModel
 import com.example.esigram.viewModels.ProfileViewModel
+import com.example.esigram.viewModels.ThemeViewModel
+import com.example.esigram.viewModels.ThemeViewModelFactory
 import com.example.esigram.viewModels.factories.AuthViewModelFactory
 import com.example.esigram.viewModels.factories.ProfileViewModelFactory
+import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
     // auth repo implem
@@ -136,10 +141,16 @@ class MainActivity : ComponentActivity() {
     private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases)
     private val friendViewModel: FriendViewModel = FriendViewModel(friendUseCases, userUseCases)
 
+    private val themeViewModel: ThemeViewModel by viewModels {
+        ThemeViewModelFactory(settingUseCases = settingUseCases)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            EsigramTheme {
+            val userSelectedTheme by themeViewModel.currentTheme.collectAsState()
+
+            EsigramTheme(userSelectedTheme = userSelectedTheme) {
                 Scaffold { innerPadding ->
                     Surface(
                         modifier = Modifier.padding(innerPadding)

@@ -49,6 +49,7 @@ fun ProfileScreen(
     val profilePictureUrl by profileViewModel.profilePictureUrl.collectAsState()
     val isEditing by profileViewModel.isEditing.collectAsState()
     val fileUri by profileViewModel.fileUri.collectAsState()
+    val selectedTheme by profileViewModel.selectedTheme.collectAsState()
 
     val getContent =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -132,7 +133,7 @@ fun ProfileScreen(
             Spacer(Modifier.height(24.dp))
 
             ThemeSelector(
-                selectedTheme = profileViewModel.selectedTheme(),
+                selectedTheme = selectedTheme,
                 onThemeSelected = { themeMode ->
                     profileViewModel.onThemeSelected(themeMode)
                 }
