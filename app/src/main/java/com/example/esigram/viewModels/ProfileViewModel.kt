@@ -55,6 +55,13 @@ class ProfileViewModel(
             initialValue = ThemeMode.System
         )
 
+    val selectedLanguageCode: StateFlow<String> = settingUseCases.getLocale()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = "system"
+        )
+
     init {
         combine(
             sessionManager.username,
@@ -122,6 +129,12 @@ class ProfileViewModel(
     fun onThemeSelected(themeMode: ThemeMode) {
         viewModelScope.launch {
             settingUseCases.setThemeMode(themeMode)
+        }
+    }
+
+    fun onLanguageSelected(code: String) {
+        viewModelScope.launch {
+            settingUseCases.setLocale(code)
         }
     }
 }
