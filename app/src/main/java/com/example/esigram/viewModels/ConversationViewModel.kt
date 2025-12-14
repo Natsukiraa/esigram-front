@@ -94,14 +94,22 @@ class ConversationViewModel(
 
     private fun filterConversations(): List<Conversation> {
         val normalizedQuery = searchQuery.trim().lowercase()
+        val currentUserId = userId
 
         var result = _conversations.toList()
 
         if (normalizedQuery.isNotEmpty()) {
             result = result.filter { conv ->
-                conv.members.any { user ->
-                    user.username.contains(normalizedQuery)
-                }
+
+                val matchesMember = conv.members
+                    .filter { user -> user.id != currentUserId }
+                    .any { user ->
+                        user.username.lowercase().contains(normalizedQuery)
+                    }
+
+                val matchesTitle = conv.title?.lowercase()?.contains(normalizedQuery) == true
+
+                matchesMember || matchesTitle
             }
         }
 
