@@ -14,7 +14,7 @@ import retrofit2.http.Path
 interface ConversationApiService {
 
     @Multipart
-    @POST("/chats")
+    @POST("chats")
     suspend fun createConversation(
         @Part("data") data: RequestBody,
         @Part photo: MultipartBody.Part?

@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
-    const val BASE_URL = "https://ufh6uf.tunnel.pyjam.as/"
+    const val BASE_URL = "https://iym3up.tunnel.pyjam.as/api/"
     private val authRepository = AuthRepositoryImpl()
 
     private val client = OkHttpClient.Builder()

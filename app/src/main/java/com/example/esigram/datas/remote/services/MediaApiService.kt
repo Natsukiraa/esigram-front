@@ -7,7 +7,7 @@ import retrofit2.http.Path
 
 interface MediaApiService {
 
-    @GET("/media/{id}")
+    @GET("media/{id}")
     suspend fun getMediaById(
         @Path("id") id: String
     ): Response<MediaResponseDto>

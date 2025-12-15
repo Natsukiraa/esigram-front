@@ -17,38 +17,38 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface UserApiService {
-    @GET("/users/me")
+    @GET("users/me")
     suspend fun getMe(): Response<UserResponse>
 
-    @GET("/users/{id}")
+    @GET("users/{id}")
     suspend fun getUserById(
         @Path("id") id: String
     ): Response<ResponsUserDto>
 
-    @GET("/users/{id}")
+    @GET("users/{id}")
     suspend fun getUserByIdReal(
         @Path("id") id: String
     ): Response<UserResponse>
 
     @Multipart
-    @PATCH("/users/me")
+    @PATCH("users/me")
     suspend fun patchUser(
         @Part("data") data: RequestBody,
         @Part profilePicture: MultipartBody.Part?
     ): Response<Unit>
 
 
-    @GET("/users")
+    @GET("users")
     suspend fun getUsers(
         @Query("page") page: Int,
         @Query("limit") size: Int,
         @Query("username") username: String? = null
     ): PageModel<User>
 
-    @GET("/users/me/onboarding-status")
+    @GET("users/me/onboarding-status")
     suspend fun getOnboardingStatus(): Response<OnboardingStatus>
 
-    @POST("/users/me/complete-onboarding")
+    @POST("users/me/complete-onboarding")
     suspend fun completeOnboarding(): Response<OnboardingStatus>
 
 }

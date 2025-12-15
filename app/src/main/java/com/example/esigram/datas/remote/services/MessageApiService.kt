@@ -11,14 +11,14 @@ import retrofit2.http.Path
 
 interface MessageApiService {
     @Multipart
-    @POST("/chats/{chatId}/messages")
+    @POST("chats/{chatId}/messages")
     suspend fun sendMessage(
         @Path("chatId") chatId: String,
         @Part("data") data: RequestBody,
         @Part attachments: List<MultipartBody.Part>? = null
     ): Response<Unit>
 
-    @DELETE("/chats/{chatId}/messages/{id}")
+    @DELETE("chats/{chatId}/messages/{id}")
     suspend fun deleteMessage(
         @Path("chatId") chatId: String,
         @Path("id") id: String
