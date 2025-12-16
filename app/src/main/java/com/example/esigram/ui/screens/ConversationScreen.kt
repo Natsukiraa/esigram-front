@@ -82,6 +82,8 @@ fun ConversationScreen(
     val userId by sessionManager.id.collectAsState(initial = "")
     val messages by messageViewModel.allMessages.collectAsState()
     val authors by messageViewModel.allAuthors.collectAsState()
+    val chat by messageViewModel.chat.collectAsState()
+
 
     val fileLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetMultipleContents()
@@ -114,6 +116,7 @@ fun ConversationScreen(
     LaunchedEffect(chatId, userId) {
         if (userId.isNotBlank()) {
             messageViewModel.startListening(chatId, userId)
+            messageViewModel.getChatInfo(chatId)
         }
     }
 
@@ -184,10 +187,13 @@ fun ConversationScreen(
             .imePadding(),
         containerColor = Color(0xFFEEEEEE),
         topBar = {
-            ContactBanner(
-                onBackClick = {},
-                user = user
-            )
+            chat?.let {
+                ContactBanner(
+                    onBackClick = {},
+                    chat = it,
+                    userId = userId
+                )
+            }
         },
         bottomBar = {
             Column(

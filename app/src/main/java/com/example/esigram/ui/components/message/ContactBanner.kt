@@ -30,11 +30,14 @@ import androidx.compose.ui.unit.sp
 import com.example.esigram.R
 import com.example.esigram.domains.models.OldUser
 import com.example.esigram.domains.models.User
+import com.example.esigram.domains.models.responses.ChatResponse
+import com.example.esigram.ui.components.conversations.ProfileImage
 
 @Composable
 fun ContactBanner(
     onBackClick: () -> Unit,
-    user: OldUser
+    chat: ChatResponse,
+    userId: String
 ) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
@@ -58,13 +61,12 @@ fun ContactBanner(
                 )
             }
 
-            Icon(
-                imageVector = Icons.Default.AccountCircle,
-                contentDescription = "Profile Icon",
-                tint = Color.Black,
+           ProfileImage(
+                url = chat.coverImage?.signedUrl
+                    ?: chat.members.firstOrNull { it.id != userId }?.profilePicture?.signedUrl,
                 modifier = Modifier
-                    .size(52.dp)
-                    .padding(start = 4.dp)
+                    .size(48.dp)
+                    .clip(CircleShape)
             )
 
             Column(
@@ -73,7 +75,7 @@ fun ContactBanner(
                     .padding(start = 12.dp)
             ) {
                 Text(
-                    text = "${user.forename} ${user.name}",
+                    text = chat.name ?: chat.members.firstOrNull { it.id != userId }?.username ?: "",
                     fontSize = 18.sp,
                     color = Color.Black
                 )
@@ -81,18 +83,4 @@ fun ContactBanner(
 
         }
     }
-}
-
-@Composable
-@Preview
-fun ContactBannerPreview() {
-    ContactBanner(
-        onBackClick = {},
-        user = OldUser(
-            id = "kjqopkdqoskdpqosds",
-            forename = "Léna",
-            name = "Mabille",
-            isOnline = true
-        )
-    )
 }

@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.esigram.datas.remote.MessageRemoteDataSource
 import com.example.esigram.domains.models.Message
 import com.example.esigram.domains.models.User
+import com.example.esigram.domains.models.responses.ChatResponse
+import com.example.esigram.domains.usecase.chat.ChatUseCases
 import com.example.esigram.domains.usecase.message.MessageUseCases
 import com.example.esigram.domains.usecase.user.UserUseCases
 import com.example.esigram.viewModels.utils.uriToFile
@@ -19,7 +21,8 @@ import java.io.File
 
 class MessageViewModel(
     private val messageUseCases: MessageUseCases,
-    private val userUseCases: UserUseCases
+    private val userUseCases: UserUseCases,
+    private val chatUseCases: ChatUseCases
 ) : ViewModel() {
 
     private val _allMessages = MutableStateFlow<List<Message>>(emptyList())
@@ -27,6 +30,10 @@ class MessageViewModel(
 
     private val _allAuthors = MutableStateFlow<Set<User>>(emptySet())
     val allAuthors = _allAuthors.asStateFlow()
+
+    private val _chat = MutableStateFlow<ChatResponse?>(null)
+    val chat = _chat.asStateFlow()
+
 
 
     private var isLoadingMore = false
@@ -146,6 +153,13 @@ class MessageViewModel(
             if (author != null) {
                 _allAuthors.value = (_allAuthors.value + author)
             }
+        }
+    }
+
+    fun getChatInfo(chatId: String){
+        viewModelScope.launch {
+            _chat.value = chatUseCases.getChatUseCase(chatId)
+            Log.d("MessageViewModel", "Chat: ${_chat.value}")
         }
     }
 }

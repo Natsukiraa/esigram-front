@@ -19,21 +19,28 @@ import androidx.lifecycle.lifecycleScope
 import com.example.esigram.datas.local.LocaleManager
 import com.example.esigram.datas.local.ThemeManager
 import com.example.esigram.datas.repositories.AuthRepositoryImpl
+import com.example.esigram.datas.repositories.ChatRepositoryImpl
 import com.example.esigram.datas.repositories.ConversationRepositoryImpl
 import com.example.esigram.datas.repositories.FriendRepositoryImpl
 import com.example.esigram.datas.repositories.LocaleRepositoryImpl
 import com.example.esigram.datas.repositories.MessageRepositoryImpl
 import com.example.esigram.datas.repositories.ThemeRepositoryImpl
 import com.example.esigram.datas.repositories.UserRepositoryImpl
+import com.example.esigram.domains.repositories.AuthRepository
+import com.example.esigram.domains.repositories.ChatRepository
 import com.example.esigram.domains.repositories.ConversationRepository
+import com.example.esigram.domains.repositories.FriendRepository
 import com.example.esigram.domains.repositories.LocaleRepository
 import com.example.esigram.domains.repositories.ThemeRepository
+import com.example.esigram.domains.repositories.UserRepository
 import com.example.esigram.domains.usecase.auth.AuthUseCases
 import com.example.esigram.domains.usecase.auth.GetCurrentUserUseCase
 import com.example.esigram.domains.usecase.auth.GetUserIdTokenUseCase
 import com.example.esigram.domains.usecase.auth.LoginUseCase
 import com.example.esigram.domains.usecase.auth.RegisterUseCase
 import com.example.esigram.domains.usecase.auth.SignOutUseCase
+import com.example.esigram.domains.usecase.chat.ChatUseCases
+import com.example.esigram.domains.usecase.chat.GetChatUseCase
 import com.example.esigram.domains.usecase.conversation.ConversationUseCases
 import com.example.esigram.domains.usecase.conversation.CreateGroupConversationUseCase
 import com.example.esigram.domains.usecase.conversation.CreatePrivateConversationUseCase
@@ -81,7 +88,7 @@ import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
     // auth repo implem
-    private val authRepository: AuthRepositoryImpl = AuthRepositoryImpl()
+    private val authRepository: AuthRepository = AuthRepositoryImpl()
     private val authUseCases: AuthUseCases = AuthUseCases(
         getCurrentUserUseCase = GetCurrentUserUseCase(authRepository),
         signOutUseCase = SignOutUseCase(authRepository),
@@ -91,7 +98,7 @@ class MainActivity : ComponentActivity() {
     )
 
     // user repo implem
-    private val userRepository: UserRepositoryImpl = UserRepositoryImpl()
+    private val userRepository: UserRepository = UserRepositoryImpl()
     private val userUseCases: UserUseCases = UserUseCases(
         getMeCase = GetMeCase(userRepository),
         patchUserUseCase = PatchUserUseCase(userRepository),
@@ -120,13 +127,19 @@ class MainActivity : ComponentActivity() {
     )
 
     // friend repo implem
-    private val friendRepository: FriendRepositoryImpl = FriendRepositoryImpl()
+    private val friendRepository: FriendRepository = FriendRepositoryImpl()
     private val friendUseCases: FriendUseCases = FriendUseCases(
         askFriendUseCase = AskFriendUseCase(friendRepository),
         rejectFriendUseCase = RejectFriendUseCase(friendRepository),
         removeFriendUseCase = RemoveFriendUseCase(friendRepository),
         getFriendsUseCase = GetFriendsUseCase(friendRepository),
         getFriendRequestsUseCase = GetFriendRequestsUseCase(friendRepository)
+    )
+
+    private val chatRepository: ChatRepository = ChatRepositoryImpl()
+
+    private val chatUseCases: ChatUseCases = ChatUseCases(
+        getChatUseCase = GetChatUseCase(chatRepository)
     )
 
     private val themeManager: ThemeManager by lazy { ThemeManager(applicationContext) }
@@ -171,7 +184,7 @@ class MainActivity : ComponentActivity() {
         )
     }
 
-    private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases, userUseCases)
+    private val messageViewModel: MessageViewModel = MessageViewModel(messageUseCases, userUseCases, chatUseCases)
     private val friendViewModel: FriendViewModel = FriendViewModel(friendUseCases, userUseCases)
 
     private val themeViewModel: ThemeViewModel by viewModels {
