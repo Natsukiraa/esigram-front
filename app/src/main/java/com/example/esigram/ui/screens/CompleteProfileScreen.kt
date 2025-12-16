@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +25,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.sp
 import com.example.esigram.R
 import com.example.esigram.ui.components.conversations.ProfileImage
 import com.example.esigram.ui.components.form.EditTextField
-import com.example.esigram.ui.theme.LightGray
 import com.example.esigram.viewModels.CompleteProfileViewModel
 
 @Composable
@@ -41,7 +40,6 @@ fun CompleteProfileScreen(
     onSuccessSignUp: () -> Unit,
     saveUser: () -> Unit
 ) {
-    // mutable state data from VM
     val description = completeProfileViewModel.description.collectAsState()
     val fileUri = completeProfileViewModel.fileUri.collectAsState()
     val username = completeProfileViewModel.username.collectAsState()
@@ -79,7 +77,7 @@ fun CompleteProfileScreen(
                 context.getString(R.string.sign_up),
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
-                color = colorResource(id = R.color.textPrimary),
+                color = MaterialTheme.colorScheme.onBackground,
             )
 
             Column(
@@ -92,13 +90,13 @@ fun CompleteProfileScreen(
                     context.getString(R.string.complete_profile),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = colorResource(id = R.color.textPrimary)
+                    color = MaterialTheme.colorScheme.onBackground
                 )
 
                 Text(
                     context.getString(R.string.profile_desc),
                     fontSize = 16.sp,
-                    color = colorResource(id = R.color.textSecondary),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.width(250.dp),
                     textAlign = TextAlign.Center
                 )
@@ -113,7 +111,7 @@ fun CompleteProfileScreen(
                     modifier = Modifier
                         .size(128.dp)
                         .clip(CircleShape)
-                        .border(BorderStroke(1.dp, LightGray), CircleShape)
+                        .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline), CircleShape)
                         .clickable { getContent.launch("image/*") }
                 )
 
@@ -141,9 +139,6 @@ fun CompleteProfileScreen(
                     content = { Text(context.getString(R.string.sign_up)) }
                 )
             }
-
-
         }
     }
 }
-

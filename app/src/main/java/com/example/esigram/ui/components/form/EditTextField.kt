@@ -3,6 +3,7 @@ package com.example.esigram.ui.components.form
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -25,7 +26,7 @@ fun EditTextField(
         Text(
             text = label,
             fontSize = 14.sp,
-            color = colorResource(id = R.color.textPrimary),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(bottom = 4.dp)
         )
 

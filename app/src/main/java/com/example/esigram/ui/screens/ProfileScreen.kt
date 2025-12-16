@@ -1,4 +1,4 @@
- package com.example.esigram.ui.screens
+package com.example.esigram.ui.screens
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -86,7 +86,7 @@ fun ProfileScreen(
                 modifier = Modifier
                     .size(128.dp)
                     .clip(CircleShape)
-                    .border(BorderStroke(1.dp, colorScheme.outline), CircleShape)
+                    .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline), CircleShape)
                     .align(Alignment.CenterHorizontally)
                     .clickable {
                         getContent.launch("image/*")
