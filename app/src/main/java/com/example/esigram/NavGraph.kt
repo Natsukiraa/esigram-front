@@ -115,6 +115,11 @@ fun NavGraph(
         ) { backStackEntry ->
             val convId = backStackEntry.arguments?.getString("ConvId") ?: ""
             ConversationScreen(
+                onBackClick = {
+                    navController.navigate(Destinations.CONVERSATION) {
+                        popUpTo(0)
+                    }
+                },
                 messageViewModel = messageViewModel,
                 chatId = convId,
                 sessionManager = authViewModel.sessionManager

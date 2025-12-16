@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -59,8 +60,8 @@ fun MessageBox(
         }
     }
 
-    val bg = if (isUserMe) Color(0xff5167f1) else Color(0xFFFFFFFF)
-    val contentColor = if (isUserMe) Color.White else Color.Black
+    val bg = if (isUserMe) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface
+    val contentColor = if (isUserMe) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
     val shape = if (isUserMe)
         RoundedCornerShape(12.dp, 0.dp, 12.dp, 12.dp)
     else

@@ -108,7 +108,7 @@ fun AttachmentItem(
 
     val baseModifier = Modifier
         .clip(RoundedCornerShape(12.dp))
-        .background(Color.LightGray.copy(alpha = 0.2f))
+        .background(MaterialTheme.colorScheme.surfaceVariant)
 
     Box(
         modifier = Modifier.animateContentSize()
@@ -160,7 +160,7 @@ fun AttachmentItem(
                     Box(
                         modifier = Modifier
                             .matchParentSize()
-                            .background(Color.Black)
+                            .background(MaterialTheme.colorScheme.surface),
                     )
                     Icon(
                         imageVector = Icons.Default.PlayArrow,
@@ -190,7 +190,7 @@ fun AttachmentItem(
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.List,
                         contentDescription = "File",
-                        tint = Color.Gray,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.size(40.dp)
                     )
                     Text(
@@ -211,7 +211,7 @@ fun AttachmentItem(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.Black)
+                    .background(MaterialTheme.colorScheme.surface)
                     .clickable { showFullscreen = false }) {
                 AsyncImage(
                     model = ImageRequest.Builder(context).data(fullUrl).crossfade(true).build(),

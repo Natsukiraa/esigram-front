@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.material3.MaterialTheme
 
 @Composable
 fun SendBar(
@@ -32,14 +33,14 @@ fun SendBar(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFFF9F9FB)),
+            .background(MaterialTheme.colorScheme.surface),
         color = Color.Transparent,
         tonalElevation = 0.dp
     ) {
         Row(
             modifier = Modifier
                 .padding(horizontal = 12.dp, vertical = 8.dp)
-                .background(Color.White, RoundedCornerShape(40.dp))
+                .background(MaterialTheme.colorScheme.background, RoundedCornerShape(40.dp))
                 .padding(horizontal = 12.dp, vertical = 6.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -47,12 +48,12 @@ fun SendBar(
                 onClick = onAddMedia,
                 modifier = Modifier
                     .size(44.dp)
-                    .background(Color(0xff5167f1), CircleShape)
+                    .background(MaterialTheme.colorScheme.primary, CircleShape)
             ) {
                 Icon(
                     Icons.Outlined.Add,
                     contentDescription = "Add",
-                    tint = Color.White,
+                    tint = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.size(26.dp)
                 )
             }
@@ -67,8 +68,6 @@ fun SendBar(
             )
 
             Spacer(modifier = Modifier.width(8.dp))
-
-
         }
     }
 }

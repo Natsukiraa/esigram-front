@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -59,6 +60,7 @@ import java.io.File
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConversationScreen(
+    onBackClick: () -> Unit,
     messageViewModel: MessageViewModel,
     sessionManager: SessionManager,
     chatId: String
@@ -170,12 +172,12 @@ fun ConversationScreen(
                 Icon(
                     imageVector = Icons.Outlined.Delete,
                     contentDescription = "Delete message",
-                    tint = Color.Red
+                    tint = MaterialTheme.colorScheme.error
                 )
                 Text(
                     text = "Delete message",
                     fontSize = 18.sp,
-                    color = Color.Red
+                    color = MaterialTheme.colorScheme.error
                 )
             }
         }
@@ -185,11 +187,11 @@ fun ConversationScreen(
         modifier = Modifier
             .fillMaxSize()
             .imePadding(),
-        containerColor = Color(0xFFEEEEEE),
+        containerColor = MaterialTheme.colorScheme.surfaceVariant,
         topBar = {
             chat?.let {
                 ContactBanner(
-                    onBackClick = {},
+                    onBackClick = onBackClick,
                     chat = it,
                     userId = userId
                 )

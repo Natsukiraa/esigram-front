@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -51,17 +52,17 @@ fun ChatInputField(
             placeholder = {
                 Text(
                     text = "Type your message here...",
-                    color = Color.Gray,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                     fontSize = 15.sp
                 )
             },
             shape = dynamicShape,
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color(0xFFF4F4F8),
-                unfocusedContainerColor = Color(0xFFF4F4F8),
+                focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                cursorColor = Color(0xff5167f1)
+                cursorColor = MaterialTheme.colorScheme.primary
             ),
             textStyle = LocalTextStyle.current.copy(fontSize = 16.sp),
             maxLines = 5
@@ -72,12 +73,12 @@ fun ChatInputField(
                 onClick = onSendClick,
                 modifier = Modifier
                     .size(42.dp)
-                    .background(Color(0xff5167f1), CircleShape)
+                    .background(MaterialTheme.colorScheme.primary, CircleShape)
             ) {
                 Icon(
                     painter = painterResource(R.drawable.outline_send_24),
                     contentDescription = "Envoyer",
-                    tint = Color.White,
+                    tint = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.size(22.dp)
                 )
             }
@@ -86,12 +87,12 @@ fun ChatInputField(
                 onClick = onVoiceClick,
                 modifier = Modifier
                     .size(42.dp)
-                    .background(Color(0xFFE0E0E0), CircleShape)
+                    .background(MaterialTheme.colorScheme.surfaceVariant, CircleShape)
             ) {
                 Icon(
                     painter = painterResource(R.drawable.outline_mic_24),
                     contentDescription = "Enregistrer un message vocal",
-                    tint = Color.DarkGray,
+                    tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                     modifier = Modifier.size(22.dp)
                 )
             }

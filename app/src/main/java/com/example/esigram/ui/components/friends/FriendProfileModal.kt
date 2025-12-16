@@ -45,13 +45,13 @@ fun FriendProfileModal(
                     )
 
                     Surface(
-                        color = Color.Black.copy(alpha = 0.4f),
+                        color = MaterialTheme.colorScheme.scrim.copy(alpha = 0.4f),
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
                             text = user.username,
                             style = MaterialTheme.typography.titleMedium,
-                            color = colorResource(R.color.white),
+                            color = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
                         )
                     }

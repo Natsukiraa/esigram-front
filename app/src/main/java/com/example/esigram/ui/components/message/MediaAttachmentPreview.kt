@@ -22,10 +22,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import androidx.compose.material3.MaterialTheme
 
 @Composable
 fun MediaAttachmentPreview(
@@ -37,7 +37,7 @@ fun MediaAttachmentPreview(
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFFF5F5F5))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
             .padding(vertical = 8.dp),
         contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -51,7 +51,7 @@ fun MediaAttachmentPreview(
                     modifier = Modifier
                         .size(80.dp)
                         .clip(RoundedCornerShape(12.dp))
-                        .border(1.dp, Color.Gray, RoundedCornerShape(12.dp))
+                        .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp))
                 )
 
                 IconButton(
@@ -59,12 +59,12 @@ fun MediaAttachmentPreview(
                     modifier = Modifier
                         .offset(x = 6.dp, y = (-6).dp)
                         .size(24.dp)
-                        .background(Color.Gray, CircleShape)
+                        .background(MaterialTheme.colorScheme.onSurfaceVariant, CircleShape)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,
                         contentDescription = "Remove",
-                        tint = Color.White,
+                        tint = MaterialTheme.colorScheme.surface,
                         modifier = Modifier.padding(4.dp)
                     )
                 }

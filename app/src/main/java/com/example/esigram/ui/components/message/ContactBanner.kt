@@ -1,35 +1,25 @@
 package com.example.esigram.ui.components.message
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.outlined.Call
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.esigram.R
-import com.example.esigram.domains.models.OldUser
-import com.example.esigram.domains.models.User
 import com.example.esigram.domains.models.responses.ChatResponse
 import com.example.esigram.ui.components.conversations.ProfileImage
 
@@ -41,7 +31,7 @@ fun ContactBanner(
 ) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        color = Color.White,
+        color = MaterialTheme.colorScheme.surface,
         shape = RoundedCornerShape(bottomEnd = 24.dp, bottomStart = 24.dp)
     ) {
         Row(
@@ -57,7 +47,7 @@ fun ContactBanner(
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                     contentDescription = "Back button",
-                    tint = Color.Black
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             }
 
@@ -77,7 +67,7 @@ fun ContactBanner(
                 Text(
                     text = chat.name ?: chat.members.firstOrNull { it.id != userId }?.username ?: "",
                     fontSize = 18.sp,
-                    color = Color.Black
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
 
