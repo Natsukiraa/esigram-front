@@ -51,6 +51,7 @@ fun AuthScreen(
 
     LaunchedEffect(finishedAuth.value) {
         if (finishedAuth.value) {
+            authViewModel.refreshOnboardingStatus()
             if (pageState.value == "Register" || !onboardingStatus.value) {
                 onSignUp()
             } else {

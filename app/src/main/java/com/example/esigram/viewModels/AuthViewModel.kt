@@ -39,7 +39,7 @@ class AuthViewModel(
     private val _onboardingStatus = MutableStateFlow(false)
     val onboardingStatus = _onboardingStatus.asStateFlow()
 
-    init {
+    fun refreshOnboardingStatus() {
         viewModelScope.launch {
             val status = fetchOnboardingStatus()
             _onboardingStatus.value = status
