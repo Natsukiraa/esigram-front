@@ -9,6 +9,7 @@ import com.example.esigram.datas.remote.models.UserConversation
 import com.example.esigram.datas.remote.services.ConversationApiService
 import com.example.esigram.datas.remote.services.FriendApiService
 import com.example.esigram.networks.RetrofitInstance
+import com.example.esigram.providers.FirebaseProvider
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -26,7 +27,7 @@ import retrofit2.HttpException
 import java.io.IOException
 
 class ConversationRemoteDataSource(
-    private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private val database: FirebaseDatabase = FirebaseProvider.database
 ) {
 
     private val api = RetrofitInstance.api
@@ -51,7 +52,7 @@ class ConversationRemoteDataSource(
             }
 
             override fun onCancelled(error: DatabaseError) {
-                cancel("Firebase error", error.toException())
+                close()
             }
         }
 
@@ -79,7 +80,7 @@ class ConversationRemoteDataSource(
             }
 
             override fun onCancelled(error: DatabaseError) {
-                close(error.toException())
+                close()
             }
         }
 

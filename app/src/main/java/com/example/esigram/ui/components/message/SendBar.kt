@@ -24,6 +24,7 @@ import androidx.compose.material3.MaterialTheme
 
 @Composable
 fun SendBar(
+    isRecording: Boolean,
     onAddMedia: () -> Unit,
     value: String,
     onValueChanged: (String) -> Unit,
@@ -61,6 +62,7 @@ fun SendBar(
             Spacer(modifier = Modifier.width(8.dp))
 
             ChatInputField(
+                isRecording = isRecording,
                 onSendClick = onSendClick,
                 value = value,
                 onValueChanged = onValueChanged,
@@ -80,6 +82,7 @@ fun SendBarPreview() {
         value = "dsqdqsdqddsqdqsdqddsqdqsdqddsqdqsdqddsqdqsdqddsqdqsdqddsqdqsdqddsqdqsdqddsqdqsdqd",
         onValueChanged = {},
         onMicroPhoneActivate = {},
-        onSendClick = {}
+        onSendClick = {},
+        isRecording = true
     )
 }

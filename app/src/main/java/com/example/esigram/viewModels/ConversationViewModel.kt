@@ -17,12 +17,9 @@ import com.example.esigram.domains.models.responses.PageModel.Companion.createEm
 import com.example.esigram.domains.usecase.conversation.ConversationUseCases
 import com.example.esigram.domains.usecase.friend.FriendUseCases
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class ConversationViewModel(
@@ -49,16 +46,29 @@ class ConversationViewModel(
 
     init {
         viewModelScope.launch {
-            Log.d("conversation", "${_friends.value}")
+            sessionManager.id.collectLatest { id ->
+                _userId = id
+
+                conversationJobs.forEach { it.cancel() }
+                conversationJobs.clear()
+                _conversations.clear()
+
+                if (id.isNotBlank()) {
+                    startListeningToConversations(id)
+                }
+            }
+        }
+    }
+
+    private suspend fun startListeningToConversations(userId: String) {
+        viewModelScope.launch {
             try {
-                _userId = sessionManager.id.first()
-                conversationUseCases.getAllUseCase(_userId)
+                conversationUseCases.getAllUseCase(userId)
                     .collectLatest { userConvs ->
-
-                        conversationJobs.forEach { it.cancel() }
+                          conversationJobs.forEach { it.cancel() }
                         conversationJobs.clear()
-                        userConvs.forEach { userConv ->
 
+                        userConvs.forEach { userConv ->
                             val job = launch {
                                 conversationUseCases.observeConversationUseCase(userConv.id)
                                     .collectLatest { conv ->
@@ -66,10 +76,6 @@ class ConversationViewModel(
 
                                         val updatedConv = conv.copy(
                                             unreadCount = userConv.unReadMessageCount
-                                        )
-                                        Log.d(
-                                            "conv",
-                                            "Conversation ID: ${updatedConv.id}, Unread Count: ${userConv.unReadMessageCount}"
                                         )
 
                                         val existingIndex =
@@ -85,9 +91,8 @@ class ConversationViewModel(
                             conversationJobs.add(job)
                         }
                     }
-
             } catch (e: Exception) {
-                Log.e("Conversation", "Error loading conversations or collecting flow", e)
+                Log.e("Conversation", "Error loading conversations", e)
             }
         }
     }
@@ -118,7 +123,9 @@ class ConversationViewModel(
             ConversationFilterType.UNREAD -> result.filter { it.unreadCount > 0 }
         }
 
-        return result.sortedByDescending { it.createdAt }
+        return result.sortedByDescending { conv ->
+            conv.lastMessage?.createdAt ?: conv.createdAt
+        }
     }
 
     fun refreshFriend() {

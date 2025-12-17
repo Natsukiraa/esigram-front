@@ -64,7 +64,7 @@ class MessageRemoteDataSource {
 
             override fun onChildMoved(snapshot: DataSnapshot, prev: String?) {}
             override fun onCancelled(error: DatabaseError) {
-                close(error.toException())
+                close()
             }
         }
 

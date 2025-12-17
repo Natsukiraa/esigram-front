@@ -103,6 +103,7 @@ fun AttachmentItem(
     var showFullscreen by remember { mutableStateOf(false) }
 
     LaunchedEffect(mediaId) {
+        Log.d("MediaTypeCheck", "Fetching media type for $fullUrl")
         mediaType = fetchMediaType(fullUrl)
     }
 

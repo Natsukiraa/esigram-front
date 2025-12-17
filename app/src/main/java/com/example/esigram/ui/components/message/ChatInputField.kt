@@ -28,6 +28,7 @@ import com.example.esigram.R
 fun ChatInputField(
     value: String,
     onValueChanged: (String) -> Unit,
+    isRecording: Boolean,
     onSendClick: () -> Unit,
     onVoiceClick: () -> Unit
 ) {
@@ -44,6 +45,7 @@ fun ChatInputField(
         verticalAlignment = Alignment.CenterVertically
     ) {
         OutlinedTextField(
+            readOnly = isRecording,
             value = value,
             onValueChange = onValueChanged,
             modifier = Modifier
@@ -68,7 +70,7 @@ fun ChatInputField(
             maxLines = 5
         )
 
-        if (value.trim().isNotEmpty()) {
+        if (value.trim().isNotEmpty() || isRecording) {
             IconButton(
                 onClick = onSendClick,
                 modifier = Modifier
@@ -107,6 +109,7 @@ fun ChatInputFieldPreview() {
         value = "1",
         onValueChanged = {},
         onSendClick = {},
-        onVoiceClick = {}
+        onVoiceClick = {},
+        isRecording = false
     )
 }

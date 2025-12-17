@@ -209,6 +209,7 @@ fun ConversationScreen(
                 RecordingIndicator(isRecording = isRecording)
 
                 SendBar(
+                    isRecording = isRecording,
                     onAddMedia = {
                         fileLauncher.launch("*/*")
                     },
@@ -230,7 +231,20 @@ fun ConversationScreen(
                             } else {
                                 permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
                             }
-                        } else {
+                        }
+                    },
+                    onSendClick = {
+                        if (messageText.isNotBlank() || selectedMedias.isNotEmpty()) {
+                            messageViewModel.createMessage(
+                                context,
+                                chatId,
+                                messageText,
+                                selectedMedias.toList()
+                            )
+                            messageText = ""
+                            selectedMedias.clear()
+                        }
+                        if (isRecording) {
                             recorder.stop()
                             isRecording = false
 
@@ -244,18 +258,6 @@ fun ConversationScreen(
                                 )
                             }
                             audioFile = null
-                        }
-                    },
-                    onSendClick = {
-                        if (messageText.isNotBlank() || selectedMedias.isNotEmpty()) {
-                            messageViewModel.createMessage(
-                                context,
-                                chatId,
-                                messageText,
-                                selectedMedias.toList()
-                            )
-                            messageText = ""
-                            selectedMedias.clear()
                         }
                     }
                 )

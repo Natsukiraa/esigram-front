@@ -75,14 +75,6 @@ fun FriendListItem(
 
 
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                FilledIconButton(
-                    onClick = { onMessageClick(user) },
-                    modifier = Modifier.size(40.dp),
-                    shape = CircleShape
-                ) {
-                    Icon(Icons.Default.Send, contentDescription = "Message")
-                }
-
                 OutlinedIconButton(
                     onClick = { onDeleteClick(user) },
                     modifier = Modifier.size(40.dp),
