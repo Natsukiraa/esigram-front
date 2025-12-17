@@ -40,7 +40,15 @@ class CompleteProfileViewModel(private val useCases: UserUseCases) : ViewModel()
         }
     }
 
-    // Set a default picture at start of screen
+    fun resetState() {
+        _submitResult.value = null
+
+        _username.value = ""
+        _description.value = ""
+
+        _fileUri.value = null
+    }
+
     fun setDefaultProfilePicture(context: Context) {
         if (_fileUri.value == null) {
             val defaultUri =

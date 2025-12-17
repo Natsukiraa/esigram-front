@@ -1,5 +1,6 @@
 package com.example.esigram.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -51,8 +52,10 @@ fun AuthScreen(
 
     LaunchedEffect(finishedAuth.value) {
         if (finishedAuth.value) {
-            authViewModel.refreshOnboardingStatus()
-            if (pageState.value == "Register" || !onboardingStatus.value) {
+
+            val isRegistering = pageState.value == "Register"
+            val isNotOnboarded = !onboardingStatus.value
+            if (isRegistering || isNotOnboarded) {
                 onSignUp()
             } else {
                 onSuccessSignIn()

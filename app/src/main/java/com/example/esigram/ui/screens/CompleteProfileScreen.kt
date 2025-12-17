@@ -57,12 +57,16 @@ fun CompleteProfileScreen(
             }
         }
 
+    LaunchedEffect(Unit) {
+        completeProfileViewModel.resetState()
+        completeProfileViewModel.setDefaultProfilePicture(context)
+    }
+
     LaunchedEffect(submitResult) {
-        submitResult.let {
-            if (it == true) {
-                onSuccessSignUp()
-                saveUser()
-            }
+        if (submitResult == true) {
+            onSuccessSignUp()
+            saveUser()
+            completeProfileViewModel.resetState()
         }
     }
 

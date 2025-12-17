@@ -1,6 +1,7 @@
 package com.example.esigram.viewModels
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -148,12 +149,14 @@ class AuthViewModel(
         _password.value = ""
         _pageState.value = "Login"
         _finishedAuth.value = false
+        _onboardingStatus.value = false
     }
 
     suspend fun fetchOnboardingStatus(): Boolean {
         val statusResponse = userUseCases.getOnboardingStatus()
         if (statusResponse.isSuccessful) {
             val isCompleted = statusResponse.body()?.success == true
+            Log.d("AuthViewModel", "Onboarding status: $isCompleted")
             return isCompleted
         }
         return false
